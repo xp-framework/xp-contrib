@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project>
+  <name>Apidoc</name>
+  <description>
+    Apidoc is a tool to generate browseable HTML pages from apidoc comments
+    inside sourcecode.
+  </description>
+  <release id="1.0.0">
+    <date>2009-06-09</date>
+  </release>
+</project>

@@ -1,0 +1,97 @@
+
+* {
+  font: 10pt "Trebuchet MS",Arial,Helvetica;
+}
+h1 {
+  font-size: 1.5em;
+  padding: 1pt;
+  background-color: #91d9ba;
+  border-bottom: 2px solid #3a775d;
+}
+h2 {
+  font-size: 1.4em;
+}
+h3 {
+  font-size: 1.3em;
+}
+hr {
+  height: 2px;
+  color: #b8c9c2;
+  border: 0;
+}
+a {
+  color: #155e3e;
+}
+a:visited {
+  color: #7f8c87;
+}
+dt {
+  font-weight: bold;
+}
+dd {
+  padding: 1px;
+}
+code, pre, tt, a.type {
+  font: 9pt "Lucida Console", "Monaco", courier, fixed, monospace;
+} 
+fieldset {
+  padding-top: 1em;
+}
+fieldset legend {
+  font-size: 1.3em;
+}
+fieldset ul li {
+  border-bottom: 1px solid #cccccc;
+  padding: 1pt;
+}
+fieldset ul p {
+  margin: 0;
+}
+ul {
+  list-style-type: square;
+}
+div.dfn {
+  margin-left: 20px;
+}
+div.dfn h2, div.dfn h3 {
+  font-size: 10pt;
+  font-weight: bold;
+}
+pre.code {
+  border-left: 2px solid #cccccc;
+  padding-left: 8px;
+}
+pre.code span {
+  font: 9pt "Courier New", courier;
+}
+pre.code .keyword {
+  color: #990000;
+  font-weight: bold;
+}
+pre.code .modifier {
+  color: #666666;
+  font-weight: bold;
+}
+pre.code .variable {
+  color: #000099;
+  font-weight: bold;
+}
+pre.code .bracket {
+  color: #a90000;
+}
+pre.code .string {
+  color: #0000a9;
+}
+pre.code .number {
+  color: #00a000;
+}
+pre.code .comment {
+  color: #666666;
+}
+pre.code .annotation {
+  color: #3165c5;
+}
+div#foot {
+  font-style: italic;
+  text-align: center;
+}

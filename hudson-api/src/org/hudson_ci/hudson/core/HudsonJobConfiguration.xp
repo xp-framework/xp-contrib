@@ -1,0 +1,321 @@
+/* This class is part of the XP framework
+ *
+ * $Id: HudsonJobConfiguration.xp 12595 2011-01-03 14:28:33Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.core;
+
+import org.hudson_ci.hudson.AbstractHudsonType;
+import org.hudson_ci.hudson.HudsonVectorType;
+
+import org.hudson_ci.hudson.scm.HudsonSCM;
+import org.hudson_ci.hudson.triggers.HudsonTrigger;
+import org.hudson_ci.hudson.tasks.HudsonTask;
+import org.hudson_ci.hudson.wrappers.HudsonBuildWrapper;
+
+import util.collections.Vector;
+
+/**
+ * Job configuration
+ *
+ * @see   xp://org.hudson_ci.api.HudsonJob#getConfiguration
+ * @see   xp://org.hudson_ci.api.HudsonJob#withConfiguration
+ */
+package abstract class HudsonJobConfiguration extends AbstractHudsonType {
+  protected string $description;
+  protected bool $keepDependencies = false;
+  protected HudsonSCM $scm;
+  protected string $assignedNode;
+  protected bool $canRoam = true;
+  protected bool $disabled = false;
+  protected string $blockBuildWhenUpstreamBuilding = false;
+  protected string $concurrentBuild = false;
+
+  protected [:string] $properties= [:];
+  protected var $triggers= new Vector<HudsonTrigger>();
+  protected var $builders= new Vector<HudsonTask>();
+  protected var $publishers= new Vector<HudsonTask>();
+  protected var $buildWrappers= new Vector<HudsonBuildWrapper>();
+
+  /**
+   * Returns identifier
+   *
+   * @see   xp://org.hudson_ci.api.HudsonJobConfigurationFactory
+   */
+  public abstract string identifier();
+
+  /**
+   * Sets description
+   *
+   */
+  [@xmlmapping(element = 'description')]
+  public void setDescription(string? $description) {
+    $this.description= $description;
+  }
+
+  /**
+   * Gets description
+   *
+   */
+  [@xmlfactory(element = 'description')]
+  public string getDescription() {
+    return $this.description;
+  }
+
+  /**
+   * Sets keepDependencies
+   *
+   */
+  [@xmlmapping(element = 'keepDependencies', cast = 'asHudsonBool')]
+  public void setKeepDependencies(string? $keepDependencies) {
+    $this.keepDependencies= $keepDependencies;
+  }
+
+  /**
+   * Gets keepDependencies
+   *
+   */
+  [@xmlfactory(element = 'keepDependencies', cast = 'toHudsonBool')]
+  public bool getKeepDependencies() {
+    return $this.keepDependencies;
+  }
+
+  /**
+   * Sets properties
+   *
+   */
+  [@xmlmapping(element = 'properties/*', pass= ['name()', '.'])]
+  public void addProperty(string? $name, string? $value) {
+    $this.properties[$name]= $value;
+  }
+
+  /**
+   * Gets properties
+   *
+   */
+  [@xmlfactory(element = 'properties')]
+  public [:string] getProperties() {
+    return $this.properties;
+  }
+
+  /**
+   * Sets SCM (source code management) system
+   *
+   */
+  [@xmlmapping(element = 'scm', factory= 'hudsonClass', pass= ['@class', '"hudson.scm.HudsonSCM"'])]
+  public void setSCM(HudsonSCM $scm) {
+    $this.scm= $scm;
+  }
+
+  /**
+   * Sets SCM (source code management) system
+   *
+   */
+  public self withSCM(HudsonSCM $scm) {
+    $this.scm= $scm;
+    return $this;
+  }
+
+  /**
+   * Gets SCM (source code management) system
+   *
+   */
+  [@xmlfactory(element = 'scm')]
+  public HudsonSCM getSCM() {
+    return $this.scm;
+  }
+
+  /**
+   * Sets assignedNode
+   *
+   */
+  [@xmlmapping(element = 'assignedNode')]
+  public void setAssignedNode(string? $assignedNode) {
+    $this.assignedNode= $assignedNode;
+  }
+
+  /**
+   * Gets assignedNode
+   *
+   */
+  [@xmlfactory(element = 'assignedNode')]
+  public void getAssignedNode() {
+    return $this.assignedNode;
+  }
+
+  /**
+   * Sets canRoam
+   *
+   */
+  [@xmlmapping(element = 'canRoam', cast = 'asHudsonBool')]
+  public void setCanRoam(bool? $canRoam) {
+    $this.canRoam= $canRoam;
+  }
+
+  /**
+   * Gets canRoam
+   *
+   */
+  [@xmlfactory(element = 'canRoam', cast = 'toHudsonBool')]
+  public bool getCanRoam() {
+    return $this.canRoam;
+  }
+
+  /**
+   * Sets disabled
+   *
+   */
+  [@xmlmapping(element = 'disabled', cast = 'asHudsonBool')]
+  public void setDisabled(bool? $disabled) {
+    $this.disabled= $disabled;
+  }
+
+  /**
+   * Gets disabled
+   *
+   */
+  [@xmlfactory(element = 'disabled', cast = 'toHudsonBool')]
+  public bool getDisabled() {
+    return $this.disabled;
+  }
+
+  /**
+   * Sets blockBuildWhenUpstreamBuilding
+   *
+   */
+  [@xmlmapping(element = 'blockBuildWhenUpstreamBuilding', cast = 'asHudsonBool')]
+  public void setBlockBuildWhenUpstreamBuilding(string? $blockBuildWhenUpstreamBuilding) {
+    $this.blockBuildWhenUpstreamBuilding= $blockBuildWhenUpstreamBuilding;
+  }
+
+  /**
+   * Gets blockBuildWhenUpstreamBuilding
+   *
+   */
+  [@xmlfactory(element = 'blockBuildWhenUpstreamBuilding', cast = 'toHudsonBool')]
+  public bool getBlockBuildWhenUpstreamBuilding() {
+    return $this.blockBuildWhenUpstreamBuilding;
+  }
+
+  /**
+   * Adds a trigger
+   *
+   */
+  [@xmlmapping(element = 'triggers/*', factory= 'hudsonClass', pass= ['name()', '"hudson.triggers.HudsonTrigger"'])]
+  public void addTrigger(HudsonTrigger $trigger) {
+    $this.triggers[]= $trigger;
+  }
+
+  /**
+   * Gets triggers
+   *
+   */
+  public Vector<HudsonTrigger> getTriggers() {
+    return $this.triggers;
+  }
+
+  /**
+   * Gets triggers
+   *
+   */
+  [@xmlfactory(element = 'triggers')]
+  public HudsonVectorType<HudsonTrigger> getTriggersVector() {
+    return new HudsonVectorType<HudsonTrigger>('triggers', $this.triggers);
+  }
+
+  /**
+   * Sets concurrentBuild
+   *
+   */
+  [@xmlmapping(element = 'concurrentBuild', cast = 'asHudsonBool')]
+  public void setConcurrentBuild(string? $concurrentBuild) {
+    $this.concurrentBuild= $concurrentBuild;
+  }
+
+  /**
+   * Gets concurrentBuild
+   *
+   */
+  [@xmlfactory(element = 'concurrentBuild', cast = 'toHudsonBool')]
+  public bool getConcurrentBuild() {
+    return $this.concurrentBuild;
+  }
+
+  /**
+   * Adds a builder
+   *
+   */
+  [@xmlmapping(element = 'builders/*', factory= 'hudsonClass', pass= ['name()', '"hudson.tasks.HudsonTask"'])]
+  public void addBuilder(HudsonTask $builder) {
+    $this.builders[]= $builder;
+  }
+
+  /**
+   * Gets builders
+   *
+   */
+  public Vector<HudsonTask> getBuilders() {
+    return $this.builders;
+  }
+
+  /**
+   * Gets builders
+   *
+   */
+  [@xmlfactory(element = 'builders')]
+  public HudsonVectorType<HudsonTask> getBuildersVector() {
+    return new HudsonVectorType<HudsonTask>('builders', $this.builders);
+  }
+
+  /**
+   * Adds a publisher
+   *
+   */
+  [@xmlmapping(element = 'publishers/*', factory= 'hudsonClass', pass= ['name()', '"hudson.tasks.HudsonTask"'])]
+  public void addPublisher(HudsonTask $publisher) {
+    $this.publishers[]= $publisher;
+  }
+
+  /**
+   * Gets publishers
+   *
+   */
+  public Vector<HudsonTask> getPublishers() {
+    return $this.publishers;
+  }
+
+  /**
+   * Gets publishers
+   *
+   */
+  [@xmlfactory(element = 'publishers')]
+  public HudsonVectorType<HudsonTask> getPublishersVector() {
+    return new HudsonVectorType<HudsonTask>('publishers', $this.publishers);
+  }
+
+  /**
+   * Adds a build wrapper
+   *
+   */
+  [@xmlmapping(element = 'buildWrappers/*', factory= 'hudsonClass', pass= ['name()', '"hudson.wrappers.HudsonBuildWrapper"'])]
+  public void addBuildWrapper(HudsonBuildWrapper $buildWrapper) {
+    $this.buildWrappers[]= $buildWrapper;
+  }
+
+  /**
+   * Gets buildWrappers
+   *
+   */
+  public Vector<HudsonBuildWrapper> getBuildWrappers() {
+    return $this.buildWrappers;
+  }
+
+  /**
+   * Gets buildWrappers
+   *
+   */
+  [@xmlfactory(element = 'buildWrappers')]
+  public HudsonVectorType<HudsonBuildWrapper> getBuildWrappersVector() {
+    return new HudsonVectorType<HudsonBuildWrapper>('buildWrappers', $this.buildWrappers);
+  }
+}

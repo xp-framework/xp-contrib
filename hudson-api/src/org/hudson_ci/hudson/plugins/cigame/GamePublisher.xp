@@ -1,0 +1,17 @@
+/* This class is part of the XP framework
+ *
+ * $Id: GamePublisher.xp 12586 2010-12-30 16:20:47Z friebe $
+ */
+
+package org.hudson_ci.hudson.plugins.cigame;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+import org.hudson_ci.hudson.tasks.HudsonTask;
+
+/**
+ * CI Game publisher
+ *
+ * @see   xp://org.hudson_ci.hudson.core.HudsonJobConfiguration#addPublisher
+ */
+public class GamePublisher extends AbstractNamedType implements HudsonTask {
+}

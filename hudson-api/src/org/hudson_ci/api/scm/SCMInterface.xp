@@ -1,0 +1,62 @@
+/* This class is part of the XP framework
+ *
+ * $Id: SCMInterface.xp 12602 2011-01-04 09:52:54Z friebe $ 
+ */
+
+package org.hudson_ci.api.scm;
+
+import text.regex.Scanner;
+
+import native standard.ucfirst;
+import native standard.rtrim;
+
+/**
+ * Source code management system. 
+ *
+ */
+public abstract class SCMInterface {
+  protected static var $matcher= new Scanner('%[^:]:%s');
+  protected string $url;
+
+  /**
+   * Constructor. URL is right-trimmed with forward slashes.
+   *
+   */
+  public __construct(string? $url) {
+    $this.url= rtrim($url, '/');
+  }
+
+  /**
+   * Returns type.
+   *
+   */
+  public abstract string getType();
+  
+  /**
+   * Returns URL.
+   *
+   */
+  public string getURL() {
+    return $this.url;
+  }
+
+  /**
+   * Get a remote file's contents
+   *
+   */
+  public abstract string getContents(string? $ref) throws SCMException;
+  
+  /**
+   * Creates an SCM interface by a given dsn (e.g. svn:https://svn.example.com
+   * will load the "org.hudson_ci.api.scm.SvnImpl" class)
+   *
+   */
+  public static self forName(string? $dsn) {
+    $result= self::$matcher.match($dsn).group(0); 
+
+    return lang.reflect.Package::forName('org.hudson_ci.api.scm')
+      .loadClass(ucfirst($result[1]) ~ 'Impl')
+      .newInstance($result[2])
+    ;
+  }
+}

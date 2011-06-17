@@ -1,0 +1,22 @@
+/* This class is part of the XP framework
+ *
+ * $Id: HudsonVectorType.xp 12584 2010-12-30 15:25:59Z friebe $
+ */
+
+package org.hudson_ci.hudson;
+
+/**
+ * A vector type is a list with class="vector"
+ *
+ */
+package class HudsonVectorType<T> extends HudsonListType<T> {
+
+  /**
+   * Gets node name
+   *
+   */
+  [@xmlfactory(element = '@class')]
+  public string hudsonClassReference() {
+    return 'vector';
+  }
+}

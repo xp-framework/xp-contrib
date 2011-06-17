@@ -1,0 +1,21 @@
+/* This class is part of the XP framework
+ *
+ * $Id: ProjectJobConfiguration.xp 12583 2010-12-30 15:05:37Z friebe $
+ */
+
+package org.hudson_ci.hudson.core;
+
+/**
+ * Job configuration: A "free-style" project
+ *
+ */
+public class ProjectJobConfiguration extends HudsonJobConfiguration {
+
+  /**
+   * Returns identifier
+   *
+   */
+  public string identifier() {
+    return 'project';
+  }
+}

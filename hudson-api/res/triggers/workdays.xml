@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<t:root xmlns:t="http://projects.xp-forge.net/devel/hudson-api/templates">
+  <triggers class="vector">
+    <hudson.triggers.SCMTrigger>
+      <spec>0 6-20 * * *</spec>
+    </hudson.triggers.SCMTrigger>
+    <hudson.triggers.TimerTrigger>
+      <spec>0 12 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+</t:root>

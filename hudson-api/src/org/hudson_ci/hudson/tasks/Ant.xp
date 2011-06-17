@@ -1,0 +1,72 @@
+/* This class is part of the XP framework
+ *
+ * $Id: Ant.xp 12586 2010-12-30 16:20:47Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.tasks;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+
+/**
+ * Ant task (Apache Ant)
+ *
+ */
+public class Ant extends AbstractNamedType implements HudsonTask {
+  protected string $targets;
+  protected string $antName;
+  protected string $buildFile;
+  
+  /**
+   * Sets targets
+   *
+   */
+  [@xmlmapping(element = 'targets')]
+  public void setTargets(string? $targets) {
+    $this.targets= $targets;
+  }
+
+  /**
+   * Gets targets
+   *
+   */
+  [@xmlfactory(element = 'targets')]
+  public string getTargets() {
+    return $this.targets;
+  }
+
+  /**
+   * Sets antName
+   *
+   */
+  [@xmlmapping(element = 'antName')]
+  public void setAntName(string? $antName) {
+    $this.antName= $antName;
+  }
+
+  /**
+   * Gets antName
+   *
+   */
+  [@xmlfactory(element = 'antName')]
+  public string getAntName() {
+    return $this.antName;
+  }
+
+  /**
+   * Sets buildFile
+   *
+   */
+  [@xmlmapping(element = 'buildFile')]
+  public void setBuildFile(string? $buildFile) {
+    $this.buildFile= $buildFile;
+  }
+
+  /**
+   * Gets buildFile
+   *
+   */
+  [@xmlfactory(element = 'buildFile')]
+  public string getBuildFile() {
+    return $this.buildFile;
+  }
+}

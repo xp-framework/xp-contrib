@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns:t="http://projects.xp-forge.net/devel/hudson-api/templates">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <t:include href="{$scm.type}" package="scm">
+    <t:define name="scm.local">xp.public</t:define>
+  </t:include>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <t:include href="workdays" package="triggers"/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd xp.public &amp;&amp; USE_XP=$WORKSPACE/xp.public/ unittest -l unittest.XmlTestListener $WORKSPACE/hudson.xml ports/unittest/*.ini</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>sloccount --wide --details $WORKSPACE/xp.public &gt; $WORKSPACE/sloccount.sc</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>hudson.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <testDataPublishers/>
+    </hudson.tasks.junit.JUnitResultArchiver>
+  </publishers>
+  <buildWrappers/>
+</project>

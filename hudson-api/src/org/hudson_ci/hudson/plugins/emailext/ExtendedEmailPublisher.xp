@@ -1,0 +1,105 @@
+/* This class is part of the XP framework
+ *
+ * $Id: ExtendedEmailPublisher.xp 12584 2010-12-30 15:25:59Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.plugins.emailext;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+import org.hudson_ci.hudson.tasks.HudsonTask;
+import org.hudson_ci.hudson.plugins.emailext.plugins.trigger.Trigger;
+
+import util.collections.Vector;
+
+/**
+ * Extended email publisher
+ *
+ */
+public class ExtendedEmailPublisher extends AbstractNamedType implements HudsonTask {
+  protected string $recipientList;
+  protected string $contentType;
+  protected string $defaultSubject;
+  protected string $defaultContent;
+  protected var $configuredTriggers= new Vector<Trigger>();
+
+  /**
+   * Sets recipientList
+   *
+   */
+  [@xmlmapping(element = 'recipientList')]
+  public void setRecipientList(string? $recipientList) {
+    $this.recipientList= $recipientList;
+  }
+
+  /**
+   * Gets recipientList
+   *
+   */
+  [@xmlfactory(element = 'recipientList')]
+  public string getRecipientList() {
+    return $this.recipientList;
+  }
+
+  /**
+   * Sets recipientList
+   *
+   */
+  [@xmlmapping(element = 'configuredTriggers/*', factory= 'hudsonClass')]
+  public void addConfiguredTrigger(Trigger $trigger) {
+    $this.configuredTriggers[]= $trigger;
+  }
+  
+  /**
+   * Sets contentType
+   *
+   */
+  [@xmlmapping(element = 'contentType')]
+  public void setContentType(string? $contentType) {
+    $this.contentType= $contentType;
+  }
+
+  /**
+   * Gets contentType
+   *
+   */
+  [@xmlfactory(element = 'contentType')]
+  public string getContentType() {
+    return $this.contentType;
+  }
+
+  /**
+   * Sets defaultSubject
+   *
+   */
+  [@xmlmapping(element = 'defaultSubject')]
+  public void setDefaultSubject(string? $defaultSubject) {
+    $this.defaultSubject= $defaultSubject;
+  }
+
+  /**
+   * Gets defaultSubject
+   *
+   */
+  [@xmlfactory(element = 'defaultSubject')]
+  public string getDefaultSubject() {
+    return $this.defaultSubject;
+  }
+
+  /**
+   * Sets defaultContent
+   *
+   */
+  [@xmlmapping(element = 'defaultContent')]
+  public void setDefaultContent(string? $defaultContent) {
+    $this.defaultContent= $defaultContent;
+  }
+
+  /**
+   * Gets defaultContent
+   *
+   */
+  [@xmlfactory(element = 'defaultContent')]
+  public string getDefaultContent() {
+    return $this.defaultContent;
+  }
+}

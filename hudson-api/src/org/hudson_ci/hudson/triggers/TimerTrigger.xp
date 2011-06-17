@@ -1,0 +1,52 @@
+/* This class is part of the XP framework
+ *
+ * $Id: TimerTrigger.xp 12595 2011-01-03 14:28:33Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.triggers;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+
+/**
+ * A timer-controlled trigger
+ *
+ */
+public class TimerTrigger extends AbstractNamedType implements HudsonTrigger {
+  protected string $spec;
+
+  /**
+   * Sets spec
+   *
+   */
+  [@xmlmapping(element = 'spec')]
+  public void setSpec(string? $spec) {
+    $this.spec= $spec;
+  }
+
+  /**
+   * Sets spec
+   *
+   * @return  this
+   */
+  public self withSpec(string? $spec) {
+    $this.spec= $spec;
+    return $this;
+  }
+
+  /**
+   * Gets spec
+   *
+   */
+  [@xmlfactory(element = 'spec')]
+  public string getSpec() {
+    return $this.spec;
+  }
+
+  /**
+   * Creates a string representation of this object
+   *
+   */
+  public string toString() {
+    return $this.getClassName() ~ '(spec= ' ~ $this.spec ~ ')';
+  }
+}

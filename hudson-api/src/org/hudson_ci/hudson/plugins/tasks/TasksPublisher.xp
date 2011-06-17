@@ -1,0 +1,321 @@
+/* This class is part of the XP framework
+ *
+ * $Id: TasksPublisher.xp 12586 2010-12-30 16:20:47Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.plugins.tasks;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+import org.hudson_ci.hudson.tasks.HudsonTask;
+
+/**
+ * Task publusher
+ *
+ * @see   xp://org.hudson_ci.hudson.core.HudsonJobConfiguration#addPublisher
+ */
+public class TasksPublisher extends AbstractNamedType implements HudsonTask {
+  protected string $threshold;
+  protected string $newThreshold;
+  protected string $failureThreshold;
+  protected string $newFailureThreshold;
+  protected string $healthy;
+  protected string $unHealthy;
+  protected string $pluginName;
+  protected string $thresholdLimit;
+  protected string $defaultEncoding;
+  protected string $high;
+  protected string $normal;
+  protected string $low;
+  protected bool $ignoreCase;
+  protected string $pattern;
+  protected string $excludePattern;
+  protected bool $canRunOnFailed;
+
+  /**
+   * Sets threshold
+   *
+   */
+  [@xmlmapping(element = 'threshold')]
+  public void setThreshold(string? $threshold) {
+    $this.threshold= $threshold;
+  }
+
+  /**
+   * Gets threshold
+   *
+   */
+  [@xmlfactory(element = 'threshold')]
+  public string getThreshold() {
+    return $this.threshold;
+  }
+
+  /**
+   * Sets newThreshold
+   *
+   */
+  [@xmlmapping(element = 'newThreshold')]
+  public void setNewThreshold(string? $newThreshold) {
+    $this.newThreshold= $newThreshold;
+  }
+
+  /**
+   * Gets newThreshold
+   *
+   */
+  [@xmlfactory(element = 'newThreshold')]
+  public string getNewThreshold() {
+    return $this.newThreshold;
+  }
+
+  /**
+   * Sets failureThreshold
+   *
+   */
+  [@xmlmapping(element = 'failureThreshold')]
+  public void setFailureThreshold(string? $failureThreshold) {
+    $this.failureThreshold= $failureThreshold;
+  }
+
+  /**
+   * Gets failureThreshold
+   *
+   */
+  [@xmlfactory(element = 'failureThreshold')]
+  public string getFailureThreshold() {
+    return $this.failureThreshold;
+  }
+
+  /**
+   * Sets newFailureThreshold
+   *
+   */
+  [@xmlmapping(element = 'newFailureThreshold')]
+  public void setNewFailureThreshold(string? $newFailureThreshold) {
+    $this.newFailureThreshold= $newFailureThreshold;
+  }
+
+  /**
+   * Gets newFailureThreshold
+   *
+   */
+  [@xmlfactory(element = 'newFailureThreshold')]
+  public string getNewFailureThreshold() {
+    return $this.newFailureThreshold;
+  }
+
+  /**
+   * Sets healthy
+   *
+   */
+  [@xmlmapping(element = 'healthy')]
+  public void setHealthy(string? $healthy) {
+    $this.healthy= $healthy;
+  }
+
+  /**
+   * Gets healthy
+   *
+   */
+  [@xmlfactory(element = 'healthy')]
+  public string getHealthy() {
+    return $this.healthy;
+  }
+
+  /**
+   * Sets unHealthy
+   *
+   */
+  [@xmlmapping(element = 'unHealthy')]
+  public void setUnHealthy(string? $unHealthy) {
+    $this.unHealthy= $unHealthy;
+  }
+
+  /**
+   * Gets unHealthy
+   *
+   */
+  [@xmlfactory(element = 'unHealthy')]
+  public string getUnHealthy() {
+    return $this.unHealthy;
+  }
+
+  /**
+   * Sets pluginName
+   *
+   */
+  [@xmlmapping(element = 'pluginName')]
+  public void setPluginName(string? $pluginName) {
+    $this.pluginName= $pluginName;
+  }
+
+  /**
+   * Gets pluginName
+   *
+   */
+  [@xmlfactory(element = 'pluginName')]
+  public string getPluginName() {
+    return $this.pluginName;
+  }
+
+  /**
+   * Sets thresholdLimit
+   *
+   */
+  [@xmlmapping(element = 'thresholdLimit')]
+  public void setThresholdLimit(string? $thresholdLimit) {
+    $this.thresholdLimit= $thresholdLimit;
+  }
+
+  /**
+   * Gets thresholdLimit
+   *
+   */
+  [@xmlfactory(element = 'thresholdLimit')]
+  public string getThresholdLimit() {
+    return $this.thresholdLimit;
+  }
+
+  /**
+   * Sets defaultEncoding
+   *
+   */
+  [@xmlmapping(element = 'defaultEncoding')]
+  public void setDefaultEncoding(string? $defaultEncoding) {
+    $this.defaultEncoding= $defaultEncoding;
+  }
+
+  /**
+   * Gets defaultEncoding
+   *
+   */
+  [@xmlfactory(element = 'defaultEncoding')]
+  public string getDefaultEncoding() {
+    return $this.defaultEncoding;
+  }
+
+  /**
+   * Sets high
+   *
+   */
+  [@xmlmapping(element = 'high')]
+  public void setHigh(string? $high) {
+    $this.high= $high;
+  }
+
+  /**
+   * Gets high
+   *
+   */
+  [@xmlfactory(element = 'high')]
+  public string getHigh() {
+    return $this.high;
+  }
+
+  /**
+   * Sets normal
+   *
+   */
+  [@xmlmapping(element = 'normal')]
+  public void setNormal(string? $normal) {
+    $this.normal= $normal;
+  }
+
+  /**
+   * Gets normal
+   *
+   */
+  [@xmlfactory(element = 'normal')]
+  public string getNormal() {
+    return $this.normal;
+  }
+
+  /**
+   * Sets low
+   *
+   */
+  [@xmlmapping(element = 'low')]
+  public void setLow(string? $low) {
+    $this.low= $low;
+  }
+
+  /**
+   * Gets low
+   *
+   */
+  [@xmlfactory(element = 'low')]
+  public string getLow() {
+    return $this.low;
+  }
+
+  /**
+   * Sets ignoreCase
+   *
+   */
+  [@xmlmapping(element = 'ignoreCase', cast = 'asHudsonBool')]
+  public void setignoreCase(bool? $ignoreCase) {
+    $this.ignoreCase= $ignoreCase;
+  }
+
+  /**
+   * Gets ignoreCase
+   *
+   */
+  [@xmlfactory(element = 'ignoreCase', cast = 'toHudsonBool')]
+  public bool getignoreCase() {
+    return $this.ignoreCase;
+  }
+
+  /**
+   * Sets pattern
+   *
+   */
+  [@xmlmapping(element = 'pattern')]
+  public void setPattern(string? $pattern) {
+    $this.pattern= $pattern;
+  }
+
+  /**
+   * Gets pattern
+   *
+   */
+  [@xmlfactory(element = 'pattern')]
+  public string getPattern() {
+    return $this.pattern;
+  }
+
+  /**
+   * Sets excludePattern
+   *
+   */
+  [@xmlmapping(element = 'excludePattern')]
+  public void setExcludePattern(string? $excludePattern) {
+    $this.excludePattern= $excludePattern;
+  }
+
+  /**
+   * Gets excludePattern
+   *
+   */
+  [@xmlfactory(element = 'excludePattern')]
+  public string getExcludePattern() {
+    return $this.excludePattern;
+  }
+
+  /**
+   * Sets canRunOnFailed
+   *
+   */
+  [@xmlmapping(element = 'canRunOnFailed', cast = 'asHudsonBool')]
+  public void setCanRunOnFailed(bool? $canRunOnFailed) {
+    $this.canRunOnFailed= $canRunOnFailed;
+  }
+
+  /**
+   * Gets canRunOnFailed
+   *
+   */
+  [@xmlfactory(element = 'canRunOnFailed', cast = 'toHudsonBool')]
+  public bool getCanRunOnFailed() {
+    return $this.canRunOnFailed;
+  }
+}

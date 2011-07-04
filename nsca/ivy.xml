@@ -6,9 +6,9 @@
 >
   <info 
    organisation="net.xp_framework" 
-   module="nagios"
-   status="release"
-   revision="5.8.1"
+   module="nsca"
+   status="integration"
+   revision="5.8.2"
   >
     <license name="BSD"/>
     <description homepage="http://xp-framework.net/">
@@ -18,17 +18,18 @@
   </info>
   <configurations>
     <conf name="default" visibility="public"/>
-    <conf name="test" visibility="public"/>
+    <conf name="test" visibility="private"/>
   </configurations>
   <publications>
-    <artifact name="nagios" type="xar" ext="xar" conf="default"/>
-    <artifact name="nagios-test" type="xar" ext="xar" conf="test"/>
+    <artifact name="nsca" type="xar" ext="xar" conf="default"/>
+    <artifact name="nsca-test" type="xar" ext="xar" conf="test"/>
   </publications>
   <dependencies>
     <dependency 
      org="net.xp_framework" 
      name="core"
-     rev="5.8.1"
+     rev="latest.integration"
+     revConstraint="5.8.2"
     />
   </dependencies>
 </ivy-module>

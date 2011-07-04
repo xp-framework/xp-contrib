@@ -7,8 +7,8 @@
   <info 
    organisation="net.xp_framework" 
    module="stomp"
-   status="release"
-   revision="5.8.1"
+   status="integration"
+   revision="5.8.2"
   >
     <license name="BSD"/>
     <description homepage="http://xp-framework.net/">
@@ -19,7 +19,7 @@
   </info>
   <configurations>
     <conf name="default" visibility="public"/>
-    <conf name="test" visibility="public"/>
+    <conf name="test" visibility="private"/>
   </configurations>
   <publications>
     <artifact name="stomp" type="xar" ext="xar" conf="default"/>
@@ -29,7 +29,8 @@
     <dependency 
      org="net.xp_framework" 
      name="core"
-     rev="5.8.1"
+     rev="latest.integration"
+     revConstraint="5.8.2"
     />
   </dependencies>
 </ivy-module>

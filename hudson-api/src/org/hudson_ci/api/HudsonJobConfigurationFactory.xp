@@ -7,6 +7,7 @@ package org.hudson_ci.api;
 
 import org.hudson_ci.hudson.core.ProjectJobConfiguration;
 import org.hudson_ci.hudson.core.Maven2JobConfiguration;
+import org.hudson_ci.hudson.core.IvyJobConfiguration;
 
 /**
  * Job configuration factory. Creates concrete job configuration classes
@@ -33,6 +34,7 @@ package class HudsonJobConfigurationFactory {
     switch ($name) {
       case 'project': return ProjectJobConfiguration::class;
       case 'maven2-moduleset': return Maven2JobConfiguration::class;
+      case 'hudson.ivy.IvyModuleSet': return IvyJobConfiguration::class;
       case 'matrix-project': throw new IllegalArgumentException('Matrix projects not supported yet');
       case 'hudson.model.ExternalJob': throw new IllegalArgumentException('External jobs not supported yet');
       default: throw new IllegalArgumentException('Unrecognized configuration type ' ~ $name);

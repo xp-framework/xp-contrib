@@ -1,0 +1,50 @@
+/* This class is part of the XP framework
+ *
+ * $Id: BatchFile.xp 12595 2011-01-03 14:28:33Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.tasks;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+
+/**
+ * .bat files (Windows batch)
+ *
+ */
+public class BatchFile extends AbstractNamedType implements HudsonTask {
+  protected string $command;
+
+  /**
+   * Creates a new instance
+   *
+   */
+  public __construct(string? $command) {
+    $this.command= $command;
+  }
+  
+  /**
+   * Sets command
+   *
+   */
+  [@xmlmapping(element = 'command')]
+  public void setCommand(string? $command) {
+    $this.command= $command;
+  }
+
+  /**
+   * Gets command
+   *
+   */
+  [@xmlfactory(element = 'command')]
+  public string getCommand() {
+    return $this.command;
+  }
+
+  /**
+   * Creates a string representation of this object
+   *
+   */
+  public string toString() {
+    return $this.getClassName() ~ '(command= ' ~ $this.command ~ ')';
+  }
+}

@@ -1,0 +1,73 @@
+/* This class is part of the XP framework
+ *
+ * $Id: MsBuildBuilder.xp 12584 2010-12-30 15:25:59Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.plugins.msbuild;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+import org.hudson_ci.hudson.tasks.HudsonTask;
+
+/**
+ * MSbuild builder
+ *
+ */
+public class MsBuildBuilder extends AbstractNamedType implements HudsonTask {
+  protected string $msBuildName;
+  protected string $msBuildFile;
+  protected string $cmdLineArgs;
+
+  /**
+   * Sets msBuildName
+   *
+   */
+  [@xmlmapping(element = 'msBuildName')]
+  public void setMsBuildName(string? $msBuildName) {
+    $this.msBuildName= $msBuildName;
+  }
+
+  /**
+   * Gets msBuildName
+   *
+   */
+  [@xmlfactory(element = 'msBuildName')]
+  public string getMsBuildName() {
+    return $this.msBuildName;
+  }
+
+  /**
+   * Sets msBuildFile
+   *
+   */
+  [@xmlmapping(element = 'msBuildFile')]
+  public void setMsBuildFile(string? $msBuildFile) {
+    $this.msBuildFile= $msBuildFile;
+  }
+
+  /**
+   * Gets msBuildFile
+   *
+   */
+  [@xmlfactory(element = 'msBuildFile')]
+  public string getMsBuildFile() {
+    return $this.msBuildFile;
+  }
+
+  /**
+   * Sets cmdLineArgs
+   *
+   */
+  [@xmlmapping(element = 'cmdLineArgs')]
+  public void setCmdLineArgs(string? $cmdLineArgs) {
+    $this.cmdLineArgs= $cmdLineArgs;
+  }
+
+  /**
+   * Gets cmdLineArgs
+   *
+   */
+  [@xmlfactory(element = 'cmdLineArgs')]
+  public string getCmdLineArgs() {
+    return $this.cmdLineArgs;
+  }
+}

@@ -1,0 +1,54 @@
+/* This class is part of the XP framework
+ *
+ * $Id$ 
+ */
+
+package xml;
+
+import native standard.trim;
+
+/**
+ * (Insert class' description here)
+ *
+ */
+public class ElementNode extends Node {
+  
+  /**
+   * (Insert method's description here) 
+   *
+   */
+  public string getContent() {
+    $t= '';
+    foreach ($child in $this.children) {
+      $t ~= $child.getContent();
+    }
+    return trim($t);
+  }
+
+  /**
+   * (Insert method's description here) 
+   *
+   */
+  public string getSource(int? $indent= INDENT_WRAPPED, string? $encoding= 'iso-8859-1', string? $inset= '') {
+    $content= $this.content;
+    $children= $this.children;
+    
+    $this.content= '';
+    $this.children= [];
+    foreach ($child in $children) {
+      if ($child instanceof TextNode) {
+        $this.content ~= $child.getContent();
+      } else {
+        $this.children[]= $child;
+      }
+    }
+    $this.content= trim($this.content);
+    
+    $source= parent::getSource($indent, $encoding, $inset);
+
+    $this.children= $children;
+    $this.content= $content;
+    
+    return $source;
+  }
+}

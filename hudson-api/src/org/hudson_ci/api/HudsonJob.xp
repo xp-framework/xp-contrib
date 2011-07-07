@@ -1,0 +1,141 @@
+/* This class is part of the XP framework
+ *
+ * $Id: HudsonJob.xp 12611 2011-01-08 15:18:39Z friebe $ 
+ */
+
+package org.hudson_ci.api;
+
+import org.hudson_ci.hudson.core.HudsonJobConfiguration;
+
+import xml.Tree;
+import xml.Node;
+import xml.meta.Unmarshaller;
+import xml.meta.Marshaller;
+import xml.parser.TreeInputSource;
+
+/**
+ * A reference to a job inside Hudson
+ *
+ * @see   xp://org.hudson_ci.api.HudsonClient
+ * @test  xp://org.hudson_ci.unittest.HudsonJobTest
+ */
+public class HudsonJob {
+  protected string $name;
+  protected HudsonClient $reference;
+  protected HudsonJobConfiguration $config = null;
+  protected Tree $configXml = null;
+  protected Unmarshaller $unmarshaller= new Unmarshaller();
+  protected Marshaller $marshaller= new Marshaller();
+
+  /**
+   * Creates a new job instance
+   *
+   * @param   name the job's name
+   * @param   reference a reference to the HudsonClient
+   */
+  public __construct(string $name, HudsonClient $reference= null) {
+    $this.name= $name;
+    $this.reference= $reference;
+  }
+  
+  /**
+   * Update reference
+   *
+   */
+  public void updateReferenceTo(HudsonClient $reference= null) {
+    $this.reference= $reference;
+  }
+
+  /**
+   * Update reference
+   *
+   * @return  this
+   */
+  public void withReferenceTo(HudsonClient $reference= null) {
+    $this.reference= $reference;
+    return $this;
+  }
+  
+  /**
+   * Gets this job's name
+   *
+   */
+  public string getName() {
+    return $this.name;
+  }
+
+  /**
+   * Sets configuration
+   *
+   */
+  public void setConfiguration(HudsonJobConfiguration $config) {
+    $this.config= $config;
+    $this.configXml= null;    // Will be recalculated by getConfigurationXml()
+  }
+  
+  /**
+   * Sets configuration
+   *
+   * @return  this
+   */
+  public self withConfiguration(HudsonJobConfiguration $config) {
+    $this.config= $config;
+    $this.configXml= null;    // Will be recalculated by getConfigurationXml()
+    return $this;
+  }
+
+  /**
+   * Sets configuration XML
+   *
+   * @return  this
+   */
+  public self withConfigurationXml(Tree $configXml) {
+    $this.configXml= $configXml;
+    $this.config= null;       // Will be recalculated by getConfiguration()
+    return $this;
+  }
+
+  /**
+   * Gets configuration as XML.
+   *
+   */
+  public Tree getConfigurationXml() throws IllegalStateException {
+    if (null !== $this.config) {
+      $this.configXml= new Tree($this.config.identifier());
+      $this.marshaller.marshalTo($this.configXml.root, $this.config);
+    } else if (null === $this.configXml) {
+      if (null === $this.reference) {
+        throw new IllegalStateException('No configuration available');
+      }
+      $this.configXml= $this.reference.getJobConfigurationXml($this.name);
+    }
+    return $this.configXml;
+  }
+
+  /**
+   * Gets configuration
+   *
+   */
+  public HudsonJobConfiguration getConfiguration() throws IllegalStateException {
+    if (null === $this.config) {    // Lazy loading
+      $this.config= $this.unmarshaller.unmarshalFrom(
+        new TreeInputSource($this.getConfigurationXml()), 
+        HudsonJobConfigurationFactory::class.getName()
+      );
+    }
+    return $this.config;
+  }
+  
+  /**
+   * Creates a string representation
+   *
+   */
+  public string toString() {
+    $s= $this.getClassName() ~ '(name= ' ~ $this.name;
+    if ($this.reference) {
+      $url= $this.reference.endpoint();
+      $s ~= ' @ ' ~ $url.getHost() ~ ':' ~ $url.getPort(80) ~ $url.getPath();
+    }
+    return $s ~ ')';
+  }
+}

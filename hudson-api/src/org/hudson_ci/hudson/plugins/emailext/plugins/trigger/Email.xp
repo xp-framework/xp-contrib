@@ -1,0 +1,129 @@
+/* This class is part of the XP framework
+ *
+ * $Id: Email.xp 12582 2010-12-30 13:35:10Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.plugins.emailext.plugins.trigger;
+
+import org.hudson_ci.hudson.AbstractHudsonType;
+
+/**
+ * A trigger's email setting
+ *
+ */
+package class Email extends AbstractHudsonType {
+  protected string $recipientList;
+  protected string $subject;
+  protected string $body;
+  protected bool $sendToDevelopers;
+  protected bool $includeCulprits;
+  protected bool $sendToRecipientList;
+
+  /**
+   * Sets recipientList
+   *
+   */
+  [@xmlmapping(element = 'recipientList')]
+  public void setRecipientList(string? $recipientList) {
+    $this.recipientList= $recipientList;
+  }
+
+  /**
+   * Gets recipientList
+   *
+   */
+  [@xmlfactory(element = 'recipientList')]
+  public string getRecipientList() {
+    return $this.recipientList;
+  }
+
+  /**
+   * Sets subject
+   *
+   */
+  [@xmlmapping(element = 'subject')]
+  public void setSubject(string? $subject) {
+    $this.subject= $subject;
+  }
+
+  /**
+   * Gets subject
+   *
+   */
+  [@xmlfactory(element = 'subject')]
+  public string getSubject() {
+    return $this.subject;
+  }
+
+  /**
+   * Sets body
+   *
+   */
+  [@xmlmapping(element = 'body')]
+  public void setBody(string? $body) {
+    $this.body= $body;
+  }
+
+  /**
+   * Gets body
+   *
+   */
+  [@xmlfactory(element = 'body')]
+  public string getBody() {
+    return $this.body;
+  }
+
+  /**
+   * Sets sendToDevelopers
+   *
+   */
+  [@xmlmapping(element = 'sendToDevelopers', cast = 'asHudsonBool')]
+  public void setSendToDevelopers(bool? $sendToDevelopers) {
+    $this.sendToDevelopers= $sendToDevelopers;
+  }
+
+  /**
+   * Gets sendToDevelopers
+   *
+   */
+  [@xmlfactory(element = 'sendToDevelopers', cast = 'toHudsonBool')]
+  public bool getSendToDevelopers() {
+    return $this.sendToDevelopers;
+  }
+
+  /**
+   * Sets includeCulprits
+   *
+   */
+  [@xmlmapping(element = 'includeCulprits', cast = 'asHudsonBool')]
+  public void setIncludeCulprits(bool? $includeCulprits) {
+    $this.includeCulprits= $includeCulprits;
+  }
+
+  /**
+   * Gets includeCulprits
+   *
+   */
+  [@xmlfactory(element = 'includeCulprits', cast = 'toHudsonBool')]
+  public bool getIncludeCulprits() {
+    return $this.includeCulprits;
+  }
+
+  /**
+   * Sets sendToRecipientList
+   *
+   */
+  [@xmlmapping(element = 'sendToRecipientList', cast = 'asHudsonBool')]
+  public void setSendToRecipientList(bool? $sendToRecipientList) {
+    $this.sendToRecipientList= $sendToRecipientList;
+  }
+
+  /**
+   * Gets sendToRecipientList
+   *
+   */
+  [@xmlfactory(element = 'sendToRecipientList', cast = 'toHudsonBool')]
+  public bool getSendToRecipientList() {
+    return $this.sendToRecipientList;
+  }
+}

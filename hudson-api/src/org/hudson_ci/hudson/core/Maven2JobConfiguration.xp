@@ -1,0 +1,147 @@
+/* This class is part of the XP framework
+ *
+ * $Id: Maven2JobConfiguration.xp 12583 2010-12-30 15:05:37Z friebe $
+ */
+
+package org.hudson_ci.hudson.core;
+
+import org.hudson_ci.hudson.maven.Maven2Module;
+
+/**
+ * Job configuration: A "maven2" project
+ *
+ */
+public class Maven2JobConfiguration extends HudsonJobConfiguration {
+  protected Maven2Module $rootModule;
+  protected string $goals;
+  protected bool $aggregatorStyleBuild;
+  protected bool $incrementalBuild;
+  protected bool $usePrivateRepository;
+  protected bool $ignoreUpstremChanges;
+  protected bool $archivingDisabled;
+  
+  /**
+   * Returns identifier
+   *
+   */
+  public string identifier() {
+    return 'maven2-moduleset';
+  }
+  
+  /**
+   * Sets rootModule
+   *
+   */
+  [@xmlmapping(element = 'rootModule', class= 'org.hudson_ci.hudson.maven.Maven2Module')]
+  public void setRootModule(Maven2Module $rootModule) {
+    $this.rootModule= $rootModule;
+  }
+
+  /**
+   * Sets goals
+   *
+   */
+  [@xmlmapping(element = 'goals')]
+  public void setGoals(string? $goals) {
+    $this.goals= $goals;
+  }
+
+  /**
+   * Sets goals
+   *
+   */
+  [@xmlfactory(element = 'goals')]
+  public string getGoals() {
+    return $this.goals;
+  }
+
+  /**
+   * Sets aggregatorStyleBuild
+   *
+   */
+  [@xmlmapping(element = 'aggregatorStyleBuild', cast = 'asHudsonBool')]
+  public void setAggregatorStyleBuild(bool? $aggregatorStyleBuild) {
+    $this.aggregatorStyleBuild= $aggregatorStyleBuild;
+  }
+
+  /**
+   * Sets aggregatorStyleBuild
+   *
+   */
+  [@xmlfactory(element = 'aggregatorStyleBuild', cast = 'toHudsonBool')]
+  public bool getAggregatorStyleBuild() {
+    return $this.aggregatorStyleBuild;
+  }
+
+  /**
+   * Sets incrementalBuild
+   *
+   */
+  [@xmlmapping(element = 'incrementalBuild', cast = 'asHudsonBool')]
+  public void setIncrementalBuild(bool? $incrementalBuild) {
+    $this.incrementalBuild= $incrementalBuild;
+  }
+
+  /**
+   * Sets incrementalBuild
+   *
+   */
+  [@xmlfactory(element = 'incrementalBuild', cast = 'toHudsonBool')]
+  public bool getIncrementalBuild() {
+    return $this.incrementalBuild;
+  }
+
+  /**
+   * Sets usePrivateRepository
+   *
+   */
+  [@xmlmapping(element = 'usePrivateRepository', cast = 'asHudsonBool')]
+  public bool setUsePrivateRepository(bool? $usePrivateRepository) {
+    $this.usePrivateRepository= $usePrivateRepository;
+  }
+
+  /**
+   * Sets usePrivateRepository
+   *
+   */
+  [@xmlfactory(element = 'usePrivateRepository', cast = 'toHudsonBool')]
+  public void getUsePrivateRepository() {
+    return $this.usePrivateRepository;
+  }
+
+  /**
+   * Sets ignoreUpstremChanges
+   *
+   */
+  [@xmlmapping(element = 'ignoreUpstremChanges', cast = 'asHudsonBool')]
+  public void setIgnoreUpstremChanges(bool? $ignoreUpstremChanges) {
+    $this.ignoreUpstremChanges= $ignoreUpstremChanges;
+  }
+
+  /**
+   * Sets ignoreUpstremChanges
+   *
+   */
+  [@xmlfactory(element = 'ignoreUpstremChanges', cast = 'toHudsonBool')]
+  public bool getIgnoreUpstremChanges() {
+    return $this.ignoreUpstremChanges;
+  }
+
+  /**
+   * Sets archivingDisabled
+   *
+   */
+  [@xmlmapping(element = 'archivingDisabled', cast = 'asHudsonBool')]
+  public void setArchivingDisabled(bool? $archivingDisabled) {
+    $this.archivingDisabled= $archivingDisabled;
+  }
+
+  /**
+   * Sets archivingDisabled
+   *
+   */
+  [@xmlfactory(element = 'archivingDisabled', cast = 'toHudsonBool')]
+  public bool getArchivingDisabled() {
+    return $this.archivingDisabled;
+  }
+}

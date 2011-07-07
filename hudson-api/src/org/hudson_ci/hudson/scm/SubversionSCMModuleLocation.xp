@@ -1,0 +1,83 @@
+/* This class is part of the XP framework
+ *
+ * $Id: SubversionSCMModuleLocation.xp 12595 2011-01-03 14:28:33Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.scm;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+
+/**
+ * Represents a SVN location
+ *
+ * @see   xp://org.hudson_ci.hudson.scm.SubversionSCM
+ */
+public class SubversionSCMModuleLocation extends AbstractNamedType {
+  protected string $remote;
+  protected string $local;
+
+  /**
+   * Default node name
+   *
+   */
+  protected string hudsonDefaultNodeName() {
+    return 'hudson.scm.SubversionSCM_-ModuleLocation';
+  }
+  
+  /**
+   * Creates a new SVN location
+   *
+   */
+  public __construct(string? $remote= null) {
+    $this.remote= $remote;
+  }
+
+  /**
+   * Sets remote
+   *
+   */
+  [@xmlmapping(element = 'remote')]
+  public void setRemote(string? $remote) {
+    $this.remote= $remote;
+  }
+
+  /**
+   * Gets remote
+   *
+   */
+  [@xmlfactory(element = 'remote')]
+  public string getRemote() {
+    return $this.remote;
+  }
+  
+  /**
+   * Sets local
+   *
+   */
+  [@xmlmapping(element = 'local')]
+  public void setLocal(string? $local) {
+    $this.local= $local;
+  }
+
+  /**
+   * Gets local
+   *
+   */
+  [@xmlfactory(element = 'local')]
+  public string getLocal() {
+    return $this.local;
+  }
+
+  /**
+   * Creates a string representation of this object
+   *
+   */
+  public string toString() {
+    return (
+      $this.getClassName() ~ "@{\n" ~
+      "  [remote] " ~ $this.remote ~ "\n" ~
+      "  [local ] " ~ ($this.local ? $this.local : '(.)') ~ "\n" ~
+      "}"
+    );
+  }
+}

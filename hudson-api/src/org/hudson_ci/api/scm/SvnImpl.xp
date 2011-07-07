@@ -1,0 +1,55 @@
+/* This class is part of the XP framework
+ *
+ * $Id: SvnImpl.xp 12602 2011-01-04 09:52:54Z friebe $ 
+ */
+
+package org.hudson_ci.api.scm;
+
+import io.File;
+import io.IOException;
+
+/**
+ * SVN source code management interface
+ *
+ */
+package class SvnImpl extends SCMInterface {
+
+  /**
+   * Returns type
+   *
+   */
+  public string getType() {
+    return 'svn';
+  }
+
+  /**
+   * Reads contents
+   *
+   */
+  protected static string readAll(this File $self) {
+    $contents= '';
+    do {
+      $contents ~= $self.read();
+    } while (!$self.eof());
+    return $contents;
+  }
+
+  /**
+   * Get a remote file's contents
+   *
+   */
+  public string getContents(string? $ref) {
+    try {
+      $p= new Process('svn', ['cat', $this.url ~ $ref]);
+      $out= ($p.out as File?).readAll();
+      $err= ($p.err as File?).readAll();
+      $exitCode= $p.close();
+    } catch (IOException $e) {
+      throw new SCMException($this.url, 'Errors fetching ' ~ $ref, $e);
+    }
+    if (0 !== $exitCode) {
+      throw new SCMException($this.url, $err);
+    }
+    return $out;  
+  }
+}

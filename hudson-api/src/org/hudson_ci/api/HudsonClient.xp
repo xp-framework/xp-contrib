@@ -1,0 +1,221 @@
+/* This class is part of the XP framework
+ *
+ * $Id: HudsonClient.xp 12590 2010-12-30 18:05:01Z friebe $ 
+ */
+
+package org.hudson_ci.api;
+
+import org.hudson_ci.hudson.core.HudsonJobConfiguration;
+
+import peer.http.HttpConnection;
+import peer.http.HttpConstants;
+import peer.http.HttpRequest;
+import peer.http.HttpResponse;
+import peer.http.RequestData;
+
+import io.IOException;
+
+import xml.Tree;
+import xml.parser.XMLParser;
+import xml.parser.StreamInputSource;
+import xml.meta.Unmarshaller;
+
+import util.ServiceException;
+import util.ServiceNotAvailableException;
+
+import util.log.Traceable;
+import util.log.LogCategory;
+
+/**
+ * Hudson API client
+ *
+ */
+public class HudsonClient implements Traceable {
+  protected HttpConnection $conn;
+  protected string $base;
+  protected LogCategory $cat;
+
+  public Unmarshaller $unmarshaller= new Unmarshaller();
+
+  /**
+   * Creates a new Hudson client instance
+   *
+   * @param   dsn the base URL, e.g. http://hudson.example.com:8080/
+   */
+  public __construct(string? $dsn) {
+    $this.conn= new HttpConnection($dsn);
+    $this.base= $this.conn.getURL().getPath('/');
+  }
+  
+  /**
+   * Sets trace for protocol debugging
+   *
+   */
+  public void setTrace(LogCategory? $cat) {
+    $this.cat= $cat;
+  }
+  
+  /**
+   * Creates a new request
+   *
+   */
+  protected HttpResponse perform(string? $method, string? $target, var $parameters= [:]) {
+    $request= $this.conn.create(new HttpRequest());
+    $request.setMethod($method);
+    $request.setTarget($this.base ~ $target);
+    $request.setParameters($parameters);
+
+    // Send request, read response    
+    $this.cat && $this.cat.info('>>>', $request.getRequestString());
+    $response= $this.conn.send($request);
+    $this.cat && $this.cat.info('<<<', $response);
+    
+    return $response;
+  }
+  
+  /**
+   * Returns the endpoint Hudson is running at
+   *
+   */
+  public peer.URL endpoint() {
+    return $this.conn.getURL();
+  }
+
+  /**
+   * Gets a job by its name
+   *
+   * @param   name the job's name
+   * @return  a reference to the job or NULL if it cannot be found
+   * @throws  ServiceExceptions to indicate remote failures
+   */
+  public HudsonJob findJob(string $name) throws ServiceException {
+    try {
+      $response= $this.perform(HttpConstants::HEAD, 'job/' ~ $name ~ '/');
+      switch ($response.statusCode()) {
+        case HttpConstants::STATUS_OK: return new HudsonJob($name, $this);
+        case HttpConstants::STATUS_NOT_FOUND: return null; 
+        default: throw new ServiceException($response.statusCode(), $response.message());
+      }
+    } catch (IOException $e) {
+      throw new ServiceNotAvailableException(1, $e.getMessage(), $e);
+    }
+  }
+  
+  /**
+   * Gets a job by its name
+   *
+   * @param   name the job's name
+   * @return  a reference to the job
+   * @throws  ServiceExceptions to indicate remote failures
+   * @throws  ElementNotFoundException if the job cannot be found
+   */
+  public HudsonJob getJob(string $name) throws ServiceException, ElementNotFoundException {
+    if (null === ($job= $this.findJob($name))) {
+      throw new ElementNotFoundException('Cannot find job "' ~ $name ~ '"');
+    }
+    return $job;
+  }
+  
+  /**
+   * Gets a list of all jobs
+   *
+   */
+  public HudsonJobList allJobs() throws ServiceException {
+    try {
+      $response= $this.perform(HttpConstants::HEAD, 'api/xml?xpath=/hudson/job/name&wrapper=list');
+      if (HttpConstants::STATUS_OK !== $response.statusCode()) {
+        throw new ServiceException($response.statusCode(), $response.message());
+      }
+
+      return $this.unmarshaller.unmarshalFrom(
+        new StreamInputSource($response.getInputStream()), 
+        HudsonJobList::class.getName(),
+        [ reference : $this ]
+      );
+    } catch (IOException $e) {
+      throw new ServiceNotAvailableException(1, $e.getMessage(), $e);
+    }
+  }
+  
+  /**
+   * Gets a job's configuration
+   *
+   */
+  package Tree getJobConfigurationXml(string $name) {
+    try {
+      $response= $this.perform(HttpConstants::GET, 'job/' ~ $name ~ '/config.xml');
+      if (HttpConstants::STATUS_OK !== $response.statusCode()) {
+        throw new ServiceException($response.statusCode(), $response.message());
+      }
+
+      $tree= new Tree();
+      new XMLParser().withCallback($tree).parse(new StreamInputSource($response.getInputStream()));
+      return $tree;
+    } catch (IOException $e) {
+      throw new ServiceNotAvailableException(1, $e.getMessage(), $e);
+    }
+  }
+  
+  /**
+   * Creates a new job
+   *
+   * @param   job a HudsonJob instance
+   * @throws  ServiceExceptions to indicate remote failures
+   */
+  package void createJob(HudsonJob $job) throws ServiceException {
+    with ($request= $this.conn.create(new HttpRequest())) {
+      $request.setMethod(HttpConstants::POST);
+      $request.setTarget($this.base ~ '/createItem?name=' ~ $job.getName());
+      $request.setHeader('Content-Type', 'text/xml');
+
+      $request.setParameters(new RequestData($job.getConfigurationXml().getSource(INDENT_DEFAULT)));
+
+      // Send request. Unfortunately, any failure, including whether
+      // a job exists or not, is reported as HTTP 400: Bad request.
+      try {
+        $response= $this.conn.send($request);
+        if (HttpConstants::STATUS_OK !== $response.statusCode()) {
+          throw new ServiceException($response.statusCode(), $response.message());
+        }
+        $job.updateReferenceTo($this);
+      } catch (IOException $e) {
+        throw new ServiceNotAvailableException(1, $e.getMessage(), $e);
+      }
+    }
+  }
+
+  /**
+   * Updates an existing job
+   *
+   * @param   job a HudsonJob instance
+   * @throws  ServiceExceptions to indicate remote failures
+   */
+  package void updateJob(HudsonJob $job) throws ServiceException {
+    with ($request= $this.conn.create(new HttpRequest())) {
+      $request.setMethod(HttpConstants::POST);
+      $request.setTarget($this.base ~ 'job/' ~ $job.getName() ~ '/config.xml');
+      $request.setHeader('Content-Type', 'text/xml');
+      
+      $request.setParameters(new RequestData($job.getConfigurationXml().getSource(INDENT_DEFAULT)));
+      
+      // Send request.
+      try {
+        $response= $this.conn.send($request);
+        if (HttpConstants::STATUS_OK !== $response.statusCode()) {
+          throw new ServiceException($response.statusCode(), $response.message());
+        }
+        $job.updateReferenceTo($this);
+      } catch (IOException $e) {
+        throw new ServiceNotAvailableException(1, $e.getMessage(), $e);
+      }
+    }
+  }
+  
+  /**
+   * Creates a string representation of this object
+   *
+   */
+  public string toString() {
+    return $this.getClassName() ~ '(' ~ $this.conn.toString() ~ ')';
+  }
+}

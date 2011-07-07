@@ -1,0 +1,55 @@
+/* This class is part of the XP framework
+ *
+ * $Id: HudsonJobList.xp 12580 2010-12-29 17:39:38Z friebe $ 
+ */
+
+package org.hudson_ci.api;
+
+/**
+ * Represents a list of jobs
+ *
+ * @see   xp://org.hudson_ci.api.HudsonClient#getJobs()
+ */
+public class HudsonJobList {
+  protected HudsonJob[] $jobs= [];
+  
+  public HudsonJob this[int $offset] {
+    get   { return $this.jobs[$offset]; }
+    isset { return isset($this.jobs[$offset]); }
+    unset { throw new IllegalStateException('Unmodifyable list'); }
+    set   { throw new IllegalStateException('Unmodifyable list'); }
+  }
+
+  /**
+   * Adds a job
+   *
+   */
+  [@xmlmapping(element = 'name', inject= ['reference'])]
+  public void addJobNamed(string? $name, HudsonClient $reference= null) {
+    $this.jobs[]= new HudsonJob($name, $reference);
+  }
+  
+  /**
+   * Returns number of jobs
+   *
+   */
+  public int length() {
+    return $this.jobs.length;
+  }
+  
+  /**
+   * Gets a list of all jobs as an array
+   *
+   */
+  public HudsonJob[] toArray() {
+    return $this.jobs;
+  }
+  
+  /**
+   * Creates a string representation
+   *
+   */
+  public string toString() {
+    return $this.getClassName() ~ '(' ~ $this.jobs.length ~ ')@' ~ xp::stringOf($this.jobs);
+  }
+}

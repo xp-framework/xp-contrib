@@ -1,0 +1,55 @@
+/* This class is part of the XP framework
+ *
+ * $Id: SloccountPublisher.xp 12585 2010-12-30 15:58:48Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.plugins.sloccount;
+
+import org.hudson_ci.hudson.AbstractNamedType;
+import org.hudson_ci.hudson.tasks.HudsonTask;
+
+/**
+ * Sloccount publusher
+ *
+ * @see   xp://org.hudson_ci.hudson.core.HudsonJobConfiguration#addPublisher
+ */
+public class SloccountPublisher extends AbstractNamedType implements HudsonTask {
+  protected string $pattern;
+  protected string $encoding;
+
+  /**
+   * Sets pattern
+   *
+   */
+  [@xmlmapping(element = 'pattern')]
+  public void setPattern(string? $pattern) {
+    $this.pattern= $pattern;
+  }
+
+  /**
+   * Gets pattern
+   *
+   */
+  [@xmlfactory(element = 'pattern')]
+  public string getPattern() {
+    return $this.pattern;
+  }
+
+  /**
+   * Sets encoding
+   *
+   */
+  [@xmlmapping(element = 'encoding')]
+  public void setEncoding(string? $encoding) {
+    $this.encoding= $encoding;
+  }
+
+  /**
+   * Gets encoding
+   *
+   */
+  [@xmlfactory(element = 'encoding')]
+  public string getEncoding() {
+    return $this.encoding;
+  }
+}

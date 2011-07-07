@@ -1,0 +1,43 @@
+/* This class is part of the XP framework
+ *
+ * $Id: HudsonJobConfigurationFactory.xp 12611 2011-01-08 15:18:39Z friebe $
+ */
+
+package org.hudson_ci.api;
+
+import org.hudson_ci.hudson.core.ProjectJobConfiguration;
+import org.hudson_ci.hudson.core.Maven2JobConfiguration;
+import org.hudson_ci.hudson.core.IvyJobConfiguration;
+
+/**
+ * Job configuration factory. Creates concrete job configuration classes
+ * from the org.hudson_ci.hudson.core package based on root tag:
+ *
+ * <ul>
+ *   <li>project - ProjectJobConfiguration</li>
+ *   <li>maven2-moduleset - Maven2JobConfiguration</li>
+ * </ul>
+ *
+ * Other project types aren't supported yet.
+ */
+[@xmlmapping(factory= 'forName')]
+package class HudsonJobConfigurationFactory {
+
+  /**
+   * Factory method
+   *
+   * @param   name the root tag's name
+   * @return  the XPClass instance representing the concrete class
+   * @throws  IllegalArgumentException for unknown tags
+   */
+  public static XPClass forName(string? $name) throws IllegalArgumentException {
+    switch ($name) {
+      case 'project': return ProjectJobConfiguration::class;
+      case 'maven2-moduleset': return Maven2JobConfiguration::class;
+      case 'hudson.ivy.IvyModuleSet': return IvyJobConfiguration::class;
+      case 'matrix-project': throw new IllegalArgumentException('Matrix projects not supported yet');
+      case 'hudson.model.ExternalJob': throw new IllegalArgumentException('External jobs not supported yet');
+      default: throw new IllegalArgumentException('Unrecognized configuration type ' ~ $name);
+    }
+  }
+}

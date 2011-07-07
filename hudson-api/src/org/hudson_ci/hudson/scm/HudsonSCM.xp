@@ -1,0 +1,15 @@
+/* This class is part of the XP framework
+ *
+ * $Id: HudsonSCM.xp 12569 2010-12-28 19:50:18Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.scm;
+
+/**
+ * Source Code Management (SCM) Systems in Hudson
+ *
+ * @see   xp://org.hudson_ci.hudson.core.HudsonJobConfiguration#setSCM
+ */
+package interface HudsonSCM {
+
+}

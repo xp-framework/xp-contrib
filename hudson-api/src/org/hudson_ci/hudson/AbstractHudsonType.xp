@@ -1,0 +1,47 @@
+/* This class is part of the XP framework
+ *
+ * $Id: AbstractHudsonType.xp 12593 2010-12-30 18:15:00Z friebe $ 
+ */
+
+package org.hudson_ci.hudson;
+
+import native standard.strtr;
+
+/**
+ * Abstract base class for types serialized via Hudson's XML API
+ *
+ */
+package abstract class AbstractHudsonType {
+  const string PACKAGE_PREFIX = 'org.hudson_ci.';
+
+  /**
+   * Maps a Hudson class name to a XP qualified class name
+   *
+   * @param   name the hudson name
+   * @param   interface the relative path to a hudson type
+   * @param   the XP class name
+   */
+  package string hudsonClass(string? $name, string? $interface= null) {
+    return strtr(self::PACKAGE_PREFIX ~ $name, [ '__' : '_' ]);
+  }
+  
+  /**
+   * Converts a string notation to a boolean
+   *
+   */
+  package bool asHudsonBool(string? $value) {
+    switch ($value) {
+      case 'true': return true;
+      case 'false': return false;
+      default: throw new IllegalArgumentException('Unrecognized boolean value ' ~ $value);
+    }
+  }
+
+  /**
+   * Converts a boolean to a string notation
+   *
+   */
+  package string toHudsonBool(bool? $value) {
+    return $value ? 'true' : 'false';
+  }
+}

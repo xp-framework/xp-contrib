@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<t:root xmlns:t="http://projects.xp-forge.net/devel/hudson-api/templates">
+  <scm class="hudson.scm.SubversionSCM">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote><t:inject name="scm.url"/></remote>
+        <local><t:inject name="scm.local"/></local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <useUpdate>true</useUpdate>
+    <doRevert>false</doRevert>
+    <excludedRegions></excludedRegions>
+    <includedRegions></includedRegions>
+    <excludedUsers></excludedUsers>
+    <excludedRevprop></excludedRevprop>
+    <excludedCommitMessages></excludedCommitMessages>
+  </scm>
+</t:root>

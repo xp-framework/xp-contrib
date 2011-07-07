@@ -1,0 +1,64 @@
+XP Coding Standards for Sonar:
+========================================================================
+$Id$
+
+How does it work
+----------------
+For sonar versions < 2.2 there is a php-sonar plugin which is utilizing pDepend,
+CodeSniffer and some more php tools to generate static code analysis statistics
+for php projects.
+
+http://docs.codehaus.org/display/SONAR/PHP+Plugin
+
+What does not work
+------------------
+The sonar phpunit plugin does not work as xp projects are not using phpunit for
+unit testing. In order to make sonar work with xp projects you must not deploy
+the phpunit sonar plugin!
+
+PHP CodeSniffer Rules
+---------------------
+The Sonar Plugin is using a special CodeSniffer version from SQLI for checking
+the coding standards. The provided set of rules is not compatible with the xp
+coding guidelines. In order to add them you have to do some manual adjustments
+though. 
+
+The needed CodeSniffer and SQLI_CodeSniffer versions can be found here:
+
+https://www.assembla.com/spaces/sqlics/documents
+
+Install them with pear
+
+
+XP Coding Standards Pear Package
+--------------------------------
+In the folder ./XP_CodeSniffer is a pear package that installs the xp coding
+guideline rules. This package has to be installed on top of SQLI_CodeSniffer.
+Due to the fact, that SQLI_CodeSniffer is using events instead of errors and
+warnings the Sniffs have to be adjusted to create an event with a proper code
+with addEvent() instead of addWarning() or addError(). 
+
+In the Reports/config.xml file you have then to create an entry for the event 
+code of the Sniff class. 
+
+To build the pear package just type in: 
+
+pear package package.xml
+
+
+
+PHP Codesniffer Sonar Plugin
+----------------------------
+In order to make sonar understand the xp event codes you also have to add an
+entry for every code into the
+
+"java-plugin/src/main/resources/org/sonar/plugins/php/codesniffer/rules.xml"
+
+file. There is already one entry to demonstrate how it should look. In order to
+distinguish the XP rules from the normal CodeSniffer rules please make sure to
+prefix them with "XP:". 
+
+To build the sonar plugin type in: 
+
+mvn package
+<EOF>

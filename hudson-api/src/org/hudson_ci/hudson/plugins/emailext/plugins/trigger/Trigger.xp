@@ -1,0 +1,26 @@
+/* This class is part of the XP framework
+ *
+ * $Id: Trigger.xp 12579 2010-12-29 15:36:22Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.plugins.emailext.plugins.trigger;
+
+import org.hudson_ci.hudson.AbstractHudsonType;
+
+/**
+ * Base class for all triggers in this package
+ *
+ * @see   xp://org.hudson_ci.hudson.plugins.emailext.ExtendedEmailPublisher#addConfiguredTrigger
+ */
+package abstract class Trigger extends AbstractHudsonType {
+  protected Email $email;
+
+  /**
+   * Sets email
+   *
+   */
+  [@xmlmapping(element = 'email', class= 'org.hudson_ci.hudson.plugins.emailext.plugins.trigger.Email')]
+  public void setEmail(Email $email) {
+    $this.email= $email;
+  }
+}

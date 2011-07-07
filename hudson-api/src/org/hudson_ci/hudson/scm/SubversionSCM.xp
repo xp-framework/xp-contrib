@@ -1,0 +1,179 @@
+/* This class is part of the XP framework
+ *
+ * $Id: SubversionSCM.xp 12595 2011-01-03 14:28:33Z friebe $ 
+ */
+
+package org.hudson_ci.hudson.scm;
+
+import org.hudson_ci.hudson.AbstractHudsonType;
+import org.hudson_ci.hudson.HudsonListType;
+
+import util.collections.Vector;
+
+/**
+ * SVN source code management
+ *
+ * @see   xp://org.hudson_ci.api.JobConfiguration#setSCM
+ */
+public class SubversionSCM extends AbstractHudsonType implements HudsonSCM {
+  protected string $classReference = 'hudson.scm.SubversionSCM';
+  protected var $locations = new Vector<SubversionSCMModuleLocation>();
+  protected bool $useUpdate = true;
+  protected bool $doRevert = false;
+  protected string $excludedRegions;
+  protected string $excludedUsers;
+  protected string $excludedRevprop;
+  protected string $excludedCommitMessages;
+
+  /**
+   * Adds a module location
+   *
+   */
+  [@xmlmapping(element = 'locations/*', class= 'org.hudson_ci.hudson.scm.SubversionSCMModuleLocation')]
+  public void addModuleLocation(SubversionSCMModuleLocation $location) {
+    $this.locations[]= $location;
+  }
+
+  /**
+   * Gets module locations
+   *
+   */
+  public Vector<SubversionSCMModuleLocation> getModuleLocations() {
+    return $this.locations;
+  }
+
+  /**
+   * Gets module locations
+   *
+   */
+  [@xmlfactory(element = 'locations')]
+  public HudsonListType<SubversionSCMModuleLocation> getModuleLocationsVector() {
+    return new HudsonListType<SubversionSCMModuleLocation>('locations', $this.locations, false);
+  }
+
+  /**
+   * Sets class reference
+   *
+   */
+  [@xmlmapping(element = '@class')]
+  public void setClassReference(string? $class) {
+    $this.classReference= $class;
+  }
+
+  /**
+   * Gets class reference
+   *
+   */
+  [@xmlfactory(element = '@class')]
+  public void getClassReference() {
+    return $this.classReference;
+  }
+
+  /**
+   * Sets useUpdate
+   *
+   */
+  [@xmlmapping(element = 'useUpdate', cast = 'asHudsonBool')]
+  public void setUseUpdate(string? $useUpdate) {
+    $this.useUpdate= $useUpdate;
+  }
+
+  /**
+   * Gets useUpdate
+   *
+   */
+  [@xmlfactory(element = 'useUpdate', cast = 'toHudsonBool')]
+  public string getUseUpdate() {
+    return $this.useUpdate;
+  }
+  
+  /**
+   * Sets doRevert
+   *
+   */
+  [@xmlmapping(element = 'doRevert', cast = 'asHudsonBool')]
+  public void setDoRevert(string? $doRevert) {
+    $this.doRevert= $doRevert;
+  }
+
+  /**
+   * Gets doRevert
+   *
+   */
+  [@xmlfactory(element = 'doRevert', cast = 'toHudsonBool')]
+  public string getDoRevert() {
+    return $this.doRevert;
+  }
+
+  /**
+   * Sets excludedRegions
+   *
+   */
+  [@xmlmapping(element = 'excludedRegions')]
+  public void setExcludedRegions(string? $excludedRegions) {
+    $this.excludedRegions= $excludedRegions;
+  }
+
+  /**
+   * Gets excludedRegions
+   *
+   */
+  [@xmlfactory(element = 'excludedRegions')]
+  public string getExcludedRegions() {
+    return $this.excludedRegions;
+  }
+
+  /**
+   * Sets excludedUsers
+   *
+   */
+  [@xmlmapping(element = 'excludedUsers')]
+  public void setExcludedUsers(string? $excludedUsers) {
+    $this.excludedUsers= $excludedUsers;
+  }
+
+  /**
+   * Gets excludedUsers
+   *
+   */
+  [@xmlfactory(element = 'excludedUsers')]
+  public string getExcludedUsers() {
+    return $this.excludedUsers;
+  }
+
+  /**
+   * Sets excludedRevprop
+   *
+   */
+  [@xmlmapping(element = 'excludedRevprop')]
+  public void setExcludedRevprop(string? $excludedRevprop) {
+    $this.excludedRevprop= $excludedRevprop;
+  }
+
+  /**
+   * Gets excludedRevprop
+   *
+   */
+  [@xmlfactory(element = 'excludedRevprop')]
+  public string getExcludedRevprop() {
+    return $this.excludedRevprop;
+  }
+
+  /**
+   * Sets excludedCommitMessages
+   *
+   */
+  [@xmlmapping(element = 'excludedCommitMessages')]
+  public void setExcludedCommitMessages(string? $excludedCommitMessages) {
+    $this.excludedCommitMessages= $excludedCommitMessages;
+  }
+
+  /**
+   * Gets excludedCommitMessages
+   *
+   */
+  [@xmlfactory(element = 'excludedCommitMessages')]
+  public string getExcludedCommitMessages() {
+    return $this.excludedCommitMessages;
+  }
+}

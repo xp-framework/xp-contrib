@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="xp" default="usage">
+  <import file="${user.home}/.ant/xp-build/build-loader.xml"/>
+</project>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ivy-module version="2.0">
   <info
-   organisation="net.xp_framework.forge" 
+   organisation="net.xp_framework"
    module="mock" 
    revision="5.8.2" 
    status="integration"

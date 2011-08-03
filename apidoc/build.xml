@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<project name="xp-forge-apidoc" basedir=".">
+  <import file="${user.home}/.ant/xp-build/build-loader.xml"/>
+  <import file="${xp.build.home}/opt/build-legacy.xml"/>
+</project>

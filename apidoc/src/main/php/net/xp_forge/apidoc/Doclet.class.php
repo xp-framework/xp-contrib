@@ -7,6 +7,7 @@
   $package= 'net.xp_forge.apidoc';
 
   uses(
+    'lang.ResourceProvider',
     'text.doclet.Doclet', 
     'text.doclet.markup.MarkupBuilder', 
     'util.cmd.Console',

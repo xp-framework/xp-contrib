@@ -482,8 +482,17 @@
       // Compute hierarchy
       Console::write('[');
       $this->hierarchy= array();
+
+      $seen= array();
       while ($this->classes->hasNext()) {
         $class= $this->classes->next();
+
+        if (isset($seen[$class->qualifiedName()])) {
+          continue;
+        }
+
+        $seen[$class->qualifiedName()]= TRUE;
+
         $key= $class->containingPackage()->name();
         if (!isset($this->hierarchy[$key])) {
           $sub= new Folder($target, strtr($key, '.', DIRECTORY_SEPARATOR));

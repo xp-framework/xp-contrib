@@ -47,7 +47,7 @@ while [ ! -z $1 ]; do
 
   LANG=C diff -I '\$Id' -I '\$Revision' $DIFF_OPTIONS "$TAGDIR"/$RELTARGET "$REPOBASE"/$RELTARGET 2>&1 | \
     grep -v '^diff' | \
-    ${SED} "s#: #/#" | \
+    ${SED} "s#^\(Only in .*\): #\1/#" | \
     ${SED} "s#^Only in "$TAGDIR/$RELTARGET"/#D      #g" | \
     ${SED} "s#^Only in "${REPOBASE}/$RELTARGET"/#A      #g" | \
     ${SED} -r "s#Files "$TAGDIR"/"$RELTARGET"/([^ ]+) and ([^ ]+) differ#M      \\1#g"

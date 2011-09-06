@@ -5,52 +5,19 @@
 
 package org.hudson_ci.cmd;
 
-import org.hudson_ci.api.HudsonClient;
+import org.hudson_ci.api.HudsonJob;
 
 /**
  * Find a hudson job
  *
  */
-public class GetJob extends util.cmd.Command {
-  protected HudsonClient $client;
-  protected string $job;
-  
-  /**
-   * Sets hudson base URL
-   *
-   */
-  [@arg(position = 0)]
-  public void setDsn(string $dsn) {
-    $this.client= new HudsonClient($dsn);
-  }
-  
-  /**
-   * Sets job name
-   *
-   */
-  [@arg(position = 1)]
-  public void setJob(string $job) {
-    $this.job= $job;
-  }
+public class GetJob extends GetJobXml {
 
   /**
-   * Entry point method
+   * Print job
    *
    */
-  public void run() {
-    $this.out.write($this.job, ': ');
-    try {
-      $job= $this.client.findJob($this.job);
-    } catch (util.ServiceException $e) {
-      $this.err.writeLine('*** ', $e);
-      return 1;
-    }
-
-    if (null === $job) {
-      $this.err.writeLine('(not found)');
-      return 2;
-    }
-      
+  protected void printJob(HudsonJob $job) {
     $this.out.writeLine($job);
     $this.out.writeLine($job.getConfigurationXml());
   }

@@ -4,7 +4,7 @@
    organisation="net.xp_framework"
    module="mock" 
    revision="5.8.2" 
-   status="integration"
+   status="release"
   />
   <configurations>
     <conf name="default" description="Standard build"/>

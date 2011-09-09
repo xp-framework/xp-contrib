@@ -8,7 +8,7 @@
    organisation="net.xp_forge" 
    module="apidoc"
    status="integration"
-   revision="1.0.0"
+   revision="1.0.1"
   />
   <configurations>
     <conf name="default" description="Runtime"/>

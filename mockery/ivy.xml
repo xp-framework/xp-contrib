@@ -3,8 +3,8 @@
   <info
    organisation="net.xp_framework"
    module="mock" 
-   revision="5.8.2" 
-   status="release"
+   revision="5.8.3"
+   status="integration"
   />
   <configurations>
     <conf name="default" description="Standard build"/>

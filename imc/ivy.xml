@@ -23,7 +23,6 @@
   </configurations>
   <publications>
     <artifact name="imc" type="xar" ext="xar" conf="default"/>
-    <artifact name="imc-test" type="xar" ext="xar" conf="test"/>
   </publications>
   <dependencies>
     <dependency 

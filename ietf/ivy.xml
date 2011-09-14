@@ -23,7 +23,6 @@
   </configurations>
   <publications>
     <artifact name="ietf" type="xar" ext="xar" conf="default"/>
-    <artifact name="ietf-test" type="xar" ext="xar" conf="test"/>
   </publications>
   <dependencies>
     <dependency 

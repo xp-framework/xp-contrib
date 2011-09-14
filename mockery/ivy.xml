@@ -3,7 +3,7 @@
   <info
    organisation="net.xp_framework"
    module="mock" 
-   revision="5.8.2" 
+   revision="5.8.3"
    status="integration"
   />
   <configurations>

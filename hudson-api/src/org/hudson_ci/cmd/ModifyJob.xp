@@ -80,6 +80,15 @@ package abstract class ModifyJob extends util.cmd.Command {
   }
 
   /**
+   * Enable verbosity, will dump the xml
+   *
+   */
+  [@arg(name= 'verbose', short= 'v')]
+  public void setVerbose(var $v= false) {
+    $this.verbose= ($v !== false);
+  }
+
+  /**
    * Sets configuration. If omitted, a hudson.ini will be fetched from the
    * SCM location.
    *
@@ -267,7 +276,9 @@ package abstract class ModifyJob extends util.cmd.Command {
   public void run() {
     with ($job= $this.job().withConfigurationXml($this.jobConfigurationXml())) {
       $this.out.writeLine('Job: ', $job);
-      $this.out.writeLine('Configuration: ', $job.getConfigurationXml().getSource(INDENT_DEFAULT));
+      if ($this.verbose) {
+        $this.out.writeLine('Configuration: ', $job.getConfigurationXml().getSource(INDENT_DEFAULT));
+      }
 
       if ($this.execute) {
       	$this.save($job);

@@ -6,6 +6,7 @@
 package org.hudson_ci.cmd;
 
 import org.hudson_ci.api.HudsonClient;
+import org.hudson_ci.api.HudsonJob;
 
 /**
  * Find a hudson job
@@ -50,7 +51,15 @@ public class GetJobXml extends util.cmd.Command {
       $this.err.writeLine('(not found)');
       return 2;
     }
-      
+
+    $this.printJob($job);
+  }
+
+  /**
+   * Print job
+   *
+   */
+  protected void printJob(HudsonJob $job) {
     $this.out.writeLine($job);
     $this.out.writeLine($job.getConfigurationXml().getSource(INDENT_DEFAULT));
   }

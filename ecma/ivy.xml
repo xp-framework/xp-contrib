@@ -8,7 +8,7 @@
    organisation="net.xp_framework" 
    module="ecma"
    status="integration"
-   revision="5.8.2"
+   revision="5.8.3"
   >
     <license name="BSD"/>
     <description homepage="http://xp-framework.net/">
@@ -27,7 +27,7 @@
      org="net.xp_framework" 
      name="core"
      rev="latest.integration"
-     revConstraint="5.8.2"
+     revConstraint="5.8.3"
     />
   </dependencies>
 </ivy-module>

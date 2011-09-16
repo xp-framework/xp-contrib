@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ivy-module
+ version="2.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
+>
+  <info 
+   organisation="net.xp_framework" 
+   module="bugzilla"
+   status="integration"
+   revision="5.8.3"
+  >
+    <license name="BSD"/>
+    <description homepage="http://xp-framework.net/">
+      The Bugzilla module is an add-on to the XP framework that adds
+      connectivity for Bugzilla.
+    </description>
+  </info>
+  <configurations>
+    <conf name="default" visibility="public"/>
+  </configurations>
+  <publications>
+    <artifact name="bugzilla" type="xar" ext="xar" conf="default"/>
+  </publications>
+  <dependencies>
+    <dependency 
+     org="net.xp_framework" 
+     name="core"
+     rev="latest.integration"
+     revConstraint="5.8.3"
+    />
+  </dependencies>
+</ivy-module>

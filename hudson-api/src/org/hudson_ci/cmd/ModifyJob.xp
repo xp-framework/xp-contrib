@@ -21,6 +21,7 @@ import util.Properties;
 import util.collections.Stack;
 
 import xml.Tree;
+import xml.XMLFormatException;
 
 import lang.reflect.Package;
 

@@ -1,4 +1,4 @@
-VERSION=1.0.2
+VERSION=1.1.0
 
 compile:
 	xcc -o build -sp src src/

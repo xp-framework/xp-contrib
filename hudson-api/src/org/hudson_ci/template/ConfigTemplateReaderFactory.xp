@@ -1,0 +1,57 @@
+/* This class is part of the XP framework
+ *
+ * $Id$ 
+ */
+
+package org.hudson_ci.template;
+
+import org.hudson_ci.template.XmlConfigTemplateReader;
+import org.hudson_ci.template.XslConfigTemplateReader;
+
+import xml.Tree;
+import xml.Node;
+import xml.ElementNode;
+import xml.TextNode;
+import xml.parser.XMLParser;
+import xml.parser.ParserCallback;
+import xml.XMLFormatException;
+import xml.DomXSLProcessor;
+
+import lang.XPClass;
+import lang.ResourceProvider;
+import lang.reflect.Package;
+
+import text.regex.Pattern;
+
+import native core.strncmp;
+import native standard.call_user_func;
+import native standard.call_user_func_array;
+import native standard.substr;
+import native standard.strpos;
+import native standard.str_replace;
+import native standard.explode;
+import native standard.basename;
+import native standard.dirname;
+
+/**
+ * Factory for configuration template readers
+ *
+ */
+package class ConfigTemplateReaderFactory {
+
+  /**
+   * Get reader class by name
+   *
+   * @param string name The name of reader
+   * @return lang.XPClass
+   * @throws lang.IllegalArgumentException
+   */
+  public static XPClass forName(string $name) throws IllegalArgumentException {
+    switch ($name) {
+      case 'xml': return XmlConfigTemplateReader::class;
+      case 'xsl': return XslConfigTemplateReader::class;
+      default:
+        throw new IllegalArgumentException('Unknown template reader ' ~ $name);
+    }
+  }
+}

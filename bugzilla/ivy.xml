@@ -12,12 +12,14 @@
   >
     <license name="BSD"/>
     <description homepage="http://xp-framework.net/">
-      The Bugzilla module is an add-on to the XP framework that adds
-      connectivity for Bugzilla.
+      The Nagios module is an add-on to the XP framework that adds
+      interoperability packages to talk to Nagios surveillance servers.
     </description>
   </info>
   <configurations>
     <conf name="default" visibility="public"/>
+    <conf name="compile" visibility="private"/>
+    <conf name="test" visibility="private"/>
   </configurations>
   <publications>
     <artifact name="bugzilla" type="xar" ext="xar" conf="default"/>

@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <project name="xp-bugzilla">
   <property name="xp.publish.resolver" value="public-authenticated"/>
-
   <import file="${user.home}/.ant/xp-build/build-loader.xml"/>
 </project>

@@ -28,6 +28,7 @@ import lang.reflect.Package;
 import text.regex.Pattern;
 
 import native core.strncmp;
+import native standard.sscanf;
 import native standard.call_user_func;
 import native standard.call_user_func_array;
 import native standard.substr;
@@ -47,6 +48,7 @@ package abstract class ModifyJob extends util.cmd.Command {
   protected Properties $config;
   protected string $name;
   protected bool $execute = false;
+  protected [:string] $parameters = [];
 
   /**
    * Sets hudson base URL
@@ -100,6 +102,21 @@ package abstract class ModifyJob extends util.cmd.Command {
   }
 
   /**
+   * Adds variable
+   *
+   * @param   string keyvalue
+   */
+  [@arg(name= 'parameter', short= 'p')]
+  public void addParameter(string $name= null) {
+    if (null === $name) return;
+    if (2 !== sscanf($name, '%[^=]=%s', $key, $value)) {
+      throw new IllegalArgumentException('Parameter format is key=value');
+    }
+
+    $this.parameters[$key]= $value;
+  }
+
+  /**
    * Sets whether to actually execute
    *
    */
@@ -114,15 +131,13 @@ package abstract class ModifyJob extends util.cmd.Command {
    */
   protected Tree jobConfigurationXml() {
     $templates= Package::forName($this.config.readString('project', 'type'));
-    $variables= [ 
-      'scm.type' : $this.scm.getType(),
-      'scm.url'  : $this.scm.getURL() 
-    ];
+    $this.parameters['scm.type']= $this.scm.getType();
+    $this.parameters['scm.url']= $this.scm.getURL();
     
     try {
       return ConfigTemplateReaderFactory::forName($this.config.readString('project', 'template', 'xml'))
         .newInstance()
-        .readConfiguration($templates, $variables)
+        .readConfiguration($templates, $this.parameters)
       ;
     } catch (XMLFormatException $e) {
       throw new IllegalArgumentException('Erroneous ' ~ $templates.toString() ~ ': ' ~ $e.compoundMessage());

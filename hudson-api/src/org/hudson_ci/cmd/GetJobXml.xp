@@ -35,21 +35,29 @@ public class GetJobXml extends util.cmd.Command {
   }
 
   /**
+   * Set quiet
+   *
+   */
+  [@arg(name= 'quiet', short= 'q')]
+  public void setQuiet(bool $quiet= FALSE) {
+    $this.quiet= ($quiet !== FALSE);
+  }
+
+  /**
    * Entry point method
    *
    */
   public void run() {
-    $this.out.write($this.job, ': ');
+    $this.quiet || $this.out.write($this.job, ': ');
     try {
       $job= $this.client.findJob($this.job);
     } catch (util.ServiceException $e) {
       $this.err.writeLine('*** ', $e);
-      return 1;
+      throw new SystemExit(1, $e.getMessage());
     }
 
     if (null === $job) {
-      $this.err.writeLine('(not found)');
-      return 2;
+      throw new SystemExit(2, 'No job found by "' ~ $this.job ~ '"');
     }
 
     $this.printJob($job);
@@ -60,7 +68,9 @@ public class GetJobXml extends util.cmd.Command {
    *
    */
   protected void printJob(HudsonJob $job) {
-    $this.out.writeLine($job);
-    $this.out.writeLine($job.getConfigurationXml().getSource(INDENT_DEFAULT));
+    if (!$this.quiet) {
+      $this.out.writeLine($job);
+      $this.out.writeLine($job.getConfigurationXml().getSource(INDENT_DEFAULT));
+    }
   }
 }

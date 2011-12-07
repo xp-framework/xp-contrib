@@ -47,6 +47,7 @@ package abstract class ModifyJob extends util.cmd.Command {
   protected SCMInterface $scm;
   protected Properties $config;
   protected string $name;
+  protected bool $verbose= false;
   protected bool $execute = false;
   protected [:string] $parameters = [];
 

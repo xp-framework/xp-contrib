@@ -15,6 +15,7 @@ import org.hudson_ci.api.HudsonJob;
 public class GetJobXml extends util.cmd.Command {
   protected HudsonClient $client;
   protected string $job;
+  protected bool $quiet;
   
   /**
    * Sets hudson base URL
@@ -39,8 +40,8 @@ public class GetJobXml extends util.cmd.Command {
    *
    */
   [@arg(name= 'quiet', short= 'q')]
-  public void setQuiet(bool $quiet= FALSE) {
-    $this.quiet= ($quiet !== FALSE);
+  public void setQuiet(bool $quiet= false) {
+    $this.quiet= ($quiet !== false);
   }
 
   /**

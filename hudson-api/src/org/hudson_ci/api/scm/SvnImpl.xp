@@ -12,7 +12,7 @@ import io.IOException;
  * SVN source code management interface
  *
  */
-package class SvnImpl extends SCMInterface {
+public class SvnImpl extends SCMInterface {
 
   /**
    * Returns type

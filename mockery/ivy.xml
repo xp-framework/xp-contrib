@@ -1,22 +1,31 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <ivy-module version="2.0">
   <info
    organisation="net.xp_framework"
-   module="mock" 
+   module="mock"
    revision="5.8.3"
    status="integration"
   />
   <configurations>
     <conf name="default" description="Standard build"/>
-    <conf name="test" visibility="private" description="Standard build"/>
+    <conf
+     name="test"
+     visibility="private"
+     description="Standard build"
+    />
   </configurations>
   <publications>
-    <artifact name="mock" conf="default" type="overlay" ext="xar"/>
+    <artifact
+     name="mock"
+     conf="default"
+     type="overlay"
+     ext="xar"
+    />
   </publications>
   <dependencies>
-    <dependency 
-     org="net.xp_framework" 
-     name="core" 
+    <dependency
+     org="net.xp_framework"
+     name="core"
      rev="latest.integration"
      revConstraint="5.8.2"
     />

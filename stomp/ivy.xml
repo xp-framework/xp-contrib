@@ -8,7 +8,7 @@
    organisation="net.xp_framework" 
    module="stomp"
    status="integration"
-   revision="5.8.3"
+   revision="5.8.4"
   >
     <license name="BSD"/>
     <description homepage="http://xp-framework.net/">
@@ -29,8 +29,7 @@
     <dependency 
      org="net.xp_framework" 
      name="core"
-     rev="latest.integration"
-     revConstraint="5.8.2"
+     rev="5.8.4+"
     />
   </dependencies>
 </ivy-module>

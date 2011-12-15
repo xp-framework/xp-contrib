@@ -9,7 +9,7 @@
    organisation="net.xp_framework"
    module="fpdf"
    status="integration"
-   revision="1.0.0"
+   revision="1.0.1"
   >
     <license name="BSD"/>
   </info>

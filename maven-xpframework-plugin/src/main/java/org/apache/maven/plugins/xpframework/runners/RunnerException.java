@@ -1,5 +1,5 @@
 /**
- * Maven XP-Framework Plugin
+ * Maven XP-Framework plugin
  * Copyright (C) 2011 1&1 Internet AG
  *
  * This program is free software; you can redistribute it and/or

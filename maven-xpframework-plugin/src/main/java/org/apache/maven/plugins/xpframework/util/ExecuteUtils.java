@@ -1,20 +1,8 @@
 /**
+ * This file is part of the XP-Framework
+ *
  * Maven XP-Framework plugin
- * Copyright (C) 2011 1&1 Internet AG
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * Copyright (c) 2011, XP-Framework Team
  */
 package org.apache.maven.plugins.xpframework.util;
 
@@ -118,9 +106,9 @@ public final class ExecuteUtils {
 
     // Debug
     if (cat != null) {
-      cat.info("- Executable        [" + executable.getAbsolutePath() + "]");
-      cat.info("- Arguments         [" + arguments.toString() + "]");
-      cat.info("- Working directory [" + workingDirectory + "]");
+      cat.debug("Executable        [" + executable.getAbsolutePath() + "]");
+      cat.debug("Arguments         [" + arguments.toString() + "]");
+      cat.debug("Working directory [" + workingDirectory + "]");
     }
 
     // Init command line
@@ -159,9 +147,9 @@ public final class ExecuteUtils {
 
     // Execute command
     try {
-      if (cat != null) cat.info("- Executing         [" + commandLine + "]");
+      if (cat != null) cat.debug("Executing [" + commandLine + "]");
       int retCode= executor.execute(commandLine, ExecuteUtils.getEnvVars());
-      if (cat != null) cat.info("- Retcode           [" + retCode + "]");
+      if (cat != null) cat.debug("Retcode [" + retCode + "]");
 
       // Check return code
       //if (retCode != 0) {

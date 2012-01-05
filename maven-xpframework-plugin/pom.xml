@@ -22,13 +22,13 @@
   <url>https://github.com/xp-framework/xp-contrib/maven-xpframework-plugin</url>
   <inceptionYear>2011</inceptionYear>
   <organization>
-    <name>1&amp;1 Internet AG</name>
-    <url>http://1and1.ro</url>
+    <name>XP-Framework Team</name>
+    <url>http://xp-framework.net/</url>
   </organization>
   <licenses>
     <license>
-      <name>GNU LGPL v3</name>
-      <url>www.gnu.org/licenses/lgpl.html</url>
+      <name>BSD</name>
+      <url>http://www.opensource.org/licenses/BSD-3-Clause</url>
       <distribution>repo</distribution>
     </license>
   </licenses>

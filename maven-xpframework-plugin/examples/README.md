@@ -14,13 +14,12 @@ Build and install the "lib-common" artifact
 Build the "app-hello" application artifact
 ------------------------------------------
 
-    ~/maven-xpframework-plugin $ cd ../app-hello
+    ~/maven-xpframework-plugin/examples/lib-common $ cd ../app-hello
     ~/maven-xpframework-plugin/examples/app-hello $ mvn package
 
 
-Build and run the uber-XAR
+Build and run the Uber-XAR
 --------------------------
 
     ~/maven-xpframework-plugin/examples/app-hello $ mvn -Dxpframework.xar.mergeDependencies package
     ~/maven-xpframework-plugin/examples/app-hello $ xp -xar target/app-hello-1.0-uber.xar
-

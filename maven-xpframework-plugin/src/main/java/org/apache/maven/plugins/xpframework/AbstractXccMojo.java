@@ -1,20 +1,8 @@
 /**
+ * This file is part of the XP-Framework
+ *
  * Maven XP-Framework plugin
- * Copyright (C) 2011 1&1 Internet AG
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * Copyright (c) 2011, XP-Framework Team
  */
 package org.apache.maven.plugins.xpframework;
 
@@ -158,10 +146,10 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
     Iterator i;
 
     // Debug info
-    getLog().info("- Source directory  [" + sourceDirectory + "]");
-    getLog().info("- Classes directory [" + classesDirectory + "]");
-    getLog().info("- Sourcepaths       [" + (this.sourcepaths == null ? "NULL" : this.sourcepaths.toString()) + "]");
-    getLog().info("- Classpaths        [" + (this.classpaths  == null ? "NULL" : this.classpaths.toString())  + "]");
+    getLog().debug("Source directory  [" + sourceDirectory + "]");
+    getLog().debug("Classes directory [" + classesDirectory + "]");
+    getLog().debug("Sourcepaths       [" + (this.sourcepaths == null ? "NULL" : this.sourcepaths.toString()) + "]");
+    getLog().debug("Classpaths        [" + (this.classpaths  == null ? "NULL" : this.classpaths.toString())  + "]");
 
     // Prepare xcc input
     XccRunnerInput input= new XccRunnerInput();
@@ -178,12 +166,12 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
     // Add xar dependencies to classpath
     Set projectArtifacts = this.project.getArtifacts();
     if (projectArtifacts.isEmpty()) {
-      getLog().info("- No dependencies found");
+      getLog().debug("No dependencies found");
     } else {
-      getLog().info("- Dependencies:");
+      getLog().info("Dependencies:");
       for (i = projectArtifacts.iterator(); i.hasNext(); ) {
         Artifact projectArtifact = (Artifact) i.next();
-        getLog().info("-> " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
+        getLog().info(" * " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
 
         // Add xar file to classpath
         if (!projectArtifact.getType().equalsIgnoreCase("xar")) continue;
@@ -270,11 +258,11 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
   protected void copyPhpSources(List<String> phpSourceRoots, File classesDirectory) throws MojoExecutionException {
 
     // Debug info
-    getLog().info("- PHP source directories [" + (phpSourceRoots == null ? "NULL" : phpSourceRoots.toString()) + "]");
+    getLog().debug("PHP source directories [" + (phpSourceRoots == null ? "NULL" : phpSourceRoots.toString()) + "]");
 
     // Ignore non-existing raw PHP files
     if (phpSourceRoots == null || phpSourceRoots.isEmpty()) {
-      getLog().info("- There are no PHP sources to copy");
+      getLog().info("There are no PHP sources to copy");
       return;
     }
 
@@ -286,7 +274,7 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
 
       // Check directory exists
       if (FileUtils.getAbsolutePath(phpSourceRoot, this.basedir) == null) {
-        getLog().info("- Skip non-existing PHP source directory [" + phpSourceRoot + "]");
+        getLog().info("Skip non-existing PHP source directory [" + phpSourceRoot + "]");
         continue;
       }
 

@@ -1,20 +1,8 @@
 /**
+ * This file is part of the XP-Framework
+ *
  * Maven XP-Framework plugin
- * Copyright (C) 2011 1&1 Internet AG
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * Copyright (c) 2011, XP-Framework Team
  */
 package org.apache.maven.plugins.xpframework;
 
@@ -136,8 +124,8 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
   protected void executeXar(File classesDirectory, File xarFile) throws MojoExecutionException {
 
     // Debug info
-    getLog().info("- Classes directory [" + classesDirectory + "]");
-    getLog().info("- XAR output file   [" + xarFile + "]");
+    getLog().debug("Classes directory [" + classesDirectory + "]");
+    getLog().info("XAR output file [" + xarFile + "]");
 
     // Prepare xar input
     XarRunnerInput input= new XarRunnerInput();
@@ -169,7 +157,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
 
     // Check XAR file was assembled
     if (!xarFile.exists()) {
-      throw new MojoExecutionException("Cannot find assembled xar file [" + xarFile.getAbsolutePath() + "]");
+      throw new MojoExecutionException("Cannot find assembled XAR file [" + xarFile.getAbsolutePath() + "]");
     }
 
     // Attach/set generated xar as project artifact
@@ -188,12 +176,12 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
     Iterator i;
 
     // Debug info
-    getLog().info("- Uber-XAR output file [" + uberXarFile + "]");
+    getLog().info("Uber-XAR output file [" + uberXarFile + "]");
 
     // Check no dependencies
     Set projectArtifacts = this.project.getArtifacts();
     if (projectArtifacts.isEmpty()) {
-      getLog().warn("- No dependencies found so no uber-xar will be assembled");
+      getLog().warn("No dependencies found so no Uber-XAR will be assembled");
       return;
     }
 
@@ -204,11 +192,11 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
     input.addSource(xarFile);
 
     // Add dependencies
-    getLog().info("- Dependencies:");
+    getLog().info("Dependencies:");
     i= projectArtifacts.iterator();
     while(i.hasNext()) {
       Artifact projectArtifact = (Artifact)i.next();
-      getLog().info("-> " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
+      getLog().info(" * " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
 
       if (!projectArtifact.getType().equalsIgnoreCase("xar")) continue;
       input.addSource(projectArtifact.getFile());
@@ -216,7 +204,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
 
     // Check no XAR dependencies
     if (input.sources.size() == 1) {
-      getLog().warn("- No dependencies found so no uber-xar will be assembled");
+      getLog().warn("No dependencies found so no Uber-XAR will be assembled");
       return;
     }
 
@@ -240,7 +228,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
 
     // Check uber-xar file was assembled
     if (!uberXarFile.exists()) {
-      throw new MojoExecutionException("Cannot find assembled uber-xar [" + uberXarFile.getAbsolutePath() + "]");
+      throw new MojoExecutionException("Cannot find assembled Uber-XAR [" + uberXarFile.getAbsolutePath() + "]");
     }
   }
 

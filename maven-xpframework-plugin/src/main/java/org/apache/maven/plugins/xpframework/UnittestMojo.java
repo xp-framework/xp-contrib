@@ -1,20 +1,8 @@
 /**
+ * This file is part of the XP-Framework
+ *
  * Maven XP-Framework plugin
- * Copyright (C) 2011 1&1 Internet AG
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * Copyright (c) 2011, XP-Framework Team
  */
 package org.apache.maven.plugins.xpframework;
 
@@ -145,17 +133,17 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
 
     // Skip tests alltogether?
     if (this.skip) {
-      getLog().info("- Not running tests (maven.test.skip)");
+      getLog().info("Not running tests (maven.test.skip)");
       return;
     }
 
     // Debug info
-    getLog().info("- Classes directory      [" + this.classesDirectory + "]");
-    getLog().info("- Test classes directory [" + this.testClassesDirectory + "]");
-    getLog().info("- Ini files directory    [" + this.iniDirectory + "]");
-    getLog().info("- Additional directories [" + (this.iniDirectories == null ? "NULL" : this.iniDirectories.toString()) + "]");
-    getLog().info("- Classpaths             [" + (this.classpaths == null ? "NULL" : this.classpaths.toString()) + "]");
-    getLog().info("- Test arguments         [" + (this.testArguments == null ? "NULL" : this.testArguments.toString()) + "]");
+    getLog().debug("Classes directory      [" + this.classesDirectory + "]");
+    getLog().debug("Test classes directory [" + this.testClassesDirectory + "]");
+    getLog().debug("Ini files directory    [" + this.iniDirectory + "]");
+    getLog().debug("Additional directories [" + (this.iniDirectories == null ? "NULL" : this.iniDirectories.toString()) + "]");
+    getLog().debug("Classpaths             [" + (this.classpaths == null ? "NULL" : this.classpaths.toString()) + "]");
+    getLog().debug("Test arguments         [" + (this.testArguments == null ? "NULL" : this.testArguments.toString()) + "]");
 
     // Prepare unittest input
     UnittestRunnerInput input= new UnittestRunnerInput();
@@ -168,12 +156,12 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
     // Add xar dependencies to classpath
     Set projectArtifacts = this.project.getArtifacts();
     if (projectArtifacts.isEmpty()) {
-      getLog().info("- No dependencies found");
+      getLog().debug("No dependencies found");
     } else {
-      getLog().info("- Dependencies:");
+      getLog().info("Dependencies:");
       for (Iterator it = projectArtifacts.iterator(); it.hasNext(); ) {
         Artifact projectArtifact = (Artifact) it.next();
-        getLog().info("-> " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
+        getLog().info(" * " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
 
         // Add xar file to classpath
         if (!projectArtifact.getType().equalsIgnoreCase("xar")) continue;
@@ -208,7 +196,7 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
 
     // Check no tests to run
     if (input.inifiles.size() == 0) {
-      getLog().info("- There are no tests to run");
+      getLog().info("There are no tests to run");
       getLog().info(LINE_SEPARATOR);
       return;
     }

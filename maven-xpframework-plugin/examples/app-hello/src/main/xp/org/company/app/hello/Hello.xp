@@ -1,0 +1,24 @@
+package org.company.app.hello;
+
+import org.company.lib.common.util.Greeting;
+import org.company.app.hello.GoodBye;
+
+/**
+ * Main class for the "hello" application
+ *
+ */
+public class Hello {
+
+  /**
+   * Class entry point
+   *
+   */
+  public static void main() {
+
+    // Call library
+    Greeting::sayHello();
+
+    // Call raw-PHP
+    GoodBye::main();
+  }
+}

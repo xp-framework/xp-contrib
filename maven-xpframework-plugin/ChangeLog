@@ -1,0 +1,24 @@
+Maven XP-Framework plugin ChangeLog
+=======================================================================
+
+Version 1.1, released ????-??-??
+-----------------------------------------------------------------------
+
+Heads up!
+~~~~~~~~~
+- Fix environment variables names: all in uppercase now
+- Fix coding style issues
+  (mrosoiu)
+
+Bugfixes
+~~~~~~~~
+Features
+~~~~~~~~
+
+Version 1.0, released 2011-08-10
+-----------------------------------------------------------------------
+
+Heads up!
+~~~~~~~~~
+- Initial release
+  (mrosoiu)

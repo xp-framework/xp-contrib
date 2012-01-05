@@ -1,0 +1,19 @@
+package org.company.lib.common.unittest.util;
+
+import unittest.TestCase;
+import org.company.lib.common.util.Greeting;
+
+/**
+ * Tests for org.company.lib.common.util.Greeting
+ *
+ */
+public class GreetingTest extends TestCase {
+
+  /**
+   * Test constructor
+   *
+   */
+  [@test] public void should_be_able_to_create_Greeting_instances () {
+    $this.assertClass(new Greeting(), 'org.company.lib.common.util.Greeting');
+  }
+}

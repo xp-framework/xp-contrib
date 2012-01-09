@@ -1,12 +1,12 @@
 Maven XP-Framework plugin
 =======================================================================
 
-Maven XP-Framework plugin is a Maven2 plugin to manage the lifecycle of
-an XP-Framework project:
+Maven XP-Framework plugin is a Maven 2/3 plugin to manage the lifecycle
+of an XP-Framework project:
 
-* compile
-* test
-* package
+* compile sources
+* run tests
+* package to XAR
 
 
 Build and install the Maven XP-Framework plugin
@@ -146,6 +146,7 @@ The maven-xpframework-plugin will handle all dependencies, no
 
 Uber-XARs
 ---------
+
 If you want to distribute "app-hello" with all dependencies bundled,
 just execute:
 

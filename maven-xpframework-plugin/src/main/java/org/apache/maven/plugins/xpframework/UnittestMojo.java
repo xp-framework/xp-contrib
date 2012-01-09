@@ -139,10 +139,11 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
     // Debug info
     getLog().debug("Classes directory      [" + this.classesDirectory + "]");
     getLog().debug("Test classes directory [" + this.testClassesDirectory + "]");
-    getLog().debug("Ini files directory    [" + this.iniDirectory + "]");
-    getLog().debug("Additional directories [" + (this.iniDirectories == null ? "NULL" : this.iniDirectories.toString()) + "]");
     getLog().debug("Classpaths             [" + (this.classpaths == null ? "NULL" : this.classpaths.toString()) + "]");
     getLog().debug("Test arguments         [" + (this.testArguments == null ? "NULL" : this.testArguments.toString()) + "]");
+
+    getLog().info("Ini files directory    [" + this.iniDirectory + "]");
+    getLog().info("Additional directories [" + (this.iniDirectories == null ? "NULL" : this.iniDirectories.toString()) + "]");
 
     // Prepare unittest input
     UnittestRunnerInput input= new UnittestRunnerInput();

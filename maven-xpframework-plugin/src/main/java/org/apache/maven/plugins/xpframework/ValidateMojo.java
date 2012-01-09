@@ -96,7 +96,7 @@ public class ValidateMojo extends AbstractXpFrameworkMojo {
     if (oldDirectory.endsWith("src" + File.separator + "test" + File.separator + "java")) {
 
       // Alter ${project.testSourceDirectory}
-      this.project.getBuild().setSourceDirectory(xpDirectory);
+      this.project.getBuild().setTestSourceDirectory(xpDirectory);
       getLog().debug("Set ${project.testSourceDirectory} to [" + xpDirectory + "]");
 
       // Maven2 limitation: changing ${project.testSourceDirectory} doesn't change ${project.testCompileSourceRoots}

@@ -18,8 +18,7 @@ import org.apache.maven.plugins.xpframework.util.FileUtils;
 /**
  * Run XP Framework XCC compiler
  *
- * @goal xcc
- * @execute lifecycle="xar" phase="compile"
+ * @goal compile
  * @requiresDependencyResolution
  */
 public class XccMojo extends AbstractXccMojo {

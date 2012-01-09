@@ -13,8 +13,7 @@ import org.apache.maven.plugins.xpframework.AbstractXarMojo;
 /**
  * Package classes and resources into a XAR package
  *
- * @goal xar
- * @execute lifecycle="xar" phase="package"
+ * @goal package
  * @requiresDependencyResolution
  */
 public class XarMojo extends AbstractXarMojo {

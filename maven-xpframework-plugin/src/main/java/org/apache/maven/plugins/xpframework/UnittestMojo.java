@@ -48,8 +48,7 @@ import org.apache.maven.plugins.xpframework.runners.input.UnittestRunnerInput;
  *   * {test.class.Name}::{testName}: A fully qualified class name and a test name
  *   * -e {test method sourcecode}: Evaluate source
  *
- * @goal unittest
- * @execute lifecycle="xar" phase="test"
+ * @goal test
  * @requiresDependencyResolution
  */
 public class UnittestMojo extends AbstractXpFrameworkMojo {

@@ -20,7 +20,6 @@ import org.apache.maven.plugins.xpframework.AbstractXpFrameworkMojo;
  * Check for XP Framework runners
  *
  * @goal validate
- * @execute lifecycle="xar" phase="validate"
  */
 public class ValidateMojo extends AbstractXpFrameworkMojo {
 

@@ -18,8 +18,8 @@
 
   <!-- More Project Information -->
   <name>Maven XP-Framework plugin</name>
-  <description>Maven2 plugin to manage the lifecycle of an XP-Framework project</description>
-  <url>https://github.com/xp-framework/xp-contrib/maven-xpframework-plugin</url>
+  <description>Maven 2/3 plugin to manage the lifecycle of an XP-Framework project</description>
+  <url>https://github.com/xp-framework/xp-contrib</url>
   <inceptionYear>2011</inceptionYear>
   <organization>
     <name>XP-Framework Team</name>
@@ -58,6 +58,7 @@
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
+        <version>1.9.0</version>
         <configuration>
           <header>src/etc/header.txt</header>
           <strictCheck>true</strictCheck>

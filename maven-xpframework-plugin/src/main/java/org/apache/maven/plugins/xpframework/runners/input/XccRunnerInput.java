@@ -69,6 +69,10 @@ public class XccRunnerInput {
   public File         outputdir;
   public List<File>   sources;
 
+  /**
+   * Constructor
+   *
+   */
   public XccRunnerInput() {
     this.verbose     = false;
     this.classpaths  = new ArrayList<File>();
@@ -79,6 +83,12 @@ public class XccRunnerInput {
     this.sources     = new ArrayList<File>();
   }
 
+  /**
+   * Setter for classpaths
+   *
+   * @param java.io.File classpath Classpath to add
+   * @return void
+   */
   public void addClasspath(File classpath) {
 
     // Invalid path
@@ -95,6 +105,12 @@ public class XccRunnerInput {
     this.classpaths.add(classpath);
   }
 
+  /**
+   * Setter for sourcepaths
+   *
+   * @param java.io.File sourcepath Sourcepath to add
+   * @return void
+   */
   public void addSourcepath(File sourcepath) {
 
     // Invalid path
@@ -111,6 +127,12 @@ public class XccRunnerInput {
     this.sourcepaths.add(sourcepath);
   }
 
+  /**
+   * Setter for profiles
+   *
+   * @param java.lang.String profile Profile to add
+   * @return void
+   */
   public void addProfile(String profile) {
 
     // Invalid profile
@@ -126,6 +148,12 @@ public class XccRunnerInput {
     this.profiles.add(profile);
   }
 
+  /**
+   * Setter for sources
+   *
+   * @param java.io.File source Source to add
+   * @return void
+   */
   public void addSource(File source) {
 
     // Invalid path

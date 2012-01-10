@@ -16,7 +16,7 @@ import org.apache.maven.plugins.xpframework.AbstractXccMojo;
 import org.apache.maven.plugins.xpframework.util.FileUtils;
 
 /**
- * Run XP Framework XCC compiler
+ * Run XP-Framework XCC compiler
  *
  * @goal compile
  * @requiresDependencyResolution
@@ -49,14 +49,19 @@ public class XccMojo extends AbstractXccMojo {
    */
   private File classesDirectory;
 
+  /**
+   * Assemble XAR archive
+   *
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When xar runner execution failed
+   */
   public void execute() throws MojoExecutionException {
-
     getLog().info(LINE_SEPARATOR);
     getLog().info("COPY PHP SOURCES");
     getLog().info(LINE_SEPARATOR);
 
     // Copy hard-coded-path raw PHP files
-    if (this.phpSourceRoots == null || this.phpSourceRoots.isEmpty()) {
+    if (null == this.phpSourceRoots || this.phpSourceRoots.isEmpty()) {
       this.phpSourceRoots= new ArrayList<String>();
       this.phpSourceRoots.add("src" + File.separator + "main" + File.separator + "php");
     }

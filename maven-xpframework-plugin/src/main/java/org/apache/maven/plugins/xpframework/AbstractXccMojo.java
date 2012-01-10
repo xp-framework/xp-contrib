@@ -128,6 +128,10 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
   /**
    * Execute XP-Framework XCC compiler
    *
+   * @param  java.util.List<String> sourceDirectories Source where .xp file are
+   * @param  java.io.File classesDirectory Destination where to output compiled classes
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When execution of the xcc runner failed
    */
   public void executeXcc(List<String> sourceDirectories, File classesDirectory) throws MojoExecutionException {
 
@@ -141,22 +145,26 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
   /**
    * Execute XP-Framework XCC compiler
    *
+   * @param  java.lang.String sourceDirectory Source where .xp file are
+   * @param  java.io.File classesDirectory Destination where to output compiled classes
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When execution of the xcc runner failed
    */
   public void executeXcc(String sourceDirectory, File classesDirectory) throws MojoExecutionException {
     Iterator i;
 
     // Debug info
-    getLog().debug("Source directory  [" + sourceDirectory + "]");
+    getLog().info("Source directory [" + sourceDirectory + "]");
     getLog().debug("Classes directory [" + classesDirectory + "]");
-    getLog().debug("Sourcepaths       [" + (this.sourcepaths == null ? "NULL" : this.sourcepaths.toString()) + "]");
-    getLog().debug("Classpaths        [" + (this.classpaths  == null ? "NULL" : this.classpaths.toString())  + "]");
+    getLog().debug("Sourcepaths       [" + (null == this.sourcepaths ? "NULL" : this.sourcepaths.toString()) + "]");
+    getLog().debug("Classpaths        [" + (null == this.classpaths  ? "NULL" : this.classpaths.toString())  + "]");
 
     // Prepare xcc input
     XccRunnerInput input= new XccRunnerInput();
     input.verbose= this.verbose;
 
     // Add classpaths
-    if (this.classpaths != null) {
+    if (null != this.classpaths) {
       i= this.classpaths.iterator();
       while (i.hasNext()) {
         input.addClasspath(new File((String)i.next()));
@@ -164,13 +172,13 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
     }
 
     // Add xar dependencies to classpath
-    Set projectArtifacts = this.project.getArtifacts();
+    Set projectArtifacts= this.project.getArtifacts();
     if (projectArtifacts.isEmpty()) {
       getLog().debug("No dependencies found");
     } else {
       getLog().info("Dependencies:");
-      for (i = projectArtifacts.iterator(); i.hasNext(); ) {
-        Artifact projectArtifact = (Artifact) i.next();
+      for (i= projectArtifacts.iterator(); i.hasNext(); ) {
+        Artifact projectArtifact= (Artifact) i.next();
         getLog().info(" * " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
 
         // Add xar file to classpath
@@ -180,7 +188,7 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
     }
 
     // Add sourcepaths
-    if (this.sourcepaths != null) {
+    if (null != this.sourcepaths) {
       i= this.sourcepaths.iterator();
       while (i.hasNext()) {
         input.addSourcepath(new File((String)i.next()));
@@ -191,7 +199,7 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
     input.emitter= this.emitter;
 
     // Add profiles
-    if (this.profiles != null) {
+    if (null != this.profiles) {
       i= this.profiles.iterator();
       while (i.hasNext()) {
         input.addProfile((String)i.next());
@@ -225,13 +233,16 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
 
   /**
    * Add an entry to sourcepaths
+   *
+   * @param  java.lang.String sourcepath
+   * @return void
    */
   protected void addSourcepath(String sourcepath) {
-    if (this.sourcepaths == null) this.sourcepaths= new ArrayList<String>();
+    if (null == this.sourcepaths) this.sourcepaths= new ArrayList<String>();
 
     // Make sourcepath absolute
     String absoluteSourcepath= FileUtils.getAbsolutePath(sourcepath, this.basedir);
-    if (absoluteSourcepath == null) return;
+    if (null == absoluteSourcepath) return;
 
     // Add to sourcepaths
     this.sourcepaths.add(absoluteSourcepath);
@@ -239,13 +250,16 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
 
   /**
    * Add an entry to classpaths
+   *
+   * @param  java.lang.String classpath
+   * @return void
    */
   protected void addClasspath(String classpath) {
-    if (this.classpaths == null) this.classpaths= new ArrayList<String>();
+    if (null == this.classpaths) this.classpaths= new ArrayList<String>();
 
     // Make classpath absolute
     String absoluteClasspath= FileUtils.getAbsolutePath(classpath, this.basedir);
-    if (absoluteClasspath == null) return;
+    if (null == absoluteClasspath) return;
 
     // Add to sourcepaths
     this.classpaths.add(absoluteClasspath);
@@ -254,14 +268,18 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
   /**
    * Copy "/src/main|test/php/**.class.php" files "/target/classes|test-classes/"
    *
+   * @param  java.util.List<String> phpSourceRoots Source where raw PHP files are
+   * @param  java.io.File classesDirectory Destination where to copy PHP files
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When copy of the PHP source files failed
    */
   protected void copyPhpSources(List<String> phpSourceRoots, File classesDirectory) throws MojoExecutionException {
 
     // Debug info
-    getLog().debug("PHP source directories [" + (phpSourceRoots == null ? "NULL" : phpSourceRoots.toString()) + "]");
+    getLog().debug("PHP source directories [" + (null == phpSourceRoots ? "NULL" : phpSourceRoots.toString()) + "]");
 
     // Ignore non-existing raw PHP files
-    if (phpSourceRoots == null || phpSourceRoots.isEmpty()) {
+    if (null == phpSourceRoots || phpSourceRoots.isEmpty()) {
       getLog().info("There are no PHP sources to copy");
       return;
     }
@@ -273,7 +291,7 @@ public abstract class AbstractXccMojo extends AbstractXpFrameworkMojo {
     for (String phpSourceRoot : phpSourceRoots) {
 
       // Check directory exists
-      if (FileUtils.getAbsolutePath(phpSourceRoot, this.basedir) == null) {
+      if (null == FileUtils.getAbsolutePath(phpSourceRoot, this.basedir)) {
         getLog().info("Skip non-existing PHP source directory [" + phpSourceRoot + "]");
         continue;
       }

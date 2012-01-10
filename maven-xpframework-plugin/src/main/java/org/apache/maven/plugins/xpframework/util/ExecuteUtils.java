@@ -44,11 +44,14 @@ public final class ExecuteUtils {
   }
 
   /**
-   * Gets the shell environment variables for this process. Note that the returned mapping from variable names
-   * to values will always be case-sensitive regardless of the platform, i.e. getSystemEnvVars().get("path")
-   * and getSystemEnvVars().get("PATH") will in general return different values. However, on platforms with
-   * case-insensitive environment variables like Windows, all variable names will be normalized to upper case
+   * Gets the shell environment variables for this process
    *
+   * Note that the returned mapping from variable names to values will always be case-sensitive
+   * regardless of the platform, i.e. getSystemEnvVars().get("path") and getSystemEnvVars().get("PATH")
+   * will in general return different values. However, on platforms with case-insensitive environment
+   * variables like Windows, all variable names will be normalized to upper case
+   *
+   * @return java.util.Map List of environment variables
    */
   public static Map getEnvVars() throws IOException {
     Map retVal= new HashMap();
@@ -63,6 +66,10 @@ public final class ExecuteUtils {
    * Get absolute path of the executable by looking in the "PATH" environment variable
    *
    * E.g.: "ls" -> "/bin/ls"
+   *
+   * @param  java.lang.String executable Executable name
+   * @return java.io.File Executable absolute path
+   * @throws java.io.FileNotFoundException When cannot get executable absolute path
    */
   public static File getExecutable(String executable) throws FileNotFoundException {
     String executableFilename= executable;
@@ -75,7 +82,7 @@ public final class ExecuteUtils {
       throw new FileNotFoundException("Cannot get PATH");
     }
 
-    if (path == null || path.trim().equals("")) {
+    if (null == path || path.trim().equals("")) {
       throw new FileNotFoundException("PATH is empty");
     }
 
@@ -100,7 +107,11 @@ public final class ExecuteUtils {
   /**
    * Execute the specified executable with the specified arguments
    *
-   * @throws RunnerException when the shit hits the fan
+   * @param  java.io.File executable Executable to run
+   * @param  java.util.List<String> argument Executable arguments
+   * @param  java.io.File workingDirectory Executable working directory
+   * @param  org.apache.maven.plugin.logging.Log cat Log trace
+   * @throws RunnerException When command execution failed
    */
   public static void executeCommand(File executable, List<String> arguments, File workingDirectory, Log cat) throws ExecutionException {
 
@@ -147,9 +158,9 @@ public final class ExecuteUtils {
 
     // Execute command
     try {
-      if (cat != null) cat.debug("Executing [" + commandLine + "]");
+      if (null != cat) cat.debug("Executing [" + commandLine + "]");
       int retCode= executor.execute(commandLine, ExecuteUtils.getEnvVars());
-      if (cat != null) cat.debug("Retcode [" + retCode + "]");
+      if (null != cat) cat.debug("Retcode [" + retCode + "]");
 
       // Check return code
       //if (retCode != 0) {
@@ -169,6 +180,10 @@ public final class ExecuteUtils {
    * All arguments to executeCommand() are filtered by this function
    *
    * Note: most likely str is not filepath at all, hence the .exists() test
+   *
+   * @param  java.lang.String str
+   * @param  java.io.File workingDirectory
+   * @return java.lang.String
    */
   public static String getRelativeToWorkingDirectory(String str, File workingDirectory) {
     File file= new File(str);

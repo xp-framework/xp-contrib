@@ -91,6 +91,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
 
   /**
    * @component
+   *
    */
   protected MavenProjectHelper projectHelper;
 
@@ -120,6 +121,10 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
   /**
    * Assemble XAR archive
    *
+   * @param  java.io.File classesDirectory Directory where the compile files are
+   * @param  java.io.File xarFile Output XAR file location
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When execution of the xar runner failed
    */
   protected void executeXar(File classesDirectory, File xarFile) throws MojoExecutionException {
 
@@ -161,7 +166,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
     }
 
     // Attach/set generated xar as project artifact
-    if (this.classifier != null) {
+    if (null != this.classifier) {
       this.projectHelper.attachArtifact(this.project, "xar", this.classifier, xarFile);
     } else {
       this.project.getArtifact().setFile(xarFile);
@@ -169,8 +174,12 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
   }
 
   /**
-   * Assemble uber-XAR archive
+   * Assemble Uber-XAR archive
    *
+   * @param  java.io.File xarFile Original XAR file withour dependencies
+   * @param  java.io.File uberXarFile Output Uber-XAR file location
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When execution of the xar runner failed
    */
   protected void executeUberXar(File xarFile, File uberXarFile) throws MojoExecutionException {
     Iterator i;
@@ -179,7 +188,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
     getLog().info("Uber-XAR output file [" + uberXarFile + "]");
 
     // Check no dependencies
-    Set projectArtifacts = this.project.getArtifacts();
+    Set projectArtifacts= this.project.getArtifacts();
     if (projectArtifacts.isEmpty()) {
       getLog().warn("No dependencies found so no Uber-XAR will be assembled");
       return;
@@ -195,7 +204,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
     getLog().info("Dependencies:");
     i= projectArtifacts.iterator();
     while(i.hasNext()) {
-      Artifact projectArtifact = (Artifact)i.next();
+      Artifact projectArtifact= (Artifact)i.next();
       getLog().info(" * " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
 
       if (!projectArtifact.getType().equalsIgnoreCase("xar")) continue;
@@ -203,7 +212,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
     }
 
     // Check no XAR dependencies
-    if (input.sources.size() == 1) {
+    if (1 == input.sources.size()) {
       getLog().warn("No dependencies found so no Uber-XAR will be assembled");
       return;
     }
@@ -226,7 +235,7 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
       throw new MojoExecutionException("Execution of xar runner failed", ex);
     }
 
-    // Check uber-xar file was assembled
+    // Check Uber-XAR file was assembled
     if (!uberXarFile.exists()) {
       throw new MojoExecutionException("Cannot find assembled Uber-XAR [" + uberXarFile.getAbsolutePath() + "]");
     }
@@ -235,10 +244,10 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
   /**
    * Returns the XAR file to generate, based on an optional classifier
    *
-   * @param basedir    the output directory
-   * @param finalName  the name of the ear file
-   * @param classifier an optional classifier
-   * @return the XAR file to generate
+   * @param java.io.File basedir Project target directory
+   * @param java.io.File finalName The name of the XAR file
+   * @param java.lang.String classifier An optional classifier
+   * @return java.io.File Location where to generate the output XAR file
    */
   protected static File getXarFile(File basedir, String finalName, String classifier) {
     if (null == classifier || classifier.length() <= 0) {
@@ -248,12 +257,12 @@ public abstract class AbstractXarMojo extends AbstractXpFrameworkMojo {
   }
 
   /**
-   * Returns the uber-XAR file to generate, based on an optional classifier
+   * Returns the Uber-XAR file to generate, based on an optional classifier
    *
-   * @param basedir    the output directory
-   * @param finalName  the name of the ear file
-   * @param classifier an optional classifier
-   * @return the XAR file to generate
+   * @param java.io.File basedir Project target directory
+   * @param java.io.File finalName The name of the XAR file
+   * @param java.lang.String classifier An optional classifier
+   * @return java.io.File Location where to generate the output Uber-XAR file
    */
   protected static File getUberXarFile(File basedir, String finalName, String classifier) {
     if (null == classifier || classifier.length() <= 0) {

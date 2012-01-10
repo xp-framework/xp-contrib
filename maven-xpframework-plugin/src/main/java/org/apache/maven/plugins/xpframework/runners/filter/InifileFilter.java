@@ -14,9 +14,19 @@ import java.io.FileFilter;
  *
  */
 public class InifileFilter implements FileFilter {
+
+  /**
+   * {@inheritDoc}
+   *
+   */
   public boolean accept(File file) {
     return file.getName().endsWith(".ini") && file.exists() && file.isFile();
   }
+
+  /**
+   * {@inheritDoc}
+   *
+   */
   public String getDescription() {
     return "INI files";
   }

@@ -17,13 +17,25 @@ import org.apache.maven.plugins.xpframework.runners.AbstractRunner;
 import org.apache.maven.plugins.xpframework.runners.RunnerException;
 import org.apache.maven.plugins.xpframework.runners.input.XccRunnerInput;
 
+/**
+ * Wrapper over XP-Framework "unittest" runner
+ *
+ */
 public class XccRunner extends AbstractRunner {
   XccRunnerInput input;
 
+  /**
+   * Constructor
+   *
+   */
   public XccRunner(XccRunnerInput input) {
     this.input= input;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   */
   public void execute() throws RunnerException {
     Iterator i;
 
@@ -56,7 +68,7 @@ public class XccRunner extends AbstractRunner {
     }
 
     // Add emitter (-e)
-    if (this.input.emitter != null && this.input.emitter.trim().length() != 0) {
+    if (null != this.input.emitter && 0 != this.input.emitter.trim().length()) {
       arguments.add("-e");
       arguments.add(this.input.emitter);
     }
@@ -75,7 +87,7 @@ public class XccRunner extends AbstractRunner {
     }
 
     // Add output (-o)
-    if (this.input.outputdir == null) {
+    if (null == this.input.outputdir) {
       throw new RunnerException("xcc outputdir not set");
     }
     arguments.add("-o");

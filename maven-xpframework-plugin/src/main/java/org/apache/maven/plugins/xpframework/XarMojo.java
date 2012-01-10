@@ -34,6 +34,12 @@ public class XarMojo extends AbstractXarMojo {
    */
   protected boolean mergeDependencies;
 
+  /**
+   * Compile sources
+   *
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When xcc runner execution failed
+   */
   public void execute() throws MojoExecutionException {
     getLog().info(LINE_SEPARATOR);
     getLog().info("BUILD XAR PACKAGE");

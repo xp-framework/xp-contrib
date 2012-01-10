@@ -48,13 +48,23 @@ public class UnittestRunnerInput {
   public List<String> arguments;
   public List<File>   inifiles;
 
+  /**
+   * Constructor
+   *
+   */
   public UnittestRunnerInput() {
-    this.verbose     = false;
-    this.classpaths  = new ArrayList<File>();
-    this.arguments   = new ArrayList<String>();
-    this.inifiles    = new ArrayList<File>();
+    this.verbose    = false;
+    this.classpaths = new ArrayList<File>();
+    this.arguments  = new ArrayList<String>();
+    this.inifiles   = new ArrayList<File>();
   }
 
+  /**
+   * Setter for classpaths
+   *
+   * @param  java.io.File classpath Element to add to classpath
+   * @return void
+   */
   public void addClasspath(File classpath) {
 
     // Invalid path
@@ -71,10 +81,16 @@ public class UnittestRunnerInput {
     this.classpaths.add(classpath);
   }
 
+  /**
+   * Setter for arguments
+   *
+   * @param  java.lang.String argument Argument to add
+   * @return void
+   */
   public void addArgument(String argument) {
 
     // Invalid argument
-    if (argument == null || argument.trim().length() == 0) return;
+    if (null == argument || 0 == argument.trim().length()) return;
 
     // Check argument not added twice
     Iterator i= this.arguments.iterator();
@@ -86,6 +102,12 @@ public class UnittestRunnerInput {
     this.arguments.add(argument);
   }
 
+  /**
+   * Setter for inifiles
+   *
+   * @param  java.io.File inifile Inifile to add to list
+   * @return void
+   */
   public void addInifile(File inifile) {
 
     // Invalid inifile
@@ -102,6 +124,12 @@ public class UnittestRunnerInput {
     this.inifiles.add(inifile);
   }
 
+  /**
+   * Setter for inifiles
+   *
+   * @param  java.io.File inifileDirectory Inifile directory to add to list
+   * @return void
+   */
   public void addInifileDirectory(File inifileDirectory) {
 
     // Invalid inifile directory

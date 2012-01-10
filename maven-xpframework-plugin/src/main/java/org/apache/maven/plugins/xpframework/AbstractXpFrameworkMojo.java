@@ -15,7 +15,7 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
 
 /**
- * Abstract Mojo - Baseclass for all mojo's
+ * Abstract Mojo - Base class for all MOJO's
  *
  */
 public abstract class AbstractXpFrameworkMojo extends AbstractMojo {

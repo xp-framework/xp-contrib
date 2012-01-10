@@ -21,32 +21,7 @@ import org.apache.maven.plugins.xpframework.runners.UnittestRunner;
 import org.apache.maven.plugins.xpframework.runners.input.UnittestRunnerInput;
 
 /**
- * Unittest command
- * ~~~~~~~~~~~~~~~~
- *
- * Usage:
- * ========================================================================
- *   unittest [options] test [test [test...]]
- * ========================================================================
- *
- * Options is one of:
- *
- *   * -v : Be verbose
- *   * -cp: Add classpath elements
- *   * -a {argument}: Define argument to pass to tests (may be used
- *     multiple times)
- *   * -l {listener.class.Name} {output}, where output is either "-"
- *     for console output or a file name
- *
- * Tests can be one or more of:
- *
- *   * {tests}.ini: A configuration file
- *   * {package.name}.*: All classes inside a given package
- *   * {package.name}.**: All classes inside a given package and all subpackages
- *   * {Test}.class.php: A class file
- *   * {test.class.Name}: A fully qualified class name
- *   * {test.class.Name}::{testName}: A fully qualified class name and a test name
- *   * -e {test method sourcecode}: Evaluate source
+ * Run unittests
  *
  * @goal test
  * @requiresDependencyResolution
@@ -122,6 +97,12 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
    */
   private File testClassesDirectory;
 
+  /**
+   * Assemble test XAR archive
+   *
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When unittest runner execution failed
+   */
   public void execute() throws MojoExecutionException {
     Iterator i;
 
@@ -137,13 +118,12 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
     }
 
     // Debug info
+    getLog().info("Ini files directory [" + this.iniDirectory + "]");
+    getLog().debug("Additional directories [" + (null == this.iniDirectories ? "NULL" : this.iniDirectories.toString()) + "]");
     getLog().debug("Classes directory      [" + this.classesDirectory + "]");
     getLog().debug("Test classes directory [" + this.testClassesDirectory + "]");
-    getLog().debug("Classpaths             [" + (this.classpaths == null ? "NULL" : this.classpaths.toString()) + "]");
-    getLog().debug("Test arguments         [" + (this.testArguments == null ? "NULL" : this.testArguments.toString()) + "]");
-
-    getLog().info("Ini files directory    [" + this.iniDirectory + "]");
-    getLog().info("Additional directories [" + (this.iniDirectories == null ? "NULL" : this.iniDirectories.toString()) + "]");
+    getLog().debug("Classpaths             [" + (null == this.classpaths ? "NULL" : this.classpaths.toString()) + "]");
+    getLog().debug("Test arguments         [" + (null == this.testArguments ? "NULL" : this.testArguments.toString()) + "]");
 
     // Prepare unittest input
     UnittestRunnerInput input= new UnittestRunnerInput();
@@ -154,13 +134,13 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
     input.addClasspath(classesDirectory);
 
     // Add xar dependencies to classpath
-    Set projectArtifacts = this.project.getArtifacts();
+    Set projectArtifacts= this.project.getArtifacts();
     if (projectArtifacts.isEmpty()) {
       getLog().debug("No dependencies found");
     } else {
       getLog().info("Dependencies:");
-      for (Iterator it = projectArtifacts.iterator(); it.hasNext(); ) {
-        Artifact projectArtifact = (Artifact) it.next();
+      for (Iterator it= projectArtifacts.iterator(); it.hasNext(); ) {
+        Artifact projectArtifact= (Artifact) it.next();
         getLog().info(" * " + projectArtifact.getType() + " [" + projectArtifact.getFile().getAbsolutePath() + "]");
 
         // Add xar file to classpath
@@ -170,7 +150,7 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
     }
 
     // Add pom-defined classpaths
-    if (this.classpaths != null) {
+    if (null != this.classpaths) {
       i= this.classpaths.iterator();
       while (i.hasNext()) {
         input.addClasspath(new File((String)i.next()));
@@ -178,7 +158,7 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
     }
 
     // Add arguments
-    if (this.testArguments != null) {
+    if (null != this.testArguments) {
       i= this.testArguments.iterator();
       while (i.hasNext()) {
         input.addArgument((String)i.next());
@@ -187,7 +167,7 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
 
     // Inifiles
     input.addInifileDirectory(this.iniDirectory);
-    if (this.iniDirectories != null) {
+    if (null != this.iniDirectories) {
       i= this.iniDirectories.iterator();
       while (i.hasNext()) {
         input.addInifileDirectory((File)i.next());
@@ -195,7 +175,7 @@ public class UnittestMojo extends AbstractXpFrameworkMojo {
     }
 
     // Check no tests to run
-    if (input.inifiles.size() == 0) {
+    if (0 == input.inifiles.size()) {
       getLog().info("There are no tests to run");
       getLog().info(LINE_SEPARATOR);
       return;

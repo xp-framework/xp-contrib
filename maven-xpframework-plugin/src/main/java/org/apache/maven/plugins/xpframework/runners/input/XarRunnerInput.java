@@ -85,11 +85,21 @@ public class XarRunnerInput {
   public List<File>                sources;
   public File                      outputFile;
 
+  /**
+   * Constructor
+   *
+   */
   public XarRunnerInput() {
     this.operation = XarRunnerInput.operations.CREATE;
     this.sources   = new ArrayList<File>();
   }
 
+  /**
+   * Setter for sources
+   *
+   * @param  java.io.File source Source to add
+   * @return void
+   */
   public void addSource(File source) {
 
     // Invalid path

@@ -9,6 +9,7 @@ package org.apache.maven.plugins.xpframework;
 import java.io.File;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.xpframework.AbstractXarMojo;
+
 /**
  * Package test classes and resources into a XAR package
  *
@@ -41,6 +42,12 @@ public class TestXarMojo extends AbstractXarMojo {
    */
   protected boolean mergeDependencies;
 
+  /**
+   * Assemble test XAR archive
+   *
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When xar runner execution failed
+   */
   public void execute() throws MojoExecutionException {
     getLog().info(LINE_SEPARATOR);
     getLog().info("BUILD TEST XAR PACKAGE");

@@ -6,10 +6,24 @@
  */
 package org.apache.maven.plugins.xpframework.runners;
 
+/**
+ * Runner exeception
+ *
+ */
 public class RunnerException extends java.lang.Exception {
+
+  /**
+   * Constructor
+   *
+   */
   public RunnerException(java.lang.String message) {
     super(message);
   }
+
+  /**
+   * Constructor
+   *
+   */
   public RunnerException(java.lang.String message, java.lang.Throwable cause) {
     super(message, cause);
   }

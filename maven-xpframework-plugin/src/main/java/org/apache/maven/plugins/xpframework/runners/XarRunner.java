@@ -17,13 +17,25 @@ import org.apache.maven.plugins.xpframework.runners.AbstractRunner;
 import org.apache.maven.plugins.xpframework.runners.RunnerException;
 import org.apache.maven.plugins.xpframework.runners.input.XarRunnerInput;
 
+/**
+ * Wrapper over XP-Framework "xar" runner
+ *
+ */
 public class XarRunner extends AbstractRunner {
   XarRunnerInput input;
 
+  /**
+   * Constructor
+   *
+   */
   public XarRunner(XarRunnerInput input) {
     this.input= input;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   */
   public void execute() throws RunnerException {
     Iterator i;
 
@@ -56,7 +68,7 @@ public class XarRunner extends AbstractRunner {
     }
 
     // Add output file
-    if (input.outputFile == null) {
+    if (null == input.outputFile) {
       throw new RunnerException("Output xar file not set");
     }
     arguments.add(input.outputFile.getAbsolutePath());

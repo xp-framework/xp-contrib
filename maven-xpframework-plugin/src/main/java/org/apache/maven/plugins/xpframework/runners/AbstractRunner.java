@@ -16,34 +16,72 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.xpframework.runners.RunnerException;
 import org.apache.maven.plugins.xpframework.util.ExecuteUtils;
 
+/**
+ * Base class for all XP-Framework runners
+ *
+ */
 public abstract class AbstractRunner {
   private Log cat;
   private File workingDirectory;
 
-  // Abstract function
+  /**
+   * Execute this runner
+   *
+   * @throws org.apache.maven.plugins.xpframework.runners.RunnerException When runner execution failed
+   */
   public abstract void execute() throws RunnerException;
 
-  // Logging
+  /**
+   * Set logging trace
+   *
+   * @param  org.apache.maven.plugin.logging.Log cat
+   * @return void
+   */
   public void setTrace(Log cat) {
     this.cat= cat;
   }
 
+  /**
+   * Output an INFO message to log
+   *
+   * @param  java.lang.String msg Message to output
+   * @return void
+   */
   protected void info(String msg) {
-    if (this.cat == null) return;
+    if (null == this.cat) return;
     this.cat.info(msg);
   }
 
+  /**
+   * Output an ERROR message to log
+   *
+   * @param  java.lang.String msg Message to output
+   * @return void
+   */
   protected void error(String msg) {
-    if (this.cat == null) return;
+    if (null == this.cat) return;
     this.cat.error(msg);
   }
 
+  /**
+   * Output an ERROR message to log
+   *
+   * @param  java.lang.String msg Message to output
+   * @param  java.lang.Throwable ex Caught exception
+   * @return void
+   */
   protected void error(String msg, Throwable ex) {
-    if (this.cat == null) return;
+    if (null == this.cat) return;
     this.cat.error(msg, ex);
   }
 
-  // Set working directory
+  /**
+   * Set runner working directory
+   *
+   * @param  java.io.File workingDirectory
+   * @return void
+   * @throws java.io.FileNotFoundException When working directory does not exist
+   */
   public void setWorkingDirectory(File workingDirectory) throws FileNotFoundException {
 
     // Check directory exists
@@ -58,9 +96,10 @@ public abstract class AbstractRunner {
   /**
    * Get working directory; default to current directory
    *
+   * @return java.io.File
    */
   public File getWorkingDirectory() {
-    if (this.workingDirectory == null || !this.workingDirectory.exists()) {
+    if (null == this.workingDirectory || !this.workingDirectory.exists()) {
       this.workingDirectory= new File(System.getProperty("user.dir"));
     }
     return this.workingDirectory;
@@ -69,7 +108,10 @@ public abstract class AbstractRunner {
   /**
    * Execute the specified executable with the specified arguments
    *
-   * @throws RunnerException when the shit hits the fan
+   * @param  java.io.File Executable to run
+   * @param  java.util.List<String> arguments Executable arguments
+   * @return void
+   * @throws RunnerException When execution failed
    */
   protected void executeCommand(File executable, List<String> arguments) throws RunnerException {
     try {

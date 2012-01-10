@@ -26,9 +26,12 @@ public final class FileUtils {
   /**
    * Build an absolute path from the specified relative path
    *
+   * @param  java.lang.String str
+   * @param  java.io.File workingDirectory
+   * @return java.lang.String
    */
   public static String getAbsolutePath(String str, File workingDirectory) {
-    if (str == null) return null;
+    if (null == str) return null;
 
     // Make it absolute
     File f= new File(str);
@@ -44,12 +47,14 @@ public final class FileUtils {
   /**
    * Filter a list of directories and remove empty ones
    *
+   * @param  java.util.List<String> directories Source directories
+   * @return java.util.List<String> Filtered directories
    */
   public static List<String> filterEmptyDirectories(List<String> directories) {
     List<String> retVal= new ArrayList<String>();
 
     // Sanity check
-    if (directories == null || directories.isEmpty()) return retVal;
+    if (null == directories || directories.isEmpty()) return retVal;
 
     // Copy as I may be modifying it
     for (String directory : directories) {
@@ -60,7 +65,7 @@ public final class FileUtils {
 
       // Check directory is not empty
       String[] files = f.list();
-      if (files.length == 0) continue;
+      if (0 == files.length) continue;
 
       // Add to return value
       retVal.add(f.getAbsolutePath());

@@ -17,13 +17,25 @@ import org.apache.maven.plugins.xpframework.runners.AbstractRunner;
 import org.apache.maven.plugins.xpframework.runners.RunnerException;
 import org.apache.maven.plugins.xpframework.runners.input.UnittestRunnerInput;
 
+/**
+ * Wrapper over XP-Framework "unittest" runner
+ *
+ */
 public class UnittestRunner extends AbstractRunner {
   UnittestRunnerInput input;
 
+  /**
+   * Constructor
+   *
+   */
   public UnittestRunner(UnittestRunnerInput input) {
     this.input= input;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   */
   public void execute() throws RunnerException {
     Iterator i;
 

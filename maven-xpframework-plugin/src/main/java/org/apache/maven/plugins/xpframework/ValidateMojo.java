@@ -17,7 +17,7 @@ import org.apache.maven.plugins.xpframework.util.ExecuteUtils;
 import org.apache.maven.plugins.xpframework.AbstractXpFrameworkMojo;
 
 /**
- * Check for XP Framework runners
+ * Check for the presence of XP-Framework runners
  *
  * @goal validate
  */

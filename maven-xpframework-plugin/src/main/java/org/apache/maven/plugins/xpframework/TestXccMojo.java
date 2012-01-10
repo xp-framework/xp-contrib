@@ -66,6 +66,12 @@ public class TestXccMojo extends AbstractXccMojo {
    */
   private File classesDirectory;
 
+  /**
+   * Compile test sources
+   *
+   * @return void
+   * @throws org.apache.maven.plugin.MojoExecutionException When xcc runner execution failed
+   */
   public void execute() throws MojoExecutionException {
 
     // Skip tests alltogether?
@@ -79,7 +85,7 @@ public class TestXccMojo extends AbstractXccMojo {
     getLog().info(LINE_SEPARATOR);
 
     // Copy hard-coded-path raw PHP files
-    if (this.testPhpSourceRoots == null || this.testPhpSourceRoots.isEmpty()) {
+    if (null == this.testPhpSourceRoots || this.testPhpSourceRoots.isEmpty()) {
       this.testPhpSourceRoots= new ArrayList<String>();
       this.testPhpSourceRoots.add("src" + File.separator + "test" + File.separator + "php");
     }
@@ -111,7 +117,6 @@ public class TestXccMojo extends AbstractXccMojo {
 
     // Execute xcc
     this.executeXcc(this.testCompileSourceRoots, this.testClassesDirectory);
-
     getLog().info(LINE_SEPARATOR);
   }
 }

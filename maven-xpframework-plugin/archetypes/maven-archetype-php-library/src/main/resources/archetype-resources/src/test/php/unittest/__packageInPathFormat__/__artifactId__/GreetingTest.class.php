@@ -24,7 +24,7 @@
      */
     #[@test, @expect('lang.IllegalArgumentException')]
     public function should_not_accept_null_names() {
-      Greeting::getGreeting(null);
+      Greeting::getGreeting(NULL);
     }
 
     /**

@@ -20,7 +20,7 @@ class Greeting extends Object {
   public static function getGreeting($name) {
 
     // Sanity check
-    if (null === $name || '' === $name) {
+    if (NULL === $name || '' === $name) {
       throw new IllegalArgumentException('The provided name is invalid');
     }
 

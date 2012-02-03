@@ -1,0 +1,62 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.mutation.php;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.Mutation;
+
+import native standard.substr;
+import native standard.array_pop;
+
+/**
+ * Define 5 types of comments:
+ * - Perl-style comments  -- A_PERL_COMMENT #...
+ * - Annotations comments -- A_ANNOTATION: #[...]
+ * - One-line comments    -- T_COMMENT //...
+ * - Multi-line comments  -- A_MULTILINE_COMMENT /* ...
+ * - API doc comments     -- T_DOC_COMMENT /** ...
+ *
+ * Note: API doc comments already come with a different name
+ *       from token_get_all() so we don't need to mutate them
+ *
+ */
+public class CommentTypeMutation implements Mutation {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public void apply(Deed $deed) {
+    if ('T_COMMENT' !== $deed.name) return;
+
+    // Annotation comment: #[...]
+    if ('#[' === substr($deed.description, 0, 2)) {
+
+      // Rename Deed
+      $deed.name= 'A_ANNOTATION';
+
+      // Rename all following Perl-style comments to A_ANNOTATION
+      $next= $deed;
+      while (
+        null !== ($next= DeedUtils::getNextNonWhitespace($next, true)) &&
+        'T_COMMENT' === $next.name &&
+        '#' === substr($next.description, 0, 1)
+      ) {
+        $next.name= 'A_ANNOTATION';
+      }
+
+    // Regular Perl-style comment: #...
+    } else if ('#' === substr($deed.description, 0, 1)) {
+      $deed.name= 'A_PERL_COMMENT';
+
+    // Multi-line comment
+    } else if ('/*' === substr($deed.description, 0, 2)) {
+      $deed.name= 'A_MULTILINE_COMMENT';
+    }
+  }
+}

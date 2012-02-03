@@ -1,0 +1,39 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.statement;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.statement.NoSuperGlobalsPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.statement.NoSuperGlobalsPhpTruth')]
+public class NoSuperGlobalsPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch super-globals usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_require_usage() {
+    $sins= $this.getSins('<?php
+      echo $GLOBALS;
+      echo $_SERVER;
+      echo $_REQUEST;
+      echo $_GET;
+      echo $_POST;
+      echo $_FILES;
+      echo $_SESSION;
+      echo $_COOKIE;
+      echo $_ENV;
+    ?>');
+    $this.assertEquals(9, $sins.length);
+  }
+}

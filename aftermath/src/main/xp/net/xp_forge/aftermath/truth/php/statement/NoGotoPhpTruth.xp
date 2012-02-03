@@ -1,0 +1,31 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.statement;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Forbids the use of the goto control statement
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.statement.NoGotoPhpTruthTest
+ */
+[
+  @severity('blocker'),
+  @name('Forbid goto usage'),
+  @message('Usage of the goto control statement is forbidden')
+]
+public class NoGotoPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return 'T_GOTO' === $deed.name;
+  }
+}

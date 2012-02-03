@@ -1,0 +1,36 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.comment;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Forbids usage of Perl-style comments
+ *
+ * # This is a Perl comment
+ *
+ * Exception: annotation comments:
+ *  - #[...]
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.comment.NoPerlCommentPhpTruthTest
+ */
+[
+  @severity('major'),
+  @name('Forbid Perl-style comments'),
+  @message('Perl-style comments are forbidden')
+]
+public class NoPerlCommentPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return ('A_PERL_COMMENT' === $deed.name);
+  }
+}

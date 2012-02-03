@@ -1,0 +1,39 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.NoTwoConsecutiveEmptyLinesPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.NoTwoConsecutiveEmptyLinesPhpTruth')]
+public class NoTwoConsecutiveEmptyLinesPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch two consecutive empty lines
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_two_consecutive_empty_lines() {
+    $sins= $this.getSins('<?php
+      function test() {
+
+        // Valid line
+        doSomething();
+
+
+        // There are 2 lines above me
+        doSomethingElse();
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+}

@@ -1,0 +1,48 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.strpos;
+
+/**
+ * Enforces that there is no whitespace before the closing parenthesis ')'
+ *
+ * Exception:
+ * - Newline before whitespace \n  )
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeCloseParenthesisPhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('No whitespace before close parenthesis'),
+  @message('There is whitespace before the close parenthesis')
+]
+public class NoWhitespaceBeforeCloseParenthesisPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+
+    // Check next Deed is ')'
+    if (
+      'T_WHITESPACE' !== $deed.name ||
+      null === $deed.next ||
+      'A_CLOSE_PARENTHESIS' !== $deed.next.name
+    ) return false;
+
+    // Check previous Deed before WHITESPACE is NEWLINE
+    if (null !== $deed.previous && 'A_NEWLINE' === $deed.previous.name) return false;
+
+    // Got ya
+    return true;
+  }
+}

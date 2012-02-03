@@ -1,0 +1,32 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.statement;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.statement.NoDeclarePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.statement.NoDeclarePhpTruth')]
+public class NoDeclarePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch declare() usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_eval_usage() {
+    $sins= $this.getSins('<?php
+      // Forbid use of declare() statement
+      declare("CONSTANT", 10);
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+}

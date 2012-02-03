@@ -1,0 +1,58 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAssignmentPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAssignmentPhpTruth')]
+public class NoWhitespaceBeforeAssignmentPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch whitespace before assignment
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_whitespace_before_assignment() {
+    $sins= $this.getSins('<?php
+      $a = 100;    // wrong
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore aligned assignments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_aligned_assignments() {
+    $sins= $this.getSins('<?php
+      $short        = 100;    // correct
+      $longVariable = 200;    // correct
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore correct usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_correct_usage() {
+    $sins= $this.getSins('<?php
+      $a= 100;    // correct
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

@@ -1,0 +1,606 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.naming;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.naming.KeywordInLowerCasePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.naming.KeywordInLowerCasePhpTruth')]
+public class KeywordInLowerCasePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch non-lowercase "abstract"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_abstract_keyword() {
+    $sins= $this.getSins('<?php
+      Abstract class SomeClass {                     // wrong
+        public ABSTRACT function doSomething();      // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "abstract"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_abstract_keyword() {
+    $sins= $this.getSins('<?php
+      abstract class SomeClass {                     // correct
+        public abstract function doSomething();      // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "as"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_as_keyword() {
+    $sins= $this.getSins('<?php
+      foreach ($values As $value) {      // wrong
+        foreach ($values AS $value) {    // wrong
+        }
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "as"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_as_keyword() {
+    $sins= $this.getSins('<?php
+      foreach ($values as $value) {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "case"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_case_keyword() {
+    $sins= $this.getSins('<?php
+      catch ($i) {
+        Case 1: {           // wrong
+          doSomething();
+        }
+        CASE "string": {    // wrong
+          doSomething();
+        }
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "case"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_case_keyword() {
+    $sins= $this.getSins('<?php
+      catch ($i) {
+        case 1: {           // correct
+          doSomething();
+        }
+        case "string": {    // correct
+          doSomething();
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "class"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_class_keyword() {
+    $sins= $this.getSins('<?php
+      public abstract CLASS AbstractClass {   // wrong
+      }
+      public Class DummyClass {               // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "class"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_class_keyword() {
+    $sins= $this.getSins('<?php
+      public abstract class AbstractClass {   // correct
+      }
+      public class DummyClass {               // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "do"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_do_keyword() {
+    $sins= $this.getSins('<?php
+      Do {             // wrong
+      } while (TRUE);
+      DO {             // wrong
+      } while (FALSE);
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "do"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_do_keyword() {
+    $sins= $this.getSins('<?php
+      do {             // correct
+      } while (TRUE);
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "else"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_else_keyword() {
+    $sins= $this.getSins('<?php
+      if (TRUE) {
+      } Else {    // wrong
+      } ELSE {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "else"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_else_keyword() {
+    $sins= $this.getSins('<?php
+      if (TRUE) {
+      } else {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "elseif"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_elseif_keyword() {
+    $sins= $this.getSins('<?php
+      if (false) {
+      } Elseif (TRUE) {    // wrong
+      } ElseIf (TRUE) {    // wrong
+      } ELSEIF (TRUE) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "elseif"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_elseif_keyword() {
+    $sins= $this.getSins('<?php
+      if (false) {
+      } elseif (TRUE) {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "extends"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_extends_keyword() {
+    $sins= $this.getSins('<?php
+      class DummyClass Extends Object {            // wrong
+      }
+      class DummyTestClass EXTENDS DummyClass {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "extends"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_extends_keyword() {
+    $sins= $this.getSins('<?php
+      class DummyClass extends Object {            // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "final"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_final_keyword() {
+    $sins= $this.getSins('<?php
+      public Final class DummyClass extends Object {        // wrong
+      }
+      public FINAL class DummyTestClass extends Object {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "final"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_final_keyword() {
+    $sins= $this.getSins('<?php
+      public final class DummyClass extends Object {        // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "for"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_for_keyword() {
+    $sins= $this.getSins('<?php
+      For ($i= 0; $i < 5; $i++) {    // wrong
+      }
+      FOR ($i= 0; $i < 5; $i++) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "for"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_for_keyword() {
+    $sins= $this.getSins('<?php
+      for ($i= 0; $i < 5; $i++) {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "foreach"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_foreach_keyword() {
+    $sins= $this.getSins('<?php
+      Foreach ($values as $value) {    // wrong
+      }
+      ForEach ($values as $value) {    // wrong
+      }
+      FOREACH ($values as $value) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "foreach"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_foreach_keyword() {
+    $sins= $this.getSins('<?php
+      foreach ($values as $value) {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "function"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_function_keyword() {
+    $sins= $this.getSins('<?php
+      public Function doSomething() {        // wrong
+      }
+      public FUNCTION doSomethingElse() {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "function"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_function_keyword() {
+    $sins= $this.getSins('<?php
+      public function doSomething() {   // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "if"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_if_keyword() {
+    $sins= $this.getSins('<?php
+      If (TRUE) {    // wrong
+      }
+      IF (TRUE) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "if"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_if_keyword() {
+    $sins= $this.getSins('<?php
+      if (TRUE) {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "implements"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_implements_keyword() {
+    $sins= $this.getSins('<?php
+      class DummyClass Implements DummyInterface {    // wrong
+      }
+      class DummyClass IMPLEMENTS DummyInterface {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "implements"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_implements_keyword() {
+    $sins= $this.getSins('<?php
+      class DummyClass implements DummyInterface {    // corect
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "interface"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_interface_keyword() {
+    $sins= $this.getSins('<?php
+      Interface DummyInterface {    // wrong
+      }
+      INTERFACE DummyInterface {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "interface"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_interface_keyword() {
+    $sins= $this.getSins('<?php
+      interface DummyInterface {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "switch"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_switch_keyword() {
+    $sins= $this.getSins('<?php
+      Switch ($value) {    // wrong
+      }
+      SWITCH ($value) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "switch"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_switch_keyword() {
+    $sins= $this.getSins('<?php
+      switch ($value) {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "throw"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_throw_keyword() {
+    $sins= $this.getSins('<?php
+      Throw new IllegalArgumentException("Problem");    // wrong
+      THROW new IllegalArgumentException("Problem");    // wrong
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "throw"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_throw_keyword() {
+    $sins= $this.getSins('<?php
+      throw new IllegalArgumentException("Problem");    //  correct
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "try"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_try_keyword() {
+    $sins= $this.getSins('<?php
+      Try {    // wrong
+      }
+      TRY {    // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "try"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_try_keyword() {
+    $sins= $this.getSins('<?php
+      try {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch non-lowercase "while"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_nonlowercase_while_keyword() {
+    $sins= $this.getSins('<?php
+      While (TRUE) {     // wrong
+      }
+      do {
+      } WHILE (TRUE) {   // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase "while"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_while_keyword() {
+    $sins= $this.getSins('<?php
+      while (TRUE) {     // correct
+      }
+      do {
+      } while (TRUE) {   // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

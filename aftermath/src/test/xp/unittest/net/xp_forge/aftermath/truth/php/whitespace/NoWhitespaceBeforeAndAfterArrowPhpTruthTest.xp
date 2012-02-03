@@ -1,0 +1,61 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterArrowPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterArrowPhpTruth')]
+public class NoWhitespaceBeforeAndAfterArrowPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch invalid WHITESPACE usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_invalid_whitespace() {
+    $sins= $this.getSins('<?php
+      $a= $instance -> member;     // wrong
+      $a= $instance-> method();    // wrong
+      $a= $instance ->method();    // wrong
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Ignore correct usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_correct_usage() {
+    $sins= $this.getSins('<?php
+      $a= $instance->member;      // correct
+      $a= $instance->method();    // correct
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore line split
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_line_split() {
+    $sins= $this.getSins('<?php
+      $truth= XPClass::forName("net.xp_forge.aftermath.truth.php.NoWhitespaceBeforeAndAfterArrowTruth")
+        ->newInstance();
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

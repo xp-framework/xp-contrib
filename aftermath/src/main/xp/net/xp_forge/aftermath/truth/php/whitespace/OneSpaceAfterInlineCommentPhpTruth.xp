@@ -1,0 +1,62 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.strpos;
+import native pcre.preg_match;
+
+/**
+ * Enforces that there is one SPACE character after inline comment start
+ *
+ * // Comment  <-- correct
+ * //Comment   <-- wrong
+ *
+ * Exceptions:
+ * - ignore Perl-style comments:
+ *   #comment
+ *
+ * - ignore more than 1 SPACE if there is at least one comment above:
+ *   // Enumeration:
+ *   //    - one
+ *   //    - two
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterInlineCommentPhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('One space after inline comment'),
+  @message('There must be one SPACE character after inline comment start')
+]
+public class OneSpaceAfterInlineCommentPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    if ('T_COMMENT' !== $deed.name && 'A_MULTILINE_COMMENT' !== $deed.name) return false;
+
+    // Ignore multi-line comments
+    if (false !== strpos($deed.description, "\n")) return false;
+
+    // There is exactly one space: good
+    if (preg_match('/((^\/\/)|(\/\*)) [^\s]+/', $deed.description)) return false;
+
+    // Ignore aligned comments
+    if (
+      null !== ($above= DeedUtils::getAbove($deed)) &&
+      ('T_COMMENT' === $above.name || 'A_MULTILINE_COMMENT' === $above.name)
+    ) return false;
+
+    // Got ya!
+    return true;
+  }
+}

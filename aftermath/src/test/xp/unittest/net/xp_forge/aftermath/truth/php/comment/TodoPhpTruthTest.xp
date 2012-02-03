@@ -1,0 +1,189 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.comment;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.comment.TodoPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.comment.TodoPhpTruth')]
+public class TodoPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch TODO
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_todo_keyword() {
+    $sins= $this.getSins('<?php
+      /**
+       * Dummy class
+       *
+       * TODO: implement DummyTestInterface
+       *
+       */
+      public class DummyTestClass {
+
+        /**
+         * Dummy method
+         *
+         * @todo implement me
+         */
+        public function dummyMethod() {
+          // TODO: finish me
+        }
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch FIXME
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_fixme_keyword() {
+    $sins= $this.getSins('<?php
+      /**
+       * Dummy class
+       *
+       * FIXME: implement DummyTestInterface
+       *
+       */
+      public class DummyTestClass {
+
+        /**
+         * Dummy method
+         *
+         * @fixme implement me
+         */
+        public function dummyMethod() {
+          // FIXME: finish me
+        }
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch XXX
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_xxx_keyword() {
+    $sins= $this.getSins('<?php
+      /**
+       * Dummy class
+       *
+       * XXX: No, this is not porn
+       *
+       */
+      public class DummyTestClass {
+
+        /**
+         * Dummy method
+         *
+         * @xxx implement me
+         */
+        public function dummyMethod() {
+          // XXX: finish me
+        }
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch HACK
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_hack_keyword() {
+    $sins= $this.getSins('<?php
+      /**
+       * Dummy class
+       *
+       * HACK: this is not ready for production
+       *
+       */
+      public class DummyTestClass {
+
+        /**
+         * Dummy method
+         *
+         * @hack should NOT be called
+         */
+        public function dummyMethod() {
+          // HACK: DONT do this at home!
+        }
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch UGLY
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_ugly_keyword() {
+    $sins= $this.getSins('<?php
+      /**
+       * Dummy class
+       *
+       * UGLY: This is an ugly implementation
+       *
+       */
+      public class DummyTestClass {
+
+        /**
+         * Dummy method
+         *
+         * @ugly should be optimized
+         */
+        public function dummyMethod() {
+          // UGLY: please provide a nicer implementation
+        }
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Ignore keywords in strings
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_keywords_in_strings() {
+    $sins= $this.getSins('<?php
+      $a= "TODO, FIXME, XXX, HACK, UGLY";
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore lowercase keywords without asperand
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_lowercase_keywords_without_asperand() {
+    $sins= $this.getSins('<?php
+      // todo fixme xxx tbd hack ugly
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

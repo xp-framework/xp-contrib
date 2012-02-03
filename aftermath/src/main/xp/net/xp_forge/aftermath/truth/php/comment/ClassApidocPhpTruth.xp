@@ -1,0 +1,51 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.comment;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Checks for missing class API doc
+ *
+ * Note: This Truth makes use of backward-walking code in PurposeMutation
+ *
+ * @see  xp://net.xp_forge.aftermath.mutation.php.PurposeMutation
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.comment.ClassApidocPhpTruthTest
+ */
+[
+  @severity('blocker'),
+  @name('Class API doc'),
+  @message('API doc missing for the defined class/interface')
+]
+public class ClassApidocPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    if (
+      ('T_CLASS' !== $deed.name && 'T_INTERFACE' !== $deed.name) ||
+      null === ($deedQuest= $deed.quest)
+    ) return false;
+
+    // Check all previous Deeds that are part of this Quest
+    // and look for a T_DOC_COMMENT
+    $previous= $deed;
+    while (
+      null !== ($previous= $previous.previous) &&
+      null !== ($previousQuest= $previous.quest) &&
+      $deedQuest.name === $previousQuest.name
+    ) {
+      if ('T_DOC_COMMENT' === $previous.name) return false;
+    }
+
+    // Class API doc not found
+    return true;
+  }
+}

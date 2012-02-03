@@ -1,0 +1,38 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Enforces that there are no 2 consecutive empty lines
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.NoTwoConsecutiveEmptyLinesPhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('No two consecutive empty lines'),
+  @message('There are two consecutive empty lines')
+]
+public class NoTwoConsecutiveEmptyLinesPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return (
+      'A_NEWLINE' === $deed.name &&
+      null !== ($previous= DeedUtils::getPreviousNonWhitespace($deed)) &&
+      'A_NEWLINE' === $previous.name &&
+      null !== ($previousPrevious= DeedUtils::getPreviousNonWhitespace($previous)) &&
+      'A_NEWLINE' === $previousPrevious.name
+    );
+  }
+}

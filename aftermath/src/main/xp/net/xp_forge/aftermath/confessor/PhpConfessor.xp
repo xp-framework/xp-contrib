@@ -1,0 +1,141 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.confessor;
+
+import net.xp_forge.aftermath.Soul;
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.Feat;
+import net.xp_forge.aftermath.Creed;
+import net.xp_forge.aftermath.Quest;
+import net.xp_forge.aftermath.Crusade;
+import net.xp_forge.aftermath.Mutation;
+import net.xp_forge.aftermath.Confessor;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.creed.PhpCreed;
+
+import native standard.count;
+import native standard.is_array;
+import native standard.str_replace;
+import native tokenizer.token_name;
+import native tokenizer.token_get_all;
+import native standard.array_key_exists;
+
+/**
+ * Higly trained in the fine art of torture, this fierce beings relentlessly interrogate
+ * Souls to gather all commited Deeds
+ *
+ * Note: Mutations order is IMPORTANT as some Mutations are using changes applied
+ * by other Mutations
+ *
+ * @aka PhpTokenizer
+ */
+[@creed(class= 'net.xp_forge.aftermath.creed.PhpCreed'),
+ @mutation(classes= [
+  'net.xp_forge.aftermath.mutation.php.NewLineEatersMutation',
+  'net.xp_forge.aftermath.mutation.php.CommentTypeMutation',
+  'net.xp_forge.aftermath.mutation.php.ShortTernaryMutation',
+  'net.xp_forge.aftermath.mutation.php.MembersAndMethodsMutation',
+  'net.xp_forge.aftermath.mutation.php.BracesMutation',
+  'net.xp_forge.aftermath.mutation.php.LanguageConstructsMutation',
+  'net.xp_forge.aftermath.mutation.php.NewLineMutation',
+  'net.xp_forge.aftermath.mutation.php.TimeMutation',
+  'net.xp_forge.aftermath.mutation.php.PurposeMutation'
+ ])
+]
+public class PhpConfessor extends Confessor {
+
+  // Custom Deeds
+  // @see https://github.com/sebastianbergmann/php-token-stream/blob/master/PHP/Token/Stream.php
+  protected static [:string] $customTokens= [
+    '(' : 'A_OPEN_PARENTHESIS',
+    ')' : 'A_CLOSE_PARENTHESIS',
+    '[' : 'A_OPEN_BRACKET',
+    ']' : 'A_CLOSE_BRACKET',
+    '{' : 'A_OPEN_BRACE',
+    '}' : 'A_CLOSE_BRACE',
+    ';' : 'A_SEMICOLON',
+    '.' : 'A_CONCAT',
+    ',' : 'A_COMMA',
+    '=' : 'A_EQUAL',
+    '<' : 'A_LT',
+    '>' : 'A_GT',
+    '+' : 'A_PLUS',
+    '-' : 'A_MINUS',
+    '*' : 'A_MULT',
+    '/' : 'A_DIV',
+    '?' : 'A_QUESTION_MARK',
+    '!' : 'A_EXCLAMATION_MARK',
+    ':' : 'A_COLON',
+    '"' : 'A_DOUBLE_QUOTES',
+    '@' : 'A_AT',
+    '&' : 'A_AMPERSAND',
+    '%' : 'A_PERCENT',
+    '|' : 'A_PIPE',
+    '$' : 'A_DOLLAR',
+    '^' : 'A_CARET',
+    '~' : 'A_TILDE',
+    '`' : 'A_BACKTICK'
+  ];
+
+  /**
+   * Interrogate the provided Soul to get all commited Deeds
+   *
+   * Note: it will return a reference to the first Deed
+   *
+   * @aka    getTokens()
+   * @param  net.xp_forge.aftermath.Soul $soul
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public Deed interrogate(Soul $soul) {
+
+    // Tokenize file
+    $tokens= token_get_all($soul.getEssence());
+
+    // Make Deeds from PHP Tokens
+    $deeds= [];
+    for ($ti= 0, $tn= count($tokens); $ti < $tn; $ti++) {
+      $token= $tokens[$ti];
+
+      // Non-array token
+      if (!is_array($token)) {
+        $tokenName= 'T_DATA';
+        $tokenData= $token;
+      } else {
+        $tokenName= token_name($token[0]);
+        $tokenData= $token[1];
+      }
+
+      // Rename custom Tokens
+      // - @see xp://net.xp_forge.aftermath.confessor.PhpConfessor::$customTokens
+      if ('T_DATA' === $tokenName && array_key_exists($tokenData, self::$customTokens)) {
+        $tokenName= self::$customTokens[$tokenData];
+      }
+
+      // Normalize new-lines
+      $tokenData= str_replace(["\r\n", "\r"], ["\n", "\n"], $tokenData);
+
+      // Add to Deeds list
+      $deeds[]= new Deed($soul, $tokenName, $tokenData);
+    }
+
+    // Quick exit for empty files
+    if (0 === $deeds.length) return null;
+
+    // Update chain references: set 'previous' and 'next'
+    for ($di= 0, $dn= $deeds.length; $di < $dn; $di++) {
+      if (0 !== $di) $deeds[$di].previous= $deeds[$di - 1];
+      if ($di < $dn - 1) $deeds[$di].next= $deeds[$di + 1];
+    }
+
+    // Get a reference to the first Deed
+    $firstDeed= $deeds[0];
+    $deeds= null;
+
+    // Apply Mutations & return a reference to the first Deed
+    return $this.applyMutations($firstDeed);
+  }
+}

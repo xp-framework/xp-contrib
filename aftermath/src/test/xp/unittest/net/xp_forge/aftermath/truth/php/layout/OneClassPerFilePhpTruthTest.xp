@@ -1,0 +1,56 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.layout;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.layout.OneClassPerFilePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.layout.OneClassPerFilePhpTruth')]
+public class OneClassPerFilePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch multiple class definitions
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_multiple_class_definitions() {
+    $sins= $this.getSins('<?php
+      // Class 1
+      public class DummyTestClassOne {
+      }
+
+      // Class 2
+      public class DummyTestClassTwo {
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Also count interfaces
+   *
+   * @return void
+   */
+  [@test]
+  public void should_also_count_interfaces() {
+    $sins= $this.getSins('<?php
+      // Interface
+      public interface DummyTestInterface {
+      }
+
+      // Class
+      public class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+}

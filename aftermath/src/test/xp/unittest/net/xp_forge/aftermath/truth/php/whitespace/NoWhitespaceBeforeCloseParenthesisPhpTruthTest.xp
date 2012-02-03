@@ -1,0 +1,49 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeCloseParenthesisPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeCloseParenthesisPhpTruth')]
+public class NoWhitespaceBeforeCloseParenthesisPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch whitespace before close parenthesis
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_whitespace_after_open_parenthesis() {
+    $sins= $this.getSins('<?php
+      function operation( $a, $b ) {
+      }
+      $result= operation( $a + $b );
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore identing
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_identing() {
+    $sins= $this.getSins('<?php
+      $result= operation(
+        $a,
+        $b
+      ); // Ignore whitespace before this closing parenthesis
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

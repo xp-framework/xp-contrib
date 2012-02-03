@@ -1,0 +1,42 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.layout;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Enforces that there is a NEWLINE character after opening brace
+ *
+ * Exception:
+ * - trailing comments
+ * - empty code-blocks: function test() { }
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.layout.NewlineAfterOpenBracePhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('Newline after opening-brace'),
+  @message('There must be a NEWLINE character after opening brace')
+]
+public class NewlineAfterOpenBracePhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return (
+      'A_OPEN_BRACE' === $deed.name &&
+      null !== ($next= DeedUtils::getNextNonWhitespace($deed)) &&
+      'A_NEWLINE' !== $next.name &&
+      'T_COMMENT' !== $next.name &&
+      'A_CLOSE_BRACE' !== $next.name
+    );
+  }
+}

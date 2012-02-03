@@ -1,0 +1,42 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.layout;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.strpos;
+
+/**
+ * Enforces that there is a NEWLINE character before closing brace
+ *
+ * Exception:
+ * - empty code-blocks: function test() { }
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.layout.NewlineBeforeCloseBracePhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('Newline before closing-brace'),
+  @message('There must be a NEWLINE character before closing brace')
+]
+public class NewlineBeforeCloseBracePhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return (
+      'A_CLOSE_BRACE' === $deed.name &&
+      null !== ($previous= DeedUtils::getPreviousNonWhitespace($deed)) &&
+      'A_NEWLINE' !== $previous.name &&
+      'A_OPEN_BRACE' !== $previous.name
+    );
+  }
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dogma name="All Aftermath Truths">
+
+  <!-- Comment conventions -->
+  <truth class="net.xp_forge.aftermath.truth.php.comment.ClassApidocPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.comment.CompactConsecutiveOnelineCommentsPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.comment.NoPerlCommentPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.comment.MethodApidocPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.comment.TodoPhpTruth" />
+
+  <!-- Layout conventions -->
+  <truth class="net.xp_forge.aftermath.truth.php.layout.EndWithCloseTagPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.LineLengthPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.NewlineAfterCloseBracePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.NewlineAfterOpenBracePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.NewlineBeforeCloseBracePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.NoContentOutsideClassPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.NoVariableInStringPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.OneClassPerFilePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.OneOpenTagPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.OneStatementPerLinePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.StartWithOpenTagPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.layout.StringLiteralInSingleQuotesPhpTruth" />
+
+  <!-- Naming conventions -->
+  <truth class="net.xp_forge.aftermath.truth.php.naming.ClassNameInCamelCasePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.naming.ClassNameMatchFilenamePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.naming.ConstantNameInAllCapsPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.naming.KeywordInLowerCasePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.naming.MethodNameInCamelCasePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.naming.Php5ConstructorPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.naming.PredefinedConstantNameInAllCapsPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.naming.VariableNameInCamelCasePhpTruth" />
+
+  <!-- Statement convetions -->
+  <truth class="net.xp_forge.aftermath.truth.php.statement.MethodScopePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoAsperandPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoDeclarePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoEvalPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoExitPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoGlobalVariableScopePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoGotoPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoIncludePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoRequirePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.statement.NoSuperGlobalsPhpTruth" />
+
+  <!-- Whitespace conventions -->
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.EmptyLineBeforeCommentLinePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoTabsPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoTrailingWhitespacePhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoTwoConsecutiveEmptyLinesPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceAfterCastPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceAfterOpenParenthesisPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterArrowPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterConcatenationPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterDoubleColonPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeCloseParenthesisPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAssignmentPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterCommaPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterInlineCommentPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterKeywordPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterOperatorPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterDoubleArrowPhpTruth" />
+  <truth class="net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterShortTernaryPhpTruth" />
+</dogma>

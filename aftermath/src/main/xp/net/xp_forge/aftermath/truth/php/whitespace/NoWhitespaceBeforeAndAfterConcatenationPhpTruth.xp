@@ -1,0 +1,61 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.strpos;
+
+/**
+ * Enforces that there is no whitespace befor and after the
+ * string concat operator (.)
+ *
+ * Exception:
+ * - allow long concats to be split after concat operator:
+ *   $a= 'line one'.
+ *     'line two'.      // line 2
+ *     'line three';
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterConcatenationPhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('No whitespace before and after concatenation operator'),
+  @message('There is whitespace before or after the string concatenation operator')
+]
+public class NoWhitespaceBeforeAndAfterConcatenationPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    if (
+      'A_CONCAT' !== $deed.name ||
+      null === ($previous= $deed.previous) ||
+      null === ($next= $deed.next)
+    ) return false;
+
+    // $previous should not be WHITESPACE
+    if ('T_WHITESPACE' === $previous.name || 'A_NEWLINE' === $previous.name) return true;
+
+    // $next is not WHITESPACE: good
+    if ('T_WHITESPACE' !== $next.name) return false;
+
+    // Accept trailing whitespace and trailing comments
+    if (
+      null === ($next= DeedUtils::getNextNonWhitespace($deed)) ||
+      'A_NEWLINE' === $next.name ||
+      'T_COMMENT' === $next.name
+    ) return false;
+
+    // Got ya!
+    return true;
+  }
+}

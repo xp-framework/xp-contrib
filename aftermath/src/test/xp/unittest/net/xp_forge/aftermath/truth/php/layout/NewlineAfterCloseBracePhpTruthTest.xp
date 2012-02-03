@@ -1,0 +1,181 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.layout;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.layout.NewlineAfterCloseBracePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.layout.NewlineAfterCloseBracePhpTruth')]
+public class NewlineAfterCloseBracePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch missing NEWLINE
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_newline() {
+    $sins= $this.getSins('<?php
+      function operation( $a, $b ) {
+      }; $a= 10;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore else
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_else() {
+    $sins= $this.getSins('<?php
+      if (TRUE) {
+        doSomething();
+      } else { // <- ignore missing NEWLINE after }
+        doSomethingElse();
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore do()
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_do() {
+    $sins= $this.getSins('<?php
+      do {
+        doSomething();
+      } while(TRUE); // <- ignore missing NEWLINE after }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore catch()
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_catch() {
+    $sins= $this.getSins('<?php
+      try {
+        doSomething();
+
+      } catch(Throwable $ex) { // <- ignore missing NEWLINE after }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore finally()
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_finally() {
+    $sins= $this.getSins('<?php
+      try {
+        doSomething();
+
+      } finally(); { // <- ignore missing NEWLINE after }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore $string{0} array access
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_string_array_access() {
+    $sins= $this.getSins('<?php
+      $third= $string{3}; // <- ignore missing NEWLINE after }
+      $third= $strings[0]{3}; // <- ignore missing NEWLINE after }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore $string{$index} array access with variable index
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_string_array_access_with_variable_index() {
+    $sins= $this.getSins('<?php
+      $third= $string{$index}; // <- ignore missing NEWLINE after }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore $inst->string{$inst->index++} array access with object variable index with increment
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_string_array_access_with_object_variable_index_with_increment() {
+    $sins= $this.getSins('<?php
+      $third= $inst->string{$inst->member++};    // <- ignore missing NEWLINE after "{"
+      $third= $inst->string{$inst->method()};    // <- ignore missing NEWLINE after "{"
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore trailing space
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_trailing_space() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+      }' ~ '    ' ~ '
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore trailing comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_trailing_comments() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+      }    // ignore me
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore variable name
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_variable_name() {
+    $sins= $this.getSins('<?php
+      $this->{$k} = 1;
+      ${$name}    = 2;
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

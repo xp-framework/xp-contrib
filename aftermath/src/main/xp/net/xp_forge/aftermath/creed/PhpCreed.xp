@@ -19,12 +19,7 @@ import net.xp_forge.aftermath.confessor.PhpConfessor;
 public class PhpCreed extends Creed {
   protected static Confessor $confessor;
 
-  /**
-   * Static init
-   *
-   * @return void
-   */
-  public static void __static() {
+  static {
     self::$confessor= new PhpConfessor();
   }
 

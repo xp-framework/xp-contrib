@@ -18,12 +18,7 @@ import net.xp_forge.aftermath.creed.PhpCreed;
 public abstract class PhpTruth extends Truth {
   public static Creed $creed;
 
-  /**
-   * Static init
-   *
-   * @return void
-   */
-  public static void __static() {
+  static {
     self::$creed= new PhpCreed();
   }
 

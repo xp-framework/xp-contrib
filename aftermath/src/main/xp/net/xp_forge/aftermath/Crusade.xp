@@ -19,7 +19,7 @@ public class Crusade {
    *
    * @param string $name
    */
-  public void __construct(string $name) {
+  public __construct(string $name) {
     $this.name= $name;
   }
 }

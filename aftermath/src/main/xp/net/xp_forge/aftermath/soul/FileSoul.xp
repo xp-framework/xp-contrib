@@ -40,7 +40,7 @@ class FileSoul extends Soul {
    * @param  net.xp_forge.aftermath.Realm $realm
    * @throws net.xp_forge.aftermath.soul.SoulNotFoundException
    */
-  public void __construct(File $file, Realm $realm= null) throws SoulNotFoundException {
+  public __construct(File $file, Realm $realm= null) throws SoulNotFoundException {
 
     // Check Soul exists
     try {

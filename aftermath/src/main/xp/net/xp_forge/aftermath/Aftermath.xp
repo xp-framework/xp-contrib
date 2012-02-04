@@ -91,7 +91,7 @@ public class Aftermath {
    * Constructor
    *
    */
-  public void __construct() {
+  public __construct() {
     $this.out= Console::$out;
     $this.err= Console::$err;
   }

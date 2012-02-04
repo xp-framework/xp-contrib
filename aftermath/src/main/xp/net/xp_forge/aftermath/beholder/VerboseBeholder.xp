@@ -43,7 +43,7 @@ public class VerboseBeholder extends Beholder {
    *
    * @param  io.streams.OutputStreamWriter $out
    */
-  public void __construct(OutputStreamWriter $out) {
+  public __construct(OutputStreamWriter $out) {
     $this.out= $out;
   }
 

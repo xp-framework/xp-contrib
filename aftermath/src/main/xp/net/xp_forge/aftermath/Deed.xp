@@ -50,7 +50,7 @@ public class Deed {
    * @param  string $name
    * @param  string $description
    */
-  public void __construct(Soul $soul, string $name, string $description) {
+  public __construct(Soul $soul, string $name, string $description) {
     $this.soul        = $soul;
     $this.name        = $name;
     $this.description = $description;

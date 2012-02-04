@@ -36,7 +36,7 @@ public class FileRealm extends Realm {
    * @param  string $location
    * @throws net.xp_forge.aftermath.realm.RealmNotFoundException
    */
-  public void __construct(Folder $folder) throws RealmNotFoundException {
+  public __construct(Folder $folder) throws RealmNotFoundException {
 
     // Check Realm exists
     if (!$folder.exists()) {

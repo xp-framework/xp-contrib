@@ -27,7 +27,7 @@ public class JunkFactory {
    * Private constructor
    *
    */
-  private void __construct() {
+  private __construct() {
   }
 
   /**
@@ -58,7 +58,7 @@ public class JunkFactory {
       protected string $name;
       protected string $essence;
 
-      public void __construct(string $name, string $essence) {
+      public __construct(string $name, string $essence) {
         $this.name= $name;
         $this.essence= $essence;
       }

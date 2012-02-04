@@ -20,7 +20,7 @@ public class RealmFactory {
    * Private constructor
    *
    */
-  private void __construct() {
+  private __construct() {
   }
 
   /**

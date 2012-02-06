@@ -53,12 +53,7 @@ public class UnittestRunner extends AbstractRunner {
     // Add verbose (-v)
     if (this.input.verbose) arguments.add("-v");
 
-    // Add classpaths (-cp)
-    i= this.input.classpaths.iterator();
-    while (i.hasNext()) {
-      arguments.add("-cp");
-      arguments.add(((File)i.next()).getAbsolutePath());
-    }
+    this.addClassPathsTo(arguments, this.input.classpaths);
 
     // Add arguments (-a)
     i= this.input.arguments.iterator();

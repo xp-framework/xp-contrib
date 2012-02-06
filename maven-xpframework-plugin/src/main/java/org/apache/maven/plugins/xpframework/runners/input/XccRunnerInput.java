@@ -60,9 +60,7 @@ import java.util.ArrayList;
  *   * [php  ] PHP 5.3 Syntax (no alternative syntax)
  *   * [xp   ] XP Language Syntax
  */
-public class XccRunnerInput {
-  public boolean      verbose;
-  public List<File>   classpaths;
+public class XccRunnerInput extends AbstractClassPathRunnerInput {
   public List<File>   sourcepaths;
   public String       emitter;
   public List<String> profiles;
@@ -81,28 +79,6 @@ public class XccRunnerInput {
     this.profiles    = new ArrayList<String>();
     this.outputdir   = null;
     this.sources     = new ArrayList<File>();
-  }
-
-  /**
-   * Setter for classpaths
-   *
-   * @param java.io.File classpath Classpath to add
-   * @return void
-   */
-  public void addClasspath(File classpath) {
-
-    // Invalid path
-    if (!classpath.exists()) return;
-
-    // Check path not added twice
-    String classpathPath= classpath.getAbsolutePath();
-    Iterator i= this.classpaths.iterator();
-    while (i.hasNext()) {
-      if (((File) i.next()).getAbsolutePath().equals(classpathPath)) return;
-    }
-
-    // Add to list
-    this.classpaths.add(classpath);
   }
 
   /**

@@ -27,6 +27,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.Executor;
 //import org.apache.commons.exec.LogOutputStream;
+import org.apache.commons.exec.LogOutputStream;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.OS;
 
@@ -113,7 +114,7 @@ public final class ExecuteUtils {
    * @param  org.apache.maven.plugin.logging.Log cat Log trace
    * @throws RunnerException When command execution failed
    */
-  public static void executeCommand(File executable, List<String> arguments, File workingDirectory, Log cat) throws ExecutionException {
+  public static void executeCommand(File executable, List<String> arguments, File workingDirectory, final Log cat) throws ExecutionException {
 
     // Debug
     if (cat != null) {
@@ -133,28 +134,35 @@ public final class ExecuteUtils {
       // This line makes the resulting command line way shorter (and prettier), but might break a thing or two
       argument= ExecuteUtils.getRelativeToWorkingDirectory(argument, workingDirectory);
 
+      // If complex command line arguments like such as for `xp -e <code>` are given,
+      // prevent quoting those...
+      boolean quote= false;
+      if (argument.contains("'") || argument.contains("\"")) {
+          quote= false;
+      } else if (argument.contains(" ")) {
+          quote= true;
+      }
+
       // Escape arguments that contain spaces
-      commandLine.addArgument(argument, argument.contains(" ") ? true : false);
+      commandLine.addArgument(argument, quote);
     }
 
     Executor executor= new DefaultExecutor();
     executor.setWorkingDirectory(workingDirectory);
     executor.setStreamHandler(new PumpStreamHandler(System.out, System.err, System.in));
 
-    /*
-    executor.setStreamHandler(new PumpStreamHandler(new LogOutputStream() {
+    /* executor.setStreamHandler(new PumpStreamHandler(new LogOutputStream() {
       @Override
       protected void processLine(String line, @SuppressWarnings("unused") int level) {
         if (line.toLowerCase().indexOf("error") > -1) {
-          getLog().error(line);
+          cat.error(line);
         } else if (line.toLowerCase().indexOf("warn") > -1) {
-          getLog().warn(line);
+          cat.warn(line);
         } else {
-          getLog().info(line);
+          cat.info(line);
         }
       }
-    }));
-    */
+    }));*/
 
     // Execute command
     try {

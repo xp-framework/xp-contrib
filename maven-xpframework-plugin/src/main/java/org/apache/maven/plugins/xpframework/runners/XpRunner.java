@@ -13,20 +13,20 @@ import java.util.ArrayList;
 
 import org.apache.maven.plugins.xpframework.runners.input.AbstractClassPathRunnerInput;
 import org.apache.maven.plugins.xpframework.util.ExecuteUtils;
-import org.apache.maven.plugins.xpframework.runners.input.ClassRunnerInput;
+import org.apache.maven.plugins.xpframework.runners.input.XpRunnerInput;
 
 /**
  * Wrapper over XP-Framework "xar" runner
  *
  */
 public class XpRunner extends AbstractRunner {
-  ClassRunnerInput input;
+  XpRunnerInput input;
 
   /**
    * Constructor
    *
    */
-  public XpRunner(ClassRunnerInput input) {
+  public XpRunner(XpRunnerInput input) {
     this.input= input;
   }
 

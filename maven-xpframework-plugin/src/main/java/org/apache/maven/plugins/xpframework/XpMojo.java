@@ -29,7 +29,7 @@ import org.apache.maven.plugins.xpframework.runners.input.UnittestRunnerInput;
  * @goal xp
  * @requiresDependencyResolution    runtime
  */
-public class RunClassMojo extends AbstractXpFrameworkMojo {
+public class XpMojo extends AbstractXpFrameworkMojo {
 
   // ----------------------------------------------------------------------
   // Configurables
@@ -49,7 +49,7 @@ public class RunClassMojo extends AbstractXpFrameworkMojo {
    *
    * The -cp argument for the unittest runner
    *
-   * @parameter expression="${xpframework.runclass.classpaths}"
+   * @parameter expression="${xpframework.xp.classpaths}"
    */
   protected ArrayList<String> classpaths;
 
@@ -64,14 +64,14 @@ public class RunClassMojo extends AbstractXpFrameworkMojo {
   /**
    * Define name of class to run
    *
-   * @parameter expression="${xpframework.runclass.classname}"
+   * @parameter expression="${xpframework.xp.classname}"
    */
   protected String className;
 
   /**
    * Define inline code to run
    *
-   * @parameter expression="${xpframework.runclass.code}"
+   * @parameter expression="${xpframework.xp.code}"
    */
   protected String code;
 

@@ -12,12 +12,12 @@ import java.util.ArrayList;
  *
  * @author ak
  */
-public class ClassRunnerInput extends AbstractClassPathRunnerInput {
+public class XpRunnerInput extends AbstractClassPathRunnerInput {
     public String className;
     public String code;
     public ArrayList<String> arguments;
 
-    public ClassRunnerInput() {
+    public XpRunnerInput() {
         super();
         this.className= null;
         this.code= null;

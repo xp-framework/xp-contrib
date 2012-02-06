@@ -8,6 +8,7 @@ package org.apache.maven.plugins.xpframework.runners;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -123,4 +124,14 @@ public abstract class AbstractRunner {
       throw new RunnerException("Execution failed", ex);
     }
   }
+
+    protected void addClassPathsTo(List<String> arguments, List<java.io.File> classpaths) {
+        Iterator i;
+        // Add classpaths (-cp)
+        i = classpaths.iterator();
+        while (i.hasNext()) {
+            arguments.add("-cp");
+            arguments.add(((File) i.next()).getAbsolutePath());
+        }
+    }
 }

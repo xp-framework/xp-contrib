@@ -158,3 +158,40 @@ a "manifest.ini" file into "src/main/resources/META-INF" that sets the
 main XAR class, you can run the application as follow:
 
     ~/app-hello $ xp -xar target/app-hello-1.0-uber.xar
+
+
+Running XP code
+---------------
+
+If you have the need to run an XP class (like w/ xp f.q.c.n or xp -e "code"),
+then you can use the "xp" goal):
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-xpframework-plugin</artifactId>
+        <version>1.1</version>
+        <extensions>true</extensions>
+
+        <executions>
+          <execution>
+            <id>runclass</id>
+            <phase>test</phase>
+            <configuration>
+              <code>Console::writeLine('* Hello World from XP Framework.');</code>
+            </configuration>
+            <goals>
+              <goal>xp</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugin>
+  </build>
+
+As configuration, you can either pass:
+
+* <code> with inline source code (limitation: either single or double quotes may
+  be used - mixing not supported)
+* <className> runs the given class w/ "public static function main($args) {...}"

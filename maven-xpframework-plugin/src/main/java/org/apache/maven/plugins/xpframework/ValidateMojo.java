@@ -34,8 +34,10 @@ public class ValidateMojo extends AbstractXpFrameworkMojo {
 
     // Check for XP runners
     try {
+      getLog().info("Found xp       at [" + ExecuteUtils.getExecutable("xp") + "]");
       getLog().info("Found xcc      at [" + ExecuteUtils.getExecutable("xcc") + "]");
       getLog().info("Found xar      at [" + ExecuteUtils.getExecutable("xar") + "]");
+      getLog().info("Found xpcli    at [" + ExecuteUtils.getExecutable("xpcli") + "]");
       getLog().info("Found unittest at [" + ExecuteUtils.getExecutable("unittest") + "]");
       getLog().info(LINE_SEPARATOR);
     } catch (FileNotFoundException ex) {

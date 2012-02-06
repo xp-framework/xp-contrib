@@ -8,20 +8,14 @@ package org.apache.maven.plugins.xpframework;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
-
-import org.apache.maven.plugins.xpframework.AbstractXpFrameworkMojo;
 import org.apache.maven.plugins.xpframework.runners.RunnerException;
-import org.apache.maven.plugins.xpframework.runners.UnittestRunner;
 import org.apache.maven.plugins.xpframework.runners.XpRunner;
-import org.apache.maven.plugins.xpframework.runners.input.AbstractClassPathRunnerInput;
-import org.apache.maven.plugins.xpframework.runners.input.ClassRunnerInput;
-import org.apache.maven.plugins.xpframework.runners.input.UnittestRunnerInput;
+import org.apache.maven.plugins.xpframework.runners.input.XpRunnerInput;
 
 /**
  * Run unittests
@@ -96,7 +90,7 @@ public class XpMojo extends AbstractXpFrameworkMojo {
     getLog().debug("Code                   [" + this.code + "]");
 
     // Prepare unittest input
-    ClassRunnerInput input= new ClassRunnerInput();
+    XpRunnerInput input= new XpRunnerInput();
     input.verbose= this.verbose;
 
     // Add testClassesDirectory and classesDirectory to classpaths

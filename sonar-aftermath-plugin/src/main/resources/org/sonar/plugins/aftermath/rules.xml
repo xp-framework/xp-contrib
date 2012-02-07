@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.MethodNameInCamelCasePhpTruth</key>
+    <name>Method name in camelCase</name>
+    <priority>CRITICAL</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.MethodNameInCamelCasePhpTruth</configKey>
+    <description>Method name does not use the camelCase() notation</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.ClassNameMatchFilenamePhpTruth</key>
+    <name>Class name match file name</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.ClassNameMatchFilenamePhpTruth</configKey>
+    <description>Class/interface name does not match the file name</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.Php5ConstructorPhpTruth</key>
+    <name>PHP5 style constructor</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.Php5ConstructorPhpTruth</configKey>
+    <description>Use only PHP5 style __construct() constructor</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.ConstantNameInAllCapsPhpTruth</key>
+    <name>Constant names in ALL_CAPS</name>
+    <priority>CRITICAL</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.ConstantNameInAllCapsPhpTruth</configKey>
+    <description>Constant name does not use the ALL_CAPS notation</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.PredefinedConstantNameInAllCapsPhpTruth</key>
+    <name>Predefined constant name in ALL_CAPS</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.PredefinedConstantNameInAllCapsPhpTruth</configKey>
+    <description>Predefined constant name (TRUE, FALSE, NULL) does not use the ALL_CAPS notation</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.ClassNameInCamelCasePhpTruth</key>
+    <name>Class name in CamelCase</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.ClassNameInCamelCasePhpTruth</configKey>
+    <description>Class/interface name does not use the CamelCase notation</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.VariableNameInCamelCasePhpTruth</key>
+    <name>Variable name in $camelCase</name>
+    <priority>CRITICAL</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.VariableNameInCamelCasePhpTruth</configKey>
+    <description>Variable name does not use the $camelCase notation</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.naming.KeywordInLowerCasePhpTruth</key>
+    <name>Keywords in lower case</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.naming.KeywordInLowerCasePhpTruth</configKey>
+    <description>Keyword is not in lower case</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoExitPhpTruth</key>
+    <name>Forbid exit() and die() usage</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoExitPhpTruth</configKey>
+    <description>Usage of exit() or die() is forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoAsperandPhpTruth</key>
+    <name>Discourage @ usage</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoAsperandPhpTruth</configKey>
+    <description>Usage of the @ operator is discouraged</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoIncludePhpTruth</key>
+    <name>Forbid include() usage</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoIncludePhpTruth</configKey>
+    <description>Usage of include() and include_once() is forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoRequirePhpTruth</key>
+    <name>Forbid require() usage</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoRequirePhpTruth</configKey>
+    <description>Usage of require() and require_once() is forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoDeclarePhpTruth</key>
+    <name>Forbid declare() usage</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoDeclarePhpTruth</configKey>
+    <description>Usage of declare() is forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoEvalPhpTruth</key>
+    <name>Dsicourage eval() usage</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoEvalPhpTruth</configKey>
+    <description>Usage of eval() is highly discouraged</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoGotoPhpTruth</key>
+    <name>Forbid goto usage</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoGotoPhpTruth</configKey>
+    <description>Usage of the goto control statement is forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoSuperGlobalsPhpTruth</key>
+    <name>Forbid super-globals usage</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoSuperGlobalsPhpTruth</configKey>
+    <description>Usage of PHP super-globals is forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.NoGlobalVariableScopePhpTruth</key>
+    <name>No global variable scope</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.NoGlobalVariableScopePhpTruth</configKey>
+    <description>Usage of the global variable scope is forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.statement.MethodScopePhpTruth</key>
+    <name>Method must have scope defined</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.statement.MethodScopePhpTruth</configKey>
+    <description>Class method does not have a scope defined</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.EmptyLineBeforeCommentLinePhpTruth</key>
+    <name>Empty line before comment line</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.EmptyLineBeforeCommentLinePhpTruth</configKey>
+    <description>There should be an empty line before every comment line</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterInlineCommentPhpTruth</key>
+    <name>One space after inline comment</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterInlineCommentPhpTruth</configKey>
+    <description>There must be one SPACE character after inline comment start</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterArrowPhpTruth</key>
+    <name>No whitespace before and after arrow operator</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterArrowPhpTruth</configKey>
+    <description>There is whitespace before or after the arrow (object access) operator</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterDoubleArrowPhpTruth</key>
+    <name>One space before and after the double-arrow operator</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterDoubleArrowPhpTruth</configKey>
+    <description>There must be one SPACE character before and after the double-arrow operator</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceAfterOpenParenthesisPhpTruth</key>
+    <name>No whitespace after open parenthesis</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceAfterOpenParenthesisPhpTruth</configKey>
+    <description>There is whitespace after the open parenthesis</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterShortTernaryPhpTruth</key>
+    <name>One space before and after the short-ternary operator</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterShortTernaryPhpTruth</configKey>
+    <description>There must be one SPACE character before and after the short-ternary operator</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeCloseParenthesisPhpTruth</key>
+    <name>No whitespace before close parenthesis</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeCloseParenthesisPhpTruth</configKey>
+    <description>There is whitespace before the close parenthesis</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterCommaPhpTruth</key>
+    <name>One space after comma</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterCommaPhpTruth</configKey>
+    <description>There must be one SPACE character after comma</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterOperatorPhpTruth</key>
+    <name>One space after operator</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterOperatorPhpTruth</configKey>
+    <description>There must be one SPACE character after operator</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceAfterCastPhpTruth</key>
+    <name>No whitespace after cast statement</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceAfterCastPhpTruth</configKey>
+    <description>There is whitespace after the (cast) statement</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterKeywordPhpTruth</key>
+    <name>One space after keyword</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterKeywordPhpTruth</configKey>
+    <description>There must be one SPACE character after keyword</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoTwoConsecutiveEmptyLinesPhpTruth</key>
+    <name>No two consecutive empty lines</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoTwoConsecutiveEmptyLinesPhpTruth</configKey>
+    <description>There are two consecutive empty lines</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterConcatenationPhpTruth</key>
+    <name>No whitespace before and after concatenation operator</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterConcatenationPhpTruth</configKey>
+    <description>There is whitespace before or after the string concatenation operator</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterDoubleColonPhpTruth</key>
+    <name>No whitespace before and after double-colon operator</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterDoubleColonPhpTruth</configKey>
+    <description>There is whitespace before or after the double colon (paamayim nekudotayim) operator</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoTrailingWhitespacePhpTruth</key>
+    <name>No trailing whitespace</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoTrailingWhitespacePhpTruth</configKey>
+    <description>Line has trailing whitespace</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoTabsPhpTruth</key>
+    <name>No tabs</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoTabsPhpTruth</configKey>
+    <description>TAB character is used as whitespace</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAssignmentPhpTruth</key>
+    <name>No whitespace before assignment</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAssignmentPhpTruth</configKey>
+    <description>There is whitespace before assignment operator</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.StringLiteralInSingleQuotesPhpTruth</key>
+    <name>Strings in single-quotes</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.StringLiteralInSingleQuotesPhpTruth</configKey>
+    <description>String literals must be enclosed by single quotes</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.NewlineAfterCloseBracePhpTruth</key>
+    <name>Newline after closing-brace</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.NewlineAfterCloseBracePhpTruth</configKey>
+    <description>There must be a NEWLINE character after closing brace</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.EndWithCloseTagPhpTruth</key>
+    <name>End with PHP close-tag</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.EndWithCloseTagPhpTruth</configKey>
+    <description>File does not end with the PHP close tag</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.OneStatementPerLinePhpTruth</key>
+    <name>One statement per line</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.OneStatementPerLinePhpTruth</configKey>
+    <description>There must be just one statement per line</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.NewlineAfterOpenBracePhpTruth</key>
+    <name>Newline after opening-brace</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.NewlineAfterOpenBracePhpTruth</configKey>
+    <description>There must be a NEWLINE character after opening brace</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.NewlineBeforeCloseBracePhpTruth</key>
+    <name>Newline before closing-brace</name>
+    <priority>MINOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.NewlineBeforeCloseBracePhpTruth</configKey>
+    <description>There must be a NEWLINE character before closing brace</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.NoVariableInStringPhpTruth</key>
+    <name>No $variables in strings</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.NoVariableInStringPhpTruth</configKey>
+    <description>Double-quoted string contains variable; consider using concatenation instead</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.OneOpenTagPhpTruth</key>
+    <name>Only one PHP open-tag</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.OneOpenTagPhpTruth</configKey>
+    <description>There is more than one PHP open tag in this file</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.NoContentOutsideClassPhpTruth</key>
+    <name>No content outside class</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.NoContentOutsideClassPhpTruth</configKey>
+    <description>There is content outside the class definition</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.LineLengthPhpTruth</key>
+    <name>Line length</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.LineLengthPhpTruth</configKey>
+    <description>Line is longer than 120 characters</description>
+    <param>    
+      <key>max</key>
+      <description>Max line length. Default: 120</description>
+      <defaultValue>120</defaultValue>
+    </param>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.OneClassPerFilePhpTruth</key>
+    <name>One class per file</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.OneClassPerFilePhpTruth</configKey>
+    <description>There is more than one class/interface declared in this file</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.layout.StartWithOpenTagPhpTruth</key>
+    <name>Start with PHP open-tag</name>
+    <priority>CRITICAL</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.layout.StartWithOpenTagPhpTruth</configKey>
+    <description>File does not start with the PHP open tag</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.comment.TodoPhpTruth</key>
+    <name>TODO and FIXME</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.comment.TodoPhpTruth</configKey>
+    <description>Comment refers to an unfinished task, a hack or some ugly code that needs attention</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.comment.NoPerlCommentPhpTruth</key>
+    <name>Forbid Perl-style comments</name>
+    <priority>MAJOR</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.comment.NoPerlCommentPhpTruth</configKey>
+    <description>Perl-style comments are forbidden</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.comment.ClassApidocPhpTruth</key>
+    <name>Class API doc</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.comment.ClassApidocPhpTruth</configKey>
+    <description>API doc missing for the defined class/interface</description>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.comment.CompactConsecutiveOnelineCommentsPhpTruth</key>
+    <name>Compact consecutive one-line comments</name>
+    <priority>INFO</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.comment.CompactConsecutiveOnelineCommentsPhpTruth</configKey>
+    <description>There are more than 2 consecutive one-line comments. Consider compacting them into one multi-line comment</description>
+    <param>    
+      <key>max</key>
+      <description>Max allowed consecutive one-line comments. Default: 2</description>
+      <defaultValue>2</defaultValue>
+    </param>
+  </rule>
+  <rule>  
+    <key>net.xp_forge.aftermath.truth.php.comment.MethodApidocPhpTruth</key>
+    <name>Method API doc</name>
+    <priority>BLOCKER</priority>
+    <configKey>net.xp_forge.aftermath.truth.php.comment.MethodApidocPhpTruth</configKey>
+    <description>API doc missing for the defined method</description>
+  </rule>
+</rules>

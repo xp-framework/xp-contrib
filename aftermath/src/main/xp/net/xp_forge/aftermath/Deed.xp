@@ -1,0 +1,87 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath;
+
+import net.xp_forge.aftermath.Soul;
+import net.xp_forge.aftermath.Feat;
+import net.xp_forge.aftermath.Quest;
+import net.xp_forge.aftermath.Moment;
+import net.xp_forge.aftermath.Crusade;
+
+import native standard.sprintf;
+import native standard.str_replace;
+
+/**
+ * Represents a base implementation of a Deed
+ *
+ * This base implementation just fills the role of a container. For more
+ * complicated Deeds, just extend this class
+ *
+ * @aka Token
+ */
+public class Deed {
+
+  // Base details
+  public Soul    $soul;
+  public string  $name;
+  public string  $description;
+
+  // Timeframe
+  public Moment  $begin;
+  public Moment  $end;
+
+  // Purpose
+  public Feat    $feat;
+  public Quest   $quest;
+  public Crusade $crusade;
+
+  // References
+  public Deed    $previous;
+  public Deed    $next;
+
+  /**
+   * Constructor
+   *
+   * @param  net.xp_forge.aftermath.Soul $soul
+   * @param  string $name
+   * @param  string $description
+   */
+  public __construct(Soul $soul, string $name, string $description) {
+    $this.soul        = $soul;
+    $this.name        = $name;
+    $this.description = $description;
+  }
+
+  /**
+   * Checks if this Deed matches the provided decription
+   *
+   * @param  string $name
+   * @param  string $description
+   * @return bool
+   */
+  public bool is(string $name, string $description) {
+    return ($name === $this.name) && ($description === $this.description);
+  }
+
+  /**
+   * Returns a string representation of this object
+   *
+   * @return string
+   */
+  public string toString() {
+    return sprintf(
+      ' %s%s %s[%s](%s::%s::%s)',
+      null === $this.begin ? '[---:---]' : ($this.begin.toString()),
+      null === $this.end ? '[---:---]' : ($this.end.toString()),
+      null === $this.name ? 'null' : $this.name,
+      null === $this.description ? 'null' : str_replace("\n", '\\n', $this.description),
+      null === $this.crusade ? 'null' : $this.crusade.name,
+      null === $this.quest ? 'null' : $this.quest.name,
+      null === $this.feat ? 'null' : $this.feat.name
+    );
+  }
+}

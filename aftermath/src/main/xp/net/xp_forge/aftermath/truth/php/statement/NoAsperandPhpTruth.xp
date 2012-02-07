@@ -1,0 +1,31 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.statement;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Discourages the use of the asperand (silencing) operator @
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.statement.MethodScopePhpTruthTest
+ */
+[
+  @severity('major'),
+  @name('Discourage @ usage'),
+  @message('Usage of the @ operator is discouraged')
+]
+public class NoAsperandPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return 'A_AT' === $deed.name;
+  }
+}

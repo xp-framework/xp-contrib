@@ -1,0 +1,98 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.layout;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.layout.NewlineBeforeCloseBracePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.layout.NewlineBeforeCloseBracePhpTruth')]
+public class NewlineBeforeCloseBracePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch missing NEWLINE
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_newline() {
+    $sins= $this.getSins('<?php
+      function operation( $a, $b ) { $a= 10; }   // wrong
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore $string{0} array access
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_string_array_access() {
+    $sins= $this.getSins('<?php
+      $third= $string{3};    // <- ignore missing NEWLINE before "}"
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore $string{$index} array access with variable index
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_string_array_access_with_variable_index() {
+    $sins= $this.getSins('<?php
+      $third= $string{$index};    // <- ignore missing NEWLINE before "}"
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore $string{$index++} array access with variable index with increment
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_string_array_access_with_variable_index_with_increment() {
+    $sins= $this.getSins('<?php
+      $third= $string{$index++};    // <- ignore missing NEWLINE before "}"
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore $inst->string{$inst->index++} array access with object variable index with increment
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_string_array_access_with_object_variable_index_with_increment() {
+    $sins= $this.getSins('<?php
+      $third= $inst->string{$inst->member++};    // <- ignore missing NEWLINE after "{"
+      $third= $inst->string{$inst->method()};    // <- ignore missing NEWLINE after "{"
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+
+  /**
+   * Ignore empty code-block
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_empty_codeblock() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass { }    // ignore me
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

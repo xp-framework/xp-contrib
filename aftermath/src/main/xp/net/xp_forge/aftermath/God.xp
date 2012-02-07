@@ -1,0 +1,97 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath;
+
+import util.Observable;
+import lang.ElementNotFoundException;
+
+import net.xp_forge.aftermath.Realm;
+import net.xp_forge.aftermath.Soul;
+import net.xp_forge.aftermath.Creed;
+import net.xp_forge.aftermath.Dogma;
+import net.xp_forge.aftermath.Truth;
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.Sin;
+
+/**
+ * Alpha and Omega
+ *
+ * Yes. I am God class. Questions?
+ *
+ * @aka CodeAnalyzer
+ */
+public class God extends Observable {
+
+  /**
+   * Weighs all Souls of a Realm and notify registered Beholders of all found Sins
+   *
+   * @aka    checkProject()
+   * @param  net.xp_forge.aftermath.Realm $realm
+   * @param  net.xp_forge.aftermath.Dogma $dogma
+   * @return void
+   */
+  public void weighRealm(Realm $realm, Dogma $dogma) {
+
+    // Notify beholders that God started to weigh a new Realm
+    $this.setChanged();
+    $this.notifyObservers($realm);
+
+    // Weigh all Souls in this Realm
+    $souls= $realm.getSouls();
+    for ($si= 0, $sn= $souls.length; $si < $sn; $si++) {
+      $this.weighSoul($souls[$si], $dogma);
+    }
+  }
+
+  /**
+   * Weighs a Soul and notify registered Beholders of all found Sins
+   *
+   * @aka    checkFile()
+   * @param  net.xp_forge.aftermath.Soul $soul
+   * @param  net.xp_forge.aftermath.Dogma $dogma
+   * @return void
+   */
+  public void weighSoul(Soul $soul, Dogma $dogma) {
+
+    // Get this Soul's Creed based on its stigma
+    $stigma= $soul.getStigma();
+    if (null === $stigma) return;
+
+    try {
+      $creed= Creed::forStigma($stigma);
+
+    // A Soul without a Creed cannot be weighed
+    } catch (ElementNotFoundException $ex) {
+      return;
+    }
+
+    // Notify beholders that God started to weigh a new Soul
+    $this.setChanged();
+    $this.notifyObservers($soul);
+
+    // Interrogate this Soul and get reference to the first Deed
+    $deed= $creed.getConfessor().interrogate($soul);
+
+    // No Deeds, no Sins
+    if (null === $deed) return;
+
+    // Get all Truths in the Dogma in accordance with the Soul's Creed
+    $truths= $dogma.getTruthsForCreed($creed);
+
+    // Check all Deeds against all Truths
+    do {
+      for ($ti= 0, $tn= $truths.length; $ti < $tn; $ti++) {
+        $truth= $truths[$ti];
+        if (!$truth.forbids($deed)) continue;
+
+        // If Deed is forbidden by this Truth: notify Beholders
+        $this.setChanged();
+        $this.notifyObservers(new Sin($soul, $deed, $truth));
+      }
+    } while (null !== ($deed= $deed.next));
+  }
+}

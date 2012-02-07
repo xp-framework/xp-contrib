@@ -1,0 +1,205 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterDoubleArrowPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterDoubleArrowPhpTruth')]
+public class OneSpaceBeforeAndAfterDoubleArrowPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Ignore correct usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_correct_usage() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        1 => "Eins",
+        2 => "Zwei",
+        3 => "Drei"
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE before "=>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_before_double_arrow_operator() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        1=> "Eins",         // wrong
+        2 => "Zwei",
+        3=> "Drei"          // wrong
+      );
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Catch extra SPACE before "=>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_extra_space_before_double_arrow_operator() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        1  => "Eins",         // wrong
+        2 => "Zwei",
+        3  => "Drei"          // wrong
+      );
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "=>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_double_arrow_operator() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        1 =>"Eins",         // wrong
+        2 => "Zwei",
+        3 => "Drei"
+      );
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch extra SPACE after "=>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_extra_space_after_double_arrow_operator() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        1 =>   "Eins",       // wrong
+        2 =>  "Zwei",        // wrong
+        3 => "Drei"
+      );
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE before and after "=>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_before_and_after_double_arrow_operator() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        1=>"Eins",       // wrong
+        2=>"Zwei",       // wrong
+        3=>"Drei"        // wrong
+      );
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch extra SPACE before and after "=>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_extra_space_before_and_after_double_arrow_operator() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        1  =>  "Eins",       // wrong
+        2  =>  "Zwei",       // wrong
+        3  =>  "Drei"        // wrong
+      );
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Ignore aligned defines
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_aligned_defines() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        20  => "zwanzig",
+        4   => "vier",
+        100 => "hundert"
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch incorrect aligned defines
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_incorrect_aligned_defines_1() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        20  =>"zwanzig",    // wrong
+        4   =>"vier",       // wrong
+        100 =>"hundert"     // wrong
+      );
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch incorrect aligned defines
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_incorrect_aligned_defines_2() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        20  =>  "zwanzig",    // wrong
+        4   =>  "vier",       // wrong
+        100 =>  "hundert"     // wrong
+      );
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch incorrect aligned defines
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_incorrect_aligned_defines_3() {
+    $sins= $this.getSins('<?php
+      $a= array(
+        20 =>  "zwanzig",    // wrong
+        4  =>  "vier",       // wrong
+        100=>  "hundert"     // wrong
+      );
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+}

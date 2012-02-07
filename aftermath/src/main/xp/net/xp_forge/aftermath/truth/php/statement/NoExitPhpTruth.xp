@@ -1,0 +1,31 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.statement;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Forbids the use of exit() and die()
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.statement.NoExitPhpTruthTest
+ */
+[
+  @severity('blocker'),
+  @name('Forbid exit() and die() usage'),
+  @message('Usage of exit() or die() is forbidden')
+]
+public class NoExitPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return 'T_EXIT' === $deed.name;
+  }
+}

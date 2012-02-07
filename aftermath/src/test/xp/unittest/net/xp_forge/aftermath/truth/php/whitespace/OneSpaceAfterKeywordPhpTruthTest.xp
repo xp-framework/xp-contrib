@@ -1,0 +1,426 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterKeywordPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterKeywordPhpTruth')]
+public class OneSpaceAfterKeywordPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch more than one SPACE after "abstract"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_abstract_keyword() {
+    $sins= $this.getSins('<?php
+      abstract  class SomeClass {                 // wrong
+        public abstract  function doSomething();  // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "as"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_as_keyword() {
+    $sins= $this.getSins('<?php
+      for ($values as  $value) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "case"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_case_keyword() {
+    $sins= $this.getSins('<?php
+      catch ($i) {
+        case  1: {           // wrong
+          doSomething();
+        }
+        case  "string": {    // wrong
+          doSomething();
+        }
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "class"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_class_keyword() {
+    $sins= $this.getSins('<?php
+      public abstract class  AbstractClass {   // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "do"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_do_keyword() {
+    $sins= $this.getSins('<?php
+      do{             // wrong
+      } while (TRUE);
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "do"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_do_keyword() {
+    $sins= $this.getSins('<?php
+      do  {             // wrong
+      } while (TRUE);
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "else"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_else_keyword() {
+    $sins= $this.getSins('<?php
+      if (TRUE) {
+      } else{    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "else"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_else_keyword() {
+    $sins= $this.getSins('<?php
+      if (TRUE) {
+      } else  {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "elseif"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_elseif_keyword() {
+    $sins= $this.getSins('<?php
+      if (false) {
+      } elseif(TRUE) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "elseif"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_elseif_keyword() {
+    $sins= $this.getSins('<?php
+      if (false) {
+      } elseif  (TRUE) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "extends"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_extends_keyword() {
+    $sins= $this.getSins('<?php
+      class DummyClass extends  Object {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "final"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_final_keyword() {
+    $sins= $this.getSins('<?php
+      public final  class DummyClass extends Object {     // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "for"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_for_keyword() {
+    $sins= $this.getSins('<?php
+      for($i= 0; $i < 5; $i++) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "for"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_for_keyword() {
+    $sins= $this.getSins('<?php
+      for  ($i= 0; $i < 5; $i++) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "foreach"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_foreach_keyword() {
+    $sins= $this.getSins('<?php
+      foreach($values as $value) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "foreach"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_foreach_keyword() {
+    $sins= $this.getSins('<?php
+      foreach  ($values as $value) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "function"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_function_keyword() {
+    $sins= $this.getSins('<?php
+      public function  doSomething() {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "if"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_if_keyword() {
+    $sins= $this.getSins('<?php
+      if(TRUE) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "if"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_if_keyword() {
+    $sins= $this.getSins('<?php
+      if  (TRUE) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "implements"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_implements_keyword() {
+    $sins= $this.getSins('<?php
+      class DummyClass implements  DummyInterface {  // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "interface"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_interface_keyword() {
+    $sins= $this.getSins('<?php
+      interface  DummyInterface {  // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "switch"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_switch_keyword() {
+    $sins= $this.getSins('<?php
+      switch($value) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "switch"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_switch_keyword() {
+    $sins= $this.getSins('<?php
+      switch  ($value) {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "throw"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_throw_keyword() {
+    $sins= $this.getSins('<?php
+      throw  new IllegalArgumentException("Problem");   // wrong
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "try"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_try_keyword() {
+    $sins= $this.getSins('<?php
+      try{    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "try"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_try_keyword() {
+    $sins= $this.getSins('<?php
+      try  {    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "while"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_while_keyword() {
+    $sins= $this.getSins('<?php
+      while(TRUE) {     // wrong
+      }
+      do {
+      } while(TRUE) {   // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "while"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_while_keyword() {
+    $sins= $this.getSins('<?php
+      while  (TRUE) {     // wrong
+      }
+      do {
+      } while  (TRUE) {   // wrong
+      }
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+}

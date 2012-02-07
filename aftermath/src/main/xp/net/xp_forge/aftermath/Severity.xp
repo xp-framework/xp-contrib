@@ -1,0 +1,34 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath;
+
+import lang.Enum;
+import lang.IllegalArgumentException;
+
+/**
+ * There are 5 violation severity levels in Sonar:
+ * - info
+ * - minor
+ * - major
+ * - critical
+ * - blocker
+ *
+ */
+public enum Severity {
+  info, minor, major, critical, blocker;
+
+  /**
+   * Factory
+   *
+   * @param  string name
+   * @return net.xp_forge.aftermath.Severity
+   * @throws lang.IllegalArgumentException in case the provided severity name does not exist
+   */
+  public static self forName(string $name) throws IllegalArgumentException {
+    return Enum::valueOf(self::class, $name);
+  }
+}

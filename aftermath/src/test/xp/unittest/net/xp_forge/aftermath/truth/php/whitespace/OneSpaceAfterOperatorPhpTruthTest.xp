@@ -1,0 +1,738 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterOperatorPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterOperatorPhpTruth')]
+public class OneSpaceAfterOperatorPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch missing SPACE after "&="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_end_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a&=2;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "&="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_end_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a&=  2;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "clone"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_clone_operator() {
+    $sins= $this.getSins('<?php
+      $clone= clone  $instance;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after ".="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_concat_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a.=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after ".="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_concat_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a.=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "/="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_div_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a/=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "/="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_div_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a/=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "instanceof"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_instanceof_operator() {
+    $sins= $this.getSins('<?php
+      echo $inst instanceof  String;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "=="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_is_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a ==$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "=="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_is_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a ==  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after ">="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_greater_or_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a >=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after ">="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_greater_or_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a >=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "==="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_is_identical_operator() {
+    $sins= $this.getSins('<?php
+      return $a ===$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "==="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_is_identical_operator() {
+    $sins= $this.getSins('<?php
+      return $a ===  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "!="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_is_not_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a !=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "!="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_is_not_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a !=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "!=="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_is_not_identical_operator() {
+    $sins= $this.getSins('<?php
+      return $a !==$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "!=="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_is_not_identical_operator() {
+    $sins= $this.getSins('<?php
+      return $a !==  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "<="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_smaller_or_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a <=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "<="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_smaller_or_equal_operator() {
+    $sins= $this.getSins('<?php
+      return $a <=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "and"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_logical_and_operator() {
+    $sins= $this.getSins('<?php
+      return $a and  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "or"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_logical_or_operator() {
+    $sins= $this.getSins('<?php
+      return $a or  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "xor"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_logical_xor_operator() {
+    $sins= $this.getSins('<?php
+      return $a xor  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "-="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_minus_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a-=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "-="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_minus_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a-=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "%="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_mod_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a%=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "%="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_mod_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a%=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "*="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_mul_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a*=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "*="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_mul_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a*=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "new"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_new_operator() {
+    $sins= $this.getSins('<?php
+      $inst= new  DummyClass();
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "|="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_or_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a|=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "|="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_or_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a|=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "+="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_plus_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a+=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "+="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_plus_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a+=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "<<"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_sl_operator() {
+    $sins= $this.getSins('<?php
+      return $a <<$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "<<"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_sl_operator() {
+    $sins= $this.getSins('<?php
+      return $a <<  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "<<="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_sl_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a<<=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "<<="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_sl_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a<<=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after ">>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_sr_operator() {
+    $sins= $this.getSins('<?php
+      return $a >>$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after ">>"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_sr_operator() {
+    $sins= $this.getSins('<?php
+      return $a >>  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after ">>="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_sr_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a>>=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after ">>="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_sr_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a>>=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "^="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_xor_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a^=$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "^="
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_xor_equal_operator() {
+    $sins= $this.getSins('<?php
+      $a^=  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "&&"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_boolean_and_operator() {
+    $sins= $this.getSins('<?php
+      return $a &&$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "&&"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_boolean_and_operator() {
+    $sins= $this.getSins('<?php
+      return $a &&  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore NEWLINE after "&&"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_newline_after_boolean_and_operator() {
+    $sins= $this.getSins('<?php
+      return (
+        1 == 2 &&
+        3 == 4
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore trailing whitespace after "&&"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_trailing_whitespace_after_boolean_and_operator() {
+    $sins= $this.getSins('<?php
+      return (
+        1 == 2 &&' ~ '    ' ~ '
+        3 == 4
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore trailing comment after "&&"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_trailing_comment_after_boolean_and_operator() {
+    $sins= $this.getSins('<?php
+      return (
+        1 == 2 &&    // ignore me
+        3 == 4
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "||"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_boolean_or_operator() {
+    $sins= $this.getSins('<?php
+      return $a ||$b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "||"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_boolean_or_operator() {
+    $sins= $this.getSins('<?php
+      return $a ||  $b;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore NEWLINE after "||"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_newline_after_boolean_or_operator() {
+    $sins= $this.getSins('<?php
+      return (
+        1 == 2 ||
+        3 == 4
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore trailing whitespace after "||"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_trailing_whitespace_after_boolean_or_operator() {
+    $sins= $this.getSins('<?php
+      return (
+        1 == 2 ||' ~ '    ' ~ '
+        3 == 4
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore trailing comment after "||"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_trailing_comment_after_boolean_or_operator() {
+    $sins= $this.getSins('<?php
+      return (
+        1 == 2 ||    // ignore me
+        3 == 4
+      );
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

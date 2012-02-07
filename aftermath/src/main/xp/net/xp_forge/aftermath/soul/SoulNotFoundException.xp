@@ -1,0 +1,16 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.soul;
+
+import lang.XPException;
+
+/**
+ * Indicates the spcified Soul could not be found
+ *
+ */
+public class SoulNotFoundException extends XPException {
+}

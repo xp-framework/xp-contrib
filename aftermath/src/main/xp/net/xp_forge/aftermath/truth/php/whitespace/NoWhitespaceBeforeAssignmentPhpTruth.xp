@@ -1,0 +1,64 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.in_array;
+
+/**
+ * Enforces that there is no whitespace before assignments
+ *
+ * Exception:
+ * - Aligned assignments:
+ *   $short        = 100;
+ *   $longVariable = 200;
+ *                 ^
+ *                 | aligned assignments
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAssignmentPhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('No whitespace before assignment'),
+  @message('There is whitespace before assignment operator')
+]
+public class NoWhitespaceBeforeAssignmentPhpTruth extends PhpTruth {
+  private static string[] $assignmentOperators= [
+    'A_EQUAL',                  // =
+    'T_AND_EQUAL',              // &=
+    'T_CONCAT_EQUAL',           // .=
+    'T_DIV_EQUAL',              // /=
+    'T_MINUS_EQUAL',            // -=
+    'T_MOD_EQUAL',              // %=
+    'T_MUL_EQUAL',              // *=
+    'T_OR_EQUAL',               // |=
+    'T_PLUS_EQUAL',             // +=
+    'T_SL_EQUAL',               // <<=
+    'T_SR_EQUAL',               // >>=
+    'T_XOR_EQUAL'               // ^=
+  ];
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    if (!in_array($deed.name, self::$assignmentOperators)) return false;
+
+    // No WHITESPACE before: good
+    if (null === ($previous= $deed.previous) || 'T_WHITESPACE' !== $previous.name) return false;
+
+    // Ignore aligned assignments
+    if (DeedUtils::isAligned($deed)) return false;
+
+    // Got ya!
+    return true;
+  }
+}

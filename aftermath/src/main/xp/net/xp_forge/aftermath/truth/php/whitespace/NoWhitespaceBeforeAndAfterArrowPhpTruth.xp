@@ -1,0 +1,53 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.strpos;
+
+/**
+ * Enforces that there is no whitespace befor and after the
+ * object access (arrow) operator (->)
+ *
+ * Exception:
+ * $truth= XPClass::forName("net.xp_forge.aftermath.truth.php.NoWhitespaceBeforeAndAfterArrowTruth")
+ *   ->newInstance();
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.NoWhitespaceBeforeAndAfterArrowPhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('No whitespace before and after arrow operator'),
+  @message('There is whitespace before or after the arrow (object access) operator')
+]
+public class NoWhitespaceBeforeAndAfterArrowPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    if ('T_OBJECT_OPERATOR' !== $deed.name) return false;
+
+    // No whitespace after "->"
+    if (null !== $deed.next && 'T_WHITESPACE' === $deed.next.name) return true;
+
+    // No whitespace before "->"
+    // Note: allow line splits
+    if (
+      null !== $deed.previous &&
+      'T_WHITESPACE' === $deed.previous.name &&
+      'A_NEWLINE' !== DeedUtils::getPreviousNonWhitespace($deed.previous).name
+    ) return true;
+
+    // Clean
+    return false;
+  }
+}

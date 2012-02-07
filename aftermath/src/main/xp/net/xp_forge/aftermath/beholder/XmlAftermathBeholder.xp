@@ -1,0 +1,155 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.beholder;
+
+import xml.Node;
+import xml.Tree;
+import util.Date;
+import util.Observable;
+
+import net.xp_forge.aftermath.God;
+import net.xp_forge.aftermath.Sin;
+import net.xp_forge.aftermath.Beholder;
+import net.xp_forge.aftermath.Aftermath;
+import net.xp_forge.aftermath.BeholderNote;
+
+import native standard.explode;
+import native standard.implode;
+import native standard.array_pop;
+
+/**
+ * Beholder that outputs a custom XML:
+ *
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <aftermath version="0.4" begin="2011-11-08T17:34:21+01:00" end="2011-11-08T17:34:21+05:00">
+ *   <realm name="/home/aftermath/dev/coolproject/src">
+ *     <soul name="path/to/File.class.php">
+ *       <sin
+ *         year="6"
+ *         day="100"
+ *         feat="doDomething"
+ *         quest="MainDoer"
+ *         crusade="org.company.coolproject"
+ *         truth="net.xp_forge.aftermath.truth.php.whitespace.ForbidTrailingWhitespaceTruth"
+ *         severity="major"
+ *       >
+ *        <message>Line has trailing whitespace</message>
+ *       </sin>
+ *       ...
+ *     </soul>
+ *   ...
+ *   </realm>
+ * </aftermath>
+ *
+ */
+public class XmlAftermathBeholder extends Beholder {
+  protected BeholderNote[] $notes= [];
+
+  protected Date   $begin;
+  protected Date   $end;
+  protected string $version;
+
+  /**
+   * God has entered the building
+   *
+   * @param  util.Observable $obs
+   * @param  net.xp_forge.aftermath.Aftermath $aftermath
+   * @return void
+   */
+  [@observer(type= 'net.xp_forge.aftermath.Aftermath')]
+  public void updateAftermath(Observable $obs, Aftermath $aftermath) {
+
+    // Get version
+    $this.version= $aftermath.getVersion();
+
+    // Get begin date
+    $this.begin= Date::now();
+  }
+
+  /**
+   * God has found a Sin
+   *
+   * @param  util.Observable $obs
+   * @param  net.xp_forge.aftermath.Sin $sin
+   * @return void
+   */
+  [@observer(type= 'net.xp_forge.aftermath.Sin')]
+  public void updateSin(Observable $obs, Sin $sin) {
+    $this.notes[]= BeholderNote::fromSin($sin);
+  }
+
+  /**
+   * God's work is complete now. Write XML output
+   *
+   * @param  util.Observable $obs
+   * @param  net.xp_forge.aftermath.God $god
+   * @return void
+   */
+  [@observer(type= 'net.xp_forge.aftermath.God')]
+  public void updateGod(Observable $obs, God $god) {
+
+    // Get end date
+    $this.end= Date::now();
+
+    // Build XML
+    $aftermathNode= new Node('aftermath', null, [
+      version : $this.version,
+      begin   : $this.begin.toString(),
+      end     : $this.end.toString()
+    ]);
+
+    // Init counters
+    $currentRealmNode = null;
+    $currentRealmName = null;
+    $currentSoulName  = null;
+    $currentSoulNode  = null;
+
+    // Add all Sins
+    for ($ni= 0, $nn= $this.notes.length; $ni < $nn; $ni++) {
+      $note= $this.notes[$ni];
+
+      // New Realm
+      if ($currentRealmName !== $note.realmName) {
+        $currentRealmName= $note.realmName;
+        $currentRealmNode= $aftermathNode.addChild(new Node('realm', null, [name: $currentRealmName]));
+      }
+
+      // We must have a realm node
+      if (null === $currentRealmNode) {
+        $currentRealmNode= $aftermathNode.addChild(new Node('realm'));
+      }
+
+      // New Soul
+      if ($currentSoulName !== $note.soulName) {
+        $currentSoulName= $note.soulName;
+        $currentSoulNode= $currentRealmNode.addChild(new Node('soul', null, [name: $currentSoulName]));
+      }
+
+      // Add Sin
+      $sinNode= $currentSoulNode.addChild(new Node('sin', null, [
+        year      : $note.year,
+        day       : $note.day,
+        feat      : $note.featName,
+        quest     : $note.questName,
+        crusade   : $note.crusadeName,
+        truth     : $note.truthFqcn,
+        truthName : $note.truthName,
+        severity  : $note.severity.name()
+      ]));
+
+      // Add Sin message
+      $sinNode.addChild(new Node('message', $note.message));
+    }
+
+    // Make a Tree out of it
+    $tree= new Tree().withEncoding('UTF-8').withRoot($aftermathNode);
+
+    // Write to output
+    $this.out.writeLine($tree.getDeclaration());
+    $this.out.write($tree.getSource());
+  }
+}

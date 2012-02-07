@@ -1,0 +1,181 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.comment;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.comment.ClassApidocPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.comment.ClassApidocPhpTruth')]
+public class ClassApidocPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch missing class API doc
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_class_apidoc() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {    // Missing class API doc
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch missing interface API doc
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_interface_apidoc() {
+    $sins= $this.getSins('<?php
+      interface DummyTestInterface {    // Missing interface API doc
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch class API doc separated by empty line
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_class_apidoc_separated_by_empty_line() {
+    $sins= $this.getSins('<?php
+      /**
+       * API doc separated by empty line
+       *
+       */
+
+      public class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch interface API doc separated by empty line
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_interface_apidoc_separated_by_empty_line() {
+    $sins= $this.getSins('<?php
+      /**
+       * API doc separated by empty line
+       *
+       */
+
+      public interface DummyTestInterface {
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore class correct usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_class_correct_usage() {
+
+    $sins= $this.getSins('<?php
+      /**
+       * API doc
+       *
+       */
+      public class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore interface correct usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_interface_correct_usage() {
+
+    $sins= $this.getSins('<?php
+      /**
+       * API doc
+       *
+       */
+      public interface DummyTestInterface {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore class annotations
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_class_annotations() {
+    $sins= $this.getSins('<?php
+      /**
+       * API doc
+       *
+       */
+      #[@test]
+      public class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore multi-line class annotations
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_multiline_class_annotations() {
+    $sins= $this.getSins('<?php
+      /**
+       * API doc
+       *
+       */
+      #[
+      # @test
+      #]
+      public class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore interface annotations
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_interface_annotations() {
+    $sins= $this.getSins('<?php
+      /**
+       * API doc
+       *
+       */
+      #[@test]
+      public interface DummyTestInterface {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

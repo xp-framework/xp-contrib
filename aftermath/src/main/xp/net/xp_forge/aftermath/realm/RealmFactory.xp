@@ -1,0 +1,38 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.realm;
+
+import io.Folder;
+import net.xp_forge.aftermath.Realm;
+import net.xp_forge.aftermath.realm.FileRealm;
+
+/**
+ * Factory for Realms
+ *
+ */
+public class RealmFactory {
+
+  /**
+   * Private constructor
+   *
+   */
+  private __construct() {
+  }
+
+  /**
+   * Create Realms from names
+   *
+   * Note: currently only produces FileRealms
+   *
+   * @param  string $name
+   * @return net.xp_forge.aftermath.Realm
+   * @throws net.xp_forge.aftermath.realm.RealmNotFoundException
+   */
+  public static Realm produce(string $name) {
+    return new FileRealm(new Folder($name));
+  }
+}

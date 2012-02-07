@@ -1,0 +1,71 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.layout;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.layout.OneStatementPerLinePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.layout.OneStatementPerLinePhpTruth')]
+public class OneStatementPerLinePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch 2 semicolons on the same line
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_two_semicolons_on_the_same_line() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+        public __construct($a) {
+          $this->a= $a; echo($a);
+        }
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore semicolons in for() statements
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_semicolons_in_for_statements() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+        public __construct($a) {
+          for($ci= 0, $cn= 100; $ci < $cn; $ci++) {
+            $this.doSomething();
+          }
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore semicolons in comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_semicolons_in_comments() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+        public __construct($a) {
+          $this->a= $a; // Comment with a ; semicolon
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

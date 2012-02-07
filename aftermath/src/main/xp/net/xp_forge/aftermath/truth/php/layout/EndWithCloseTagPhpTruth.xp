@@ -1,0 +1,31 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.layout;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Enforces that files end with a PHP close tag
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.layout.EndWithCloseTagPhpTruth.Test
+ */
+[
+  @severity('blocker'),
+  @name('End with PHP close-tag'),
+  @message('File does not end with the PHP close tag')
+]
+public class EndWithCloseTagPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return (null === $deed.next && 'T_CLOSE_TAG' !== $deed.name);
+  }
+}

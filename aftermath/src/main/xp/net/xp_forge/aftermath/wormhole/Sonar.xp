@@ -1,0 +1,217 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.wormhole;
+
+import xml.Node;
+import xml.Tree;
+import lang.reflect.Package;
+import lang.reflect.Modifiers;
+import io.streams.OutputStreamWriter;
+
+import lang.IllegalArgumentException;
+import lang.ElementNotFoundException;
+
+import net.xp_forge.aftermath.Creed;
+import net.xp_forge.aftermath.Dogma;
+import net.xp_forge.aftermath.Truth;
+import net.xp_forge.aftermath.Severity;
+
+import native standard.count;
+import native standard.strtoupper;
+import native standard.strtolower;
+
+/**
+ * Integration with Sonar via sonar-aftermath-plugin
+ *
+ * @see http://www.sonarsource.org/
+ * @see https://github.com/xp-framework/xp-contrib/sonar-aftermath-plugin
+ */
+public class Sonar {
+  public static string $creedName= 'PHP';
+
+  /**
+   * Export all Truths in the specified package to "rules.xml" format
+   * that can be consumed by the sonar-aftermath-plugin
+   *
+   * Example XML output:
+   * <?xml version="1.0" encoding="UTF-8"?>
+   * <rules>
+   *   <rule>
+   *     <key>net.xp_forge.aftermath.truth.php.layout.LineLengthTruth</key>
+   *     <name>Line length</name>
+   *     <priority>CRITICAL</priority>
+   *     <configKey>net.xp_forge.aftermath.truth.php.layout.LineLengthTruth</configKey>
+   *     <description>Line is longer than $max characters</description>
+   *     <param>
+   *       <key>max</key>
+   *       <description>Maximum accepted line length</description>
+   *       <defaultValue>120</defaultValue>
+   *     </param>
+   *   </rule>
+   *   <rule>
+   *     <key>net.xp_forge.aftermath.truth.php.naming.ClassNameInCamelCaseTruth</key>
+   *     <name>Class names in CamelCase</name>
+   *     <priority>CRITICAL</priority>
+   *     <configKey>net.xp_forge.aftermath.truth.php.naming.ClassNameInCamelCaseTruth</configKey>
+   *     <description>Class name does not use the CamelCase notation</description>
+   *   </rule>
+   * </rules>
+   *
+   * @param  lang.reflect.Package $package
+   * @param  io.streams.OutputStreamWriter $writer
+   * @return void
+   * @throws lang.ElementNotFoundException
+   */
+  public static void exportRules(Package $package, OutputStreamWriter $writer) throws ElementNotFoundException {
+
+    // Build root node
+    $root= new Node('rules');
+
+    // Add <rule> nodes
+    $truths= self::getTruthsInPackage($package);
+    for ($ti= 0, $tn= count($truths); $ti < $tn; $ti++) {
+      $root.addChild(self::exportRule($truths[$ti]));
+    }
+
+    // Write output
+    $tree= new Tree().withRoot($root).withEncoding('UTF-8');
+    $writer.write($tree.getDeclaration() ~ "\n" ~ $tree.getSource(INDENT_DEFAULT));
+  }
+
+  /**
+   * Export specified Dogma to a Sonar profile XML file
+   * that can be consumed by the sonar-aftermath-plugin
+   *
+   * Example XML output:
+   * <?xml version="1.0" encoding="UTF-8"?>
+   * <profile>
+   *   <name>All Aftermath rules</name>
+   *   <language>php</language>
+   *   <rules>
+   *     <rule>
+   *       <repositoryKey>aftermath</repositoryKey>
+   *       <key>net.xp_forge.aftermath.truth.php.layout.LineLengthTruth</key>
+   *     </rule>
+   *     <rule>
+   *       <repositoryKey>aftermath</repositoryKey>
+   *       <key>net.xp_forge.aftermath.truth.php.naming.ClassNameInCamelCaseTruth</key>
+   *     </rule>
+   *   </rules>
+   * </profile>
+   *
+   * @param  net.xp_forge.aftermath.Dogma $dogma
+   * @param  io.streams.OutputStreamWriter $writer
+   * @return void
+   * @throws lang.ElementNotFoundException
+   */
+  public static void exportProfile(Dogma $dogma, OutputStreamWriter $writer) throws ElementNotFoundException {
+
+    // Build root node
+    $root= new Node('profile');
+
+    // Add name & language
+    $root.addChild(new Node('name', $dogma.getName()));
+    $root.addChild(new Node('language', strtolower(self::$creedName)));
+    $rulesNode= $root.addChild(new Node('rules'));
+
+    // Add <rule> nodes
+    $truths= $dogma.getTruthsForCreed(Creed::forName(self::$creedName));
+    for ($ti= 0, $tn= count($truths); $ti < $tn; $ti++) {
+      $truth= $truths[$ti];
+
+      $ruleNode= $rulesNode.addChild(new Node('rule'));
+      $ruleNode.addChild(new Node('repositoryKey', 'aftermath'));
+      $ruleNode.addChild(new Node('key', $truth.getClassName()));
+    }
+
+    // Write output
+    $tree= new Tree().withRoot($root).withEncoding('UTF-8');
+    $writer.write($tree.getDeclaration() ~ "\n" ~ $tree.getSource(INDENT_DEFAULT));
+  }
+
+  /**
+   * Recursively get all Truths in the specified package
+   *
+   * @param  lang.reflect.Package $package
+   * @return net.xp_forge.aftermath.Truth[]
+   */
+  protected static Truth[] getTruthsInPackage(Package $package) {
+    $retVal= [];
+
+    // Scan classes
+    $classes= $package.getClasses();
+    for ($ci= 0, $cn= count($classes); $ci < $cn; $ci++) {
+      $class= $classes[$ci];
+      if (!$class.isSubclassOf(Truth::class) || Modifiers::isAbstract($class.getModifiers())) continue;
+
+      // Create Truth instance and check Creed
+      $truth= $class.newInstance();
+      if (self::$creedName !== $truth.getCreed().getName()) continue;
+
+      // Add to list
+      $retVal[]= $truth;
+    }
+
+    // Scan packages
+    $packages= $package.getPackages();
+    for ($pi= 0, $pn= count($packages); $pi < $pn; $pi++) {
+      $truths= self::getTruthsInPackage($packages[$pi]);
+      for ($ti= 0, $tn= count($truths); $ti < $tn; $ti++) {
+        $retVal[]= $truths[$ti];
+      }
+    }
+
+    return $retVal;
+  }
+
+  /**
+   * Build a <rule> node (rules.xml)
+   *
+   * <rule>
+   *   <key>net.xp_forge.aftermath.truth.php.layout.LineLengthTruth</key>
+   *   <name>Line length</name>
+   *   <priority>CRITICAL</priority>
+   *   <configKey>net.xp_forge.aftermath.truth.php.layout.LineLengthTruth</configKey>
+   *   <description>Line is longer than $max characters</description>
+   *   <param>
+   *     <key>max</key>
+   *     <description>Maximum accepted line length</description>
+   *     <defaultValue>120</defaultValue>
+   *   </param>
+   * </rule>
+   *
+   * @param  net.xp_forge.aftermath.Truth $truth
+   * @return xml.Node
+   * @throws lang.ElementNotFoundException
+   */
+  protected static Node exportRule(Truth $truth) throws ElementNotFoundException {
+    $retVal= new Node('rule');
+
+    // Add base attributes
+    $truthClass= $truth.getClass();
+    $retVal.addChild(new Node('key',         $truthClass.getName()));
+    $retVal.addChild(new Node('name',        $truth.getName()));
+    $retVal.addChild(new Node('priority',    strtoupper($truth.getSeverity().name())));
+    $retVal.addChild(new Node('configKey',   $truthClass.getName()));
+    $retVal.addChild(new Node('description', $truth.getMessage()));
+
+    // Add params
+    $fields= $truthClass.getFields();
+    for ($fi= 0, $fn= count($fields); $fi < $fn; $fi++) {
+      $field= $fields[$fi];
+      if (!$field.hasAnnotation('param', 'description')) continue;
+      $paramNode= new Node('param');
+      $paramNode.addChild(new Node('key',          $field.getName()));
+      $paramNode.addChild(new Node('description',  $field.getAnnotation('param', 'description')));
+      $paramNode.addChild(new Node('defaultValue', $field.get($truth)));
+
+      $retVal.addChild($paramNode);
+    }
+
+    return $retVal;
+  }
+}

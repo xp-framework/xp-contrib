@@ -1,0 +1,37 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath;
+
+import net.xp_forge.aftermath.Soul;
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.Truth;
+
+/**
+ * Represents a Sin commited by a Soul
+ *
+ * Note: this is basically just a container
+ *
+ * @aka Violation
+ */
+public class Sin {
+  public Soul  $soul;
+  public Deed  $deed;
+  public Truth $truth;
+
+  /**
+   * Constructor
+   *
+   * @param net.xp_forge.aftermath.Soul $soul
+   * @param net.xp_forge.aftermath.Deed $deed
+   * @param net.xp_forge.aftermath.Truth $truth
+   */
+  public __construct(Soul $soul, Deed $deed, Truth $truth) {
+    $this.soul  = $soul;
+    $this.deed  = $deed;
+    $this.truth = $truth;
+  }
+}

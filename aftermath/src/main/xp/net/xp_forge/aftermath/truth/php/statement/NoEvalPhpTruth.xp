@@ -1,0 +1,31 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.statement;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Discourages the use of eval()
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.statement.NoEvalPhpTruthTest
+ */
+[
+  @severity('major'),
+  @name('Dsicourage eval() usage'),
+  @message('Usage of eval() is highly discouraged')
+]
+public class NoEvalPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return 'T_EVAL' === $deed.name;
+  }
+}

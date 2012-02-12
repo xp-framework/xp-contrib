@@ -1,0 +1,55 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+/**
+ * Enforces that there is an empty line after a comment line
+ *
+ * Exceptions:
+ * - Perl-style comments
+ * - Start of file
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.EmptyLineBeforeCommentLinePhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('Empty line before comment line'),
+  @message('There should be an empty line before every comment line')
+]
+public class EmptyLineBeforeCommentLinePhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    if ('T_COMMENT' !== $deed.name) return false;
+
+    // Check if this is a full-line comment (previous non-whitespace Deed is a NEWLINE)
+    $previous= DeedUtils::getPreviousNonWhitespace($deed);
+    if (null === $previous || 'A_NEWLINE' !== $previous.name) return false;
+
+    // Previous line should be either:
+    // - empty
+    // - PHP open-tag
+    // - a previous comment (like this one)
+    $previous= DeedUtils::getPreviousNonWhitespace($previous);
+    if (
+      null === $previous ||
+      'A_NEWLINE' === $previous.name ||
+      'T_OPEN_TAG' === $previous.name ||
+      'T_COMMENT' === $previous.name
+    ) return false;
+
+    // Got ya!
+    return true;
+  }
+}

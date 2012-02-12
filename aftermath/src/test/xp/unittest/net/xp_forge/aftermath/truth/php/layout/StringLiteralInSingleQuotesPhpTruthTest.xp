@@ -1,0 +1,62 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.layout;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.layout.StringLiteralInSingleQuotesPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.layout.StringLiteralInSingleQuotesPhpTruth')]
+public class StringLiteralInSingleQuotesPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch double-quotes
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_double_quotes() {
+    $sins= $this.getSins(' <?php
+      public class DummyTestClass {
+        public $a= "Double-quotes usage is wrong";
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore string with escaped values
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_double_quotes_strings_with_escape_characters() {
+    $sins= $this.getSins(' <?php
+      public class DummyTestClass {
+        public $a= "Double-quotes usage is wrong,\nBut some execeptions apply";
+        public $a= "Also octal (\777) and hexa (\xAA) escapes are ignored";
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore string with single-quotes
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_double_quotes_strings_with_single_quotes() {
+    $sins= $this.getSins(' <?php
+      public $a= "select * from table where name like \'%test%\'";
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

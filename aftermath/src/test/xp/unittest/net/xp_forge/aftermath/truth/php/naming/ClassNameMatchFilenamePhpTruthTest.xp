@@ -1,0 +1,78 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.naming;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.naming.ClassNameMatchFilenamePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.naming.ClassNameMatchFilenamePhpTruth'), @soul(name= 'DummyTestClass.class.php')]
+public class ClassNameMatchFilenamePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch class names not matching file names
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_bad_class_names() {
+    $sins= $this.getSins('<?php
+      public class NotMatchingTestClass {    // wrong
+      }
+      public class DummyTestClass {          // correct
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch interface names not matching file names
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_bad_interface_names() {
+    $sins= $this.getSins('<?php
+      public interface NotMatchingTestClass {    // wrong
+      }
+      public interface DummyTestClass {          // correct
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore class dot-names
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_class_dot_names() {
+    $sins= $this.getSins('<?php
+      public class i·am·a·DummyTestClass {   // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore interface dot-names
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_interface_dot_names() {
+    $sins= $this.getSins('<?php
+      public interface i·am·a·DummyTestClass {   // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

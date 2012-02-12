@@ -1,0 +1,176 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.comment;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.comment.MethodApidocPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.comment.MethodApidocPhpTruth')]
+public class MethodApidocPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch missing method API doc
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_method_apidoc() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+        public function dummyMethod() {    // Missing method API doc
+        }
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch method API doc separated by empty line
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_method_apidoc_separated_by_empty_line() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+
+        /**
+         * API doc separated by empty line
+         *
+         */
+
+        public function dummyMethod() {
+        }
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore method correct usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_method_correct_usage() {
+
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+
+        /**
+         * API doc separated by empty line
+         *
+         */
+        public function dummyMethod() {
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore method annotations
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_method_annotations() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+
+        /**
+         * API doc separated by empty line
+         *
+         */
+        #[@test]
+        public function dummyMethod() {
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore multi-line method annotations
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_multiline_method_annotations() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+
+        /**
+         * API doc separated by empty line
+         *
+         */
+        #[
+        # @test
+        #]
+        public function dummyMethod() {
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore missing apidoc for functions outside class
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_missing_apidoc_for_functions_outside_class() {
+    $sins= $this.getSins('<?php
+      function correctMissingScope() {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore missing apidoc for functions defined inside class methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_missing_apidoc_for_functions_defined_inside_class_methods() {
+    $sins= $this.getSins('<?php
+      class DummyTestClass {
+        /**
+         * API doc
+         *
+         */
+        public function defineFunction() {
+          function definedMethod() {       // Ignore missing API doc
+          }
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore missing API doc for __static()
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_missing_apidoc_for_static() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+        static function __static() { // Ignore missing API doc
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

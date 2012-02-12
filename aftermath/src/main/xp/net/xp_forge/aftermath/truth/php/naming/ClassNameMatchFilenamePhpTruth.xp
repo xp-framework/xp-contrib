@@ -1,0 +1,51 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.naming;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.chr;
+import native standard.substr;
+import native standard.strpos;
+import native standard.basename;
+import native standard.explode;
+import native standard.array_pop;
+
+/**
+ * Enforces that all class/interface names must match the file name it is declared in
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.naming.ClassNameMatchFilenamePhpTruthTest
+ */
+[
+  @severity('blocker'),
+  @name('Class name match file name'),
+  @message('Class/interface name does not match the file name')
+]
+public class ClassNameMatchFilenamePhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    if (
+      ('T_CLASS' !== $deed.name && 'T_INTERFACE' !== $deed.name) ||
+      null === ($quest= $deed.quest) ||
+      null === ($soul= $deed.soul)
+    ) return false;
+
+    // Handle Timm's magic names "rdbms·finder·FindAllDelegate"
+    $bits= explode(chr(183), $quest.name);
+    $questName= array_pop($bits);
+
+    // Check class name match file name
+    $filename= basename($soul.getName());
+    return $questName !== substr($filename, 0, strpos($filename, '.'));
+  }
+}

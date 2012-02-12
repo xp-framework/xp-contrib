@@ -1,0 +1,70 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath;
+
+import net.xp_forge.aftermath.Realm;
+import net.xp_forge.aftermath.Creed;
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.soul.SoulNotFoundException;
+
+import native standard.sprintf;
+
+/**
+ * Represents a Soul
+ *
+ * @aka File
+ */
+public abstract class Soul {
+
+  /**
+   * Get this Soul's Realm
+   *
+   * @aka    getProject()
+   * @return net.xp_forge.aftermath.Realm
+   */
+  public abstract Realm getRealm();
+
+  /**
+   * Get this Soul's name
+   *
+   * @aka    getFilePath()
+   * @return string
+   */
+  public abstract string getName();
+
+  /**
+   * Get this Soul's stigma. Based on this one can get this Soul's Creed
+   *
+   * @aka    getExtension()
+   * @return string
+   */
+  public abstract string getStigma();
+
+  /**
+   * Get this Soul's Essence
+   *
+   * @aka    getContents()
+   * @return string
+   * @throws net.xp_forge.aftermath.soul.SoulNotFoundException
+   */
+  public abstract string getEssence();
+
+  /**
+   * Returns a string representation of this object
+   *
+   * @return string
+   */
+  public string toString() {
+    return sprintf(
+      '%s(realm= %s, name= %s, stigma= %s)',
+      $this.getClassName(),
+      null === $this.getRealm() ? '[null]' : $this.getRealm().getName(),
+      $this.getName(),
+      null === $this.getStigma() ? '[null]' : $this.getStigma()
+    );
+  }
+}

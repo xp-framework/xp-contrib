@@ -1,0 +1,199 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.statement;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.statement.MethodScopePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.statement.MethodScopePhpTruth')]
+public class MethodScopePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch missing scope for class methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_scope_for_class_methods() {
+    $sins= $this.getSins('<?php
+      abstract class DummyTestClass {
+        function missingScope() {                     // wrong
+        }
+        abstract function abstractMissingScope() {    // wrong
+        }
+        final function finalMissingScope() {          // wrong
+        }
+      }
+    ?>');
+    $this.assertEquals(3, $sins.length);
+  }
+
+  /**
+   * Catch missing scope for interface methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_scope_for_interface_methods() {
+    $sins= $this.getSins('<?php
+      interface DummyTestInterface {
+        function missingScope();    // wrong
+      }
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore missing scope for functions outside class
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_missing_scope_for_functions_outside_class() {
+    $sins= $this.getSins('<?php
+      function correctMissingScope() {    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore missing scope for functions defined inside class methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_missing_scope_for_functions_defined_inside_class_methods() {
+    $sins= $this.getSins('<?php
+      class DummyTestClass {
+        public function defineFunction() {
+          function definedMethod() {
+          }
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore public scope for class methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_public_scope_for_class_methods() {
+    $sins= $this.getSins('<?php
+      abstract class DummyTestClass {
+        public function publicMethod() {                    // correct
+        }
+        public final function publicFinalMethod() {         // correct
+        }
+        public static function publicStaticMethod() {       // correct
+        }
+        public abstract function publicAbstractMethod();    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore public scope for interface methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_public_scope_for_interface_methods() {
+    $sins= $this.getSins('<?php
+      interface DummyTestInterface {
+        public function publicMethod();    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore protected scope for class methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_protected_scope_for_class_methods() {
+    $sins= $this.getSins('<?php
+      class DummyTestClass {
+        protected function protectedMethod() {    // correct
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore protected scope for interface methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_protected_scope_for_interface_methods() {
+    $sins= $this.getSins('<?php
+      interface DummyTestInterface {
+        protected function protectedMethod();    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore private scope for class methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_private_scope_for_class_methods() {
+    $sins= $this.getSins('<?php
+      class DummyTestClass {
+        private function privateMethod() {    // correct
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore private scope for interface methods
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_private_scope_for_interface_methods() {
+    $sins= $this.getSins('<?php
+      interface DummyTestInterface {
+        private function privateMethod();    // correct
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore missing scope for __static() method
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_missing_scope_for_static_method() {
+    $sins= $this.getSins('<?php
+      class DummyTestClass {
+        static function __static() {    // ignore
+        }
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

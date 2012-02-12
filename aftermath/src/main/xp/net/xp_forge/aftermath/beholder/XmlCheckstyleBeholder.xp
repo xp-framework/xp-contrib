@@ -1,0 +1,102 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.beholder;
+
+import xml.Node;
+import xml.Tree;
+import util.Observable;
+
+import net.xp_forge.aftermath.God;
+import net.xp_forge.aftermath.Sin;
+import net.xp_forge.aftermath.Beholder;
+import net.xp_forge.aftermath.BeholderNote;
+
+import native standard.print_r;
+
+/**
+ * Beholder that outputs a Checkstyle compatible XML:
+ *
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <checkstyle version="4.1">
+ *   <file name="/path/to/File.class.php">
+ *     <error
+ *       line="6"
+ *       column="10"
+ *       severity="error|warning|info"
+ *       message="Line has trailing whitespace"
+ *       source="net.xp_forge.aftermath.truth.php.whitespace.ForbidTralingSpaceTruth"
+ *     />
+ *     ...
+ *   </file>
+ *   ...
+ * </checkstyle>
+ *
+ */
+public class XmlCheckstyleBeholder extends Beholder {
+  protected static [:int] $severityMapping= [
+    info     : 'info',
+    minor    : 'info',
+    major    : 'warning',
+    critical : 'error',
+    blocker  : 'error'
+  ];
+
+  protected BeholderNote[] $notes= [];
+
+  /**
+   * God has found a Sin
+   *
+   * @param  util.Observable $obs
+   * @param  net.xp_forge.aftermath.Sin $sin
+   * @return void
+   */
+  [@observer(type= 'net.xp_forge.aftermath.Sin')]
+  public void updateSin(Observable $obs, Sin $sin) {
+    $this.notes[]= BeholderNote::fromSin($sin);
+  }
+
+  /**
+   * God's work is complete now. Write XML output
+   *
+   * @param  util.Observable $obs
+   * @param  net.xp_forge.aftermath.God $god
+   * @return void
+   */
+  [@observer(type= 'net.xp_forge.aftermath.God')]
+  public void updateGod(Observable $obs, God $god) {
+    $root= new Node('checkstyle', null, [version: '4.1']);
+
+    // Add all Sins
+    $currentSoulName= null;
+    $currentSoulNode= null;
+    for ($ni= 0, $nn= $this.notes.length; $ni < $nn; $ni++) {
+      $note= $this.notes[$ni];
+
+      // New Soul
+      if ($currentSoulName !== $note.soulName) {
+        $currentSoulName= $note.soulName;
+        $currentSoulNode= $root.addChild(new Node('file', null, [name: $currentSoulName]));
+      }
+
+      // Add Sin
+      $currentSoulNode.addChild(new Node('error', null, [
+        line     : $note.year,
+        column   : $note.day,
+        severity : self::$severityMapping[$note.severity.name()],
+        message  : $note.message,
+        source   : $note.truthFqcn
+      ]));
+    }
+
+    // Make a Tree out of it
+    $tree= new Tree().withEncoding('UTF-8').withRoot($root);
+
+    // Write to output
+    $this.out.writeLine($tree.getDeclaration());
+    $this.out.write($tree.getSource());
+  }
+}

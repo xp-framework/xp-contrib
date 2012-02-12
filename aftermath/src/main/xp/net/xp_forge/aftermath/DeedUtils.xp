@@ -1,0 +1,396 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath;
+
+import net.xp_forge.aftermath.Deed;
+
+import native core.strlen;
+import native standard.count;
+import native standard.substr;
+import native standard.explode;
+import native standard.array_pop;
+import native standard.print_r;
+
+/**
+ * Utils to manipulate Deeds
+ *
+ */
+public class DeedUtils {
+
+  /**
+   * Private constructor
+   *
+   */
+  private __construct() {
+  }
+
+  /**
+   * Get first Deed
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed getFirst(Deed $anchor) {
+    $deed= $anchor;
+    while (null !== $deed.previous) $deed= $deed.previous;
+    return $deed;
+  }
+
+  /**
+   * Get last Deed
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed getLast(Deed $anchor) {
+    $deed= $anchor;
+    while (null !== $deed.next) $deed= $deed.next;
+    return $deed;
+  }
+
+  /**
+   * Get Deed above
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  bool $alignedToRightEdge
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed getAbove(Deed $anchor, bool $alignedToRightEdge= false) {
+
+    // Get align anchor
+    $moment= $alignedToRightEdge ? $anchor.end : $anchor.begin;
+    if (null === $moment) return null;
+
+    // Get Deed above
+    return (self::searchByTime($anchor, $moment.year - 1, $moment.day));
+  }
+
+  /**
+   * Get Deed below
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  bool $alignedToRightEdge
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed getBelow(Deed $anchor, bool $alignedToRightEdge= false) {
+
+    // Get align anchor
+    $moment= $alignedToRightEdge ? $anchor.end : $anchor.begin;
+    if (null === $moment) return null;
+
+    // Get Deed above
+    return (self::searchByTime($anchor, $moment.year + 1, $moment.day));
+  }
+
+  /**
+   * Find previous Deed that matches the provided decription
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  string $name
+   * @param  string $description
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed findPrevious(Deed $anchor, string $name, string $description= null) {
+    $deed= $anchor;
+    while (null !== ($deed= $deed.previous)) {
+      if (
+        (null === $name || $deed.name === $name) &&
+        (null === $description || $deed.description === $description)
+      ) {
+        return $deed;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Find next Deed that matches the provided decription
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  string $name
+   * @param  string $description
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed findNext(Deed $anchor, string $name, string $description= null) {
+    $deed= $anchor;
+    while (null !== ($deed= $deed.next)) {
+      if (
+        (null === $name || $deed.name === $name) &&
+        (null === $description || $deed.description === $description)
+      ) {
+        return $deed;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Get previous non-whitespace Deed
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  bool $alsoSkipNewlines
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed getPreviousNonWhitespace(Deed $anchor, bool $alsoSkipNewlines= false) {
+    $previous= $anchor;
+    while (null !== ($previous= $previous.previous)) {
+      if ('T_WHITESPACE' !== $previous.name && (false === $alsoSkipNewlines || 'A_NEWLINE' !== $previous.name)) {
+        return $previous;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Get next non-whitespace Deed
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  bool $alsoSkipNewlines
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed getNextNonWhitespace(Deed $anchor, bool $alsoSkipNewlines= false) {
+    $next= $anchor;
+    while (null !== ($next= $next.next)) {
+      if ('T_WHITESPACE' !== $next.name && (false === $alsoSkipNewlines || 'A_NEWLINE' !== $next.name)) {
+        return $next;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Add the specified $new Deed after the specified $anchor Deed
+   *
+   * Note: this function is basically just updating the
+   * Deeds chain references
+   *
+   * Returns a reference to the newly added Deed
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  net.xp_forge.aftermath.Deed $new
+   * @return net.xp_forge.aftermath.Deed
+   */
+  public static Deed addDeedAfter(Deed $anchor, Deed $new) {
+
+    // Update references
+    $new.previous = $anchor;
+    $new.next= $anchor.next;
+    if (null !== $anchor.next) {
+      $anchor.next.previous= $new;
+    }
+    $anchor.next= $new;
+
+    // Return reference to newlt added Deed
+    return $new;
+  }
+
+  /**
+   * Remove the specified Deed from chain
+   *
+   * Note: this function is basically just updating the
+   * Deeds chain references
+   *
+   * @param  net.xp_forge.aftermath.Deed $deed
+   * @return void
+   */
+  public static void removeDeed(Deed $deed) {
+
+    // Update references
+    if (null !== $deed.previous) {
+      $deed.previous.next= $deed.next;
+    }
+
+    if (null !== $deed.next) {
+      $deed.next.previous= $deed.previous;
+    }
+  }
+
+  /**
+   * Search Deed by year and day
+   *
+   * @param  net.xp_forge.aftermath.Deed $anchor
+   * @param  int $year
+   * @param  int $day
+   * @return bool
+   */
+  public static bool searchByTime(Deed $anchor, int $year, int $day) {
+
+    // Sanity check
+    if (null === ($deedBegin= $anchor.begin)) return null;
+
+    // Search backward
+    if ($year < $deedBegin.year || ($year === $deedBegin.year && $day < $deedBegin.day)) {
+
+      // Move backward while $deed.begin.year >= $year
+      $deed= $anchor;
+      while (null !== ($deed= $deed.previous) && null !== ($deedBegin= $deed.begin) && $deedBegin.year >= $year) {
+        if (self::inTime($deed, $year, $day)) return $deed;
+      }
+
+    // Search forward
+    } else {
+
+      // Move forward while $deed.begin.year <= $year
+      $deed= $anchor;
+      while (null !== ($deed= $deed.next) && null !== ($deedBegin= $deed.begin) && $deedBegin.year <= $year) {
+        if (self::inTime($deed, $year, $day)) return $deed;
+      }
+    }
+
+    // Not found
+    return null;
+  }
+
+  /**
+   * Check for aligned Deeds
+   *
+   * E.g.:
+   * $a      = 10;
+   * $total += 20;
+   *         ^
+   *         | aligned equals
+   *
+   * @param  net.xp_forge.aftermath.Deed $deed
+   * @return bool
+   */
+  public static bool isAligned(Deed $deed) {
+
+    // Sanity check
+    if (null === ($deedEnd= $deed.end)) return false;
+
+    // Check $above Deed
+    if (
+      null !== ($above= self::getAbove($deed, true)) &&
+      null !== ($aboveEnd= $above.end) &&
+
+      // Check $deed and $above finish in the same time
+      $deedEnd.day === $aboveEnd.day &&
+
+      // Check $deed and $above finish with the same character
+      substr($deed.description, -1) === substr($above.description, -1)
+    ) {
+      return true;
+    }
+
+    // Check $below Deed
+    if (
+      null !== ($below= self::getBelow($deed, true)) &&
+      null !== ($belowEnd= $below.end) &&
+
+      // Check $deed and $below finish in the same time
+      $deedEnd.day === $belowEnd.day &&
+
+      // Check $deed and $below finish with the same character
+      substr($deed.description, -1) === substr($below.description, -1)
+
+   ) {
+      return true;
+    }
+
+    // Not aligned
+    return false;
+  }
+
+  /**
+   * Check for aligned whitespaces
+   *
+   * E.g.:
+   * $a= array(
+   *   'a'     => 1,
+   *   'bcdef' => 2,
+   *   'gh'    => 3
+   * )        ^
+   *          | aligned whitespace
+   *
+   *
+   * define('CHART_HORIZONTAL',  0x0000);
+   * define('CHART_VERTICAL',    0x0001);
+   *                            ^
+   *                            | aligned whitespace
+   *
+   * @param  net.xp_forge.aftermath.Deed $deed
+   * @return bool
+   */
+  public static bool isWhitespaceAligned(Deed $deed) {
+
+    // Sanity check
+    if (
+      'T_WHITESPACE' !== $deed.name ||
+      null === ($deedEnd= $deed.end)
+    ) return false;
+
+    // Check $above Deed exists
+    if (
+      null !== ($above= self::getAbove($deed, true)) &&
+      null !== ($aboveEnd= $above.end) &&
+
+      // Check $above is WHITESPACE
+      'T_WHITESPACE' === $above.name &&
+
+      // Check $deed and $above finish in the same time
+      $deedEnd.day === $aboveEnd.day
+    ) {
+      return true;
+    }
+
+    // Check $below Deed exists
+    if (
+      null !== ($below= self::getBelow($deed, true)) &&
+      null !== ($belowEnd= $below.end) &&
+
+      // Check $below is WHITESPACE
+      'T_WHITESPACE' === $below.name &&
+
+      // Check $deed and $below finish in the same time
+      $deedEnd.day === $belowEnd.day
+    ) {
+      return true;
+    }
+
+    // Not aligned
+    return false;
+  }
+
+  /**
+   * Check if the provided Deed took place in the specified time-point
+   *
+   * @param  net.xp_forge.aftermath.Deed $deed
+   * @param  int $year
+   * @param  int $day
+   * @return bool
+   */
+  protected static bool inTime(Deed $deed, int $year, int $day) {
+
+    // Sanity check
+    if (null === ($deedBegin= $deed.begin) || null === ($deedEnd= $deed.end)) return false;
+
+    // Check out of year-span
+    if ($year < $deedBegin.year || $year > $deedEnd.year) return false;
+
+    // NEWLINE special case
+    if ('A_NEWLINE' === $deed.name) {
+      return ($year === $deedBegin.year && $day === $deedBegin.day);
+    }
+
+    // Check one-liners
+    if ($deedBegin.year === $deedEnd.year) {
+      return ($year === $deedBegin.year && $day >= $deedBegin.day && $day <= $deedEnd.day);
+
+    // Multi-line Deed
+    } else {
+
+      // Check first line: before
+      if ($year === $deedBegin.year && $day < $deedBegin.day) return false;
+
+      // Check last line: after
+      if ($year === $deedEnd.year && $day > $deedEnd.day) return false;
+
+      // Got ya!
+      return true;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.whitespace;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.in_array;
+
+/**
+ * Enforces that there is one SPACE character before and after
+ * the short-ternary operator '?:'
+ *
+ * $a= $b ?: 10;
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.whitespace.OneSpaceBeforeAndAfterShortTernaryPhpTruthTest
+ */
+[
+  @severity('minor'),
+  @name('One space before and after the short-ternary operator'),
+  @message('There must be one SPACE character before and after the short-ternary operator')
+]
+public class OneSpaceBeforeAndAfterShortTernaryPhpTruth extends PhpTruth {
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+    return (
+      'A_SHORT_TERNARY' === $deed.name &&
+      (
+        (null !== $deed.previous && !$deed.previous.is('T_WHITESPACE', ' ')) ||
+        (null !== $deed.next && !$deed.next.is('T_WHITESPACE', ' '))
+      )
+    );
+  }
+}

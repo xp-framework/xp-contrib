@@ -1,0 +1,50 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.layout;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.layout.NoVariableInStringPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.layout.NoVariableInStringPhpTruth')]
+public class NoVariableInStringPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch variables in strings
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_variables_in_strings() {
+    $sins= $this.getSins('<?php
+      $a= "$variable";             // wrong
+      $b= "Prefix$variable";       // wrong
+      $c= "$variable Suffix";      // wrong
+      $d= "Pre $variable Suf";     // wrong
+    ?>');
+    $this.assertEquals(4, $sins.length);
+  }
+
+  /**
+   * Catch variables with curly braces ${variable} in strings
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_variables_with_curly_braces_in_strings() {
+    $sins= $this.getSins('<?php
+      $a= "${variable}";             // wrong
+      $b= "Prefix${variable}";       // wrong
+      $c= "${variable} Suffix";      // wrong
+      $d= "Pre ${variable} Suf";     // wrong
+    ?>');
+    $this.assertEquals(4, $sins.length);
+  }
+}

@@ -1,0 +1,78 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.truth.php.layout;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.truth.PhpTruth;
+
+import native standard.strpos;
+
+/**
+ * Enforces that there is only one statement per line
+ *
+ * Since statements are separated by semicolons,
+ * look for more than 1 semicolon per line
+ *
+ * Note: ignore semicolons in for() statements
+ *
+ * @test xp://unittest.net.xp_forge.aftermath.truth.php.layout.OneStatementPerLinePhpTruthTest
+ */
+[
+  @severity('major'),
+  @name('One statement per line'),
+  @message('There must be just one statement per line')
+]
+public class OneStatementPerLinePhpTruth extends PhpTruth {
+  protected bool $inForContext;
+  protected int  $forBraceLevel;
+  protected int  $previousYear;
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public bool forbids(Deed $deed) {
+
+    // Reset state on new Soul
+    if (null === $deed.previous) {
+      $this.inForContext  = false;
+      $this.forBraceLevel = 0;
+      $this.previousYear  = null;
+      return false;
+    }
+
+    // Enter for() context
+    if ('T_FOR' === $deed.name) {
+      $this.inForContext= true;
+      return false;
+    }
+
+    // Monitor brace level to exit for() context
+    if (true === $this.inForContext && 'A_OPEN_PARENTHESIS' === $deed.name) {
+      $this.forBraceLevel++;
+      return false;
+    }
+    if (true === $this.inForContext && 'A_CLOSE_PARENTHESIS' === $deed.name) {
+      $this.forBraceLevel--;
+      if (0 === $this.forBraceLevel) $this.inForContext= false;
+      return false;
+    }
+
+    // We only care about semicolons now
+    if ($this.inForContext || 'A_SEMICOLON' !== $deed.name) return false;
+
+    // Check previous semicolon
+    if (
+      null !== ($deedBegin= $deed.begin) &&
+      $this.previousYear === $deedBegin.year
+    ) return true;
+
+    // Update flag
+    $this.previousYear= $deedBegin.year;
+    return false;
+  }
+}

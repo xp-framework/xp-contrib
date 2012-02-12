@@ -1,0 +1,129 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.EmptyLineBeforeCommentLinePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.EmptyLineBeforeCommentLinePhpTruth')]
+public class EmptyLineBeforeCommentLinePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Ignore correct comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_correct_comments() {
+    $sins= $this.getSins('<?php
+
+      // Do something
+      doSomething();
+
+      // Do something else
+      doSomethingElse();
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch missing NEWLINE
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_newline() {
+    $sins= $this.getSins('<?php
+      doSomething();
+      // Do something else
+      doSomethingElse();
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore inline comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_inline_comments() {
+    $sins= $this.getSins('<?php
+      doSomething();
+      doSomethingElse();  // Do something else
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore annotation comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_annotation_comments() {
+    $sins= $this.getSins('<?php
+      /**
+       * Test case
+       *
+       */
+      #[@test]
+      public function should_fail() {
+
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore file start comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_file_start_comments() {
+    $sins= $this.getSins('<?php
+      /* This is a file
+       *
+       * $Id:$
+       */
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore consecutive comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_consecutive_comments() {
+    $sins= $this.getSins('<?php
+      // Comment 1
+      // Comment 2
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore Perl-style comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_perl_comments() {
+    $sins= $this.getSins('<?php
+      $a= 2;
+      # Perl-style comment
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

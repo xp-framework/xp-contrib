@@ -1,0 +1,39 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath.mutation.php;
+
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.DeedUtils;
+import net.xp_forge.aftermath.Mutation;
+
+import native standard.substr;
+import native standard.in_array;
+
+/**
+ * Some Deeds eat the trailing NEWLINE: add a A_NEWLINE Deed to the chain
+ *
+ */
+public class NewLineEatersMutation implements Mutation {
+  public static string[] $newlineEaters= [
+    'T_OPEN_TAG',
+    'T_COMMENT',
+  ];
+
+  /**
+   * @inheritDoc
+   *
+   */
+  public void apply(Deed $deed) {
+    if (!in_array($deed.name, self::$newlineEaters) || "\n" !== substr($deed.description, -1)) return;
+
+    // Remove trailing NEWLINE from the Deed's description
+    $deed.description= substr($deed.description, 0, -1);
+
+    // Add an A_NEWLINE Deed
+    DeedUtils::addDeedAfter($deed, new Deed($deed.soul, 'A_NEWLINE', "\n"));
+  }
+}

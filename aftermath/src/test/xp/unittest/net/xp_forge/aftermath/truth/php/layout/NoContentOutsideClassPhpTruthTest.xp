@@ -1,0 +1,188 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.layout;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.layout.NoContentOutsideClassPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.layout.NoContentOutsideClassPhpTruth')]
+public class NoContentOutsideClassPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch statements outside class definition
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_define() {
+    $sins= $this.getSins('<?php
+      define("A", 10);
+      public class DummyTestClass {
+      }
+      print_r(NULL);
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+
+  /**
+   * Ignore one-line comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_oneline_comments() {
+    $sins= $this.getSins('<?php
+      // This is a comment
+      public class DummyTestClass {
+      }
+      // This is another
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore apidoc comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_apidoc_comments() {
+    $sins= $this.getSins('<?php
+      /**
+       * API-DOC comment
+       *
+       */
+      public class DummyTestClass {
+      }
+      /**
+       * And yet another
+       */
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore multi-line comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_multiline_comments() {
+    $sins= $this.getSins('<?php
+      /* Multiline comment
+       */
+      public class DummyTestClass {
+      }
+      /*
+       * And yet another
+       */
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore Perl-style comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_perl_comments() {
+    $sins= $this.getSins('<?php
+      # Perl-style comment
+      public class DummyTestClass {
+      }
+      # And yet another
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore annotations
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_annotations() {
+    $sins= $this.getSins('<?php
+      #[@xmlfactory(test)]
+      public class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore uses() outside class definition
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_uses_statement() {
+    $sins= $this.getSins('<?php
+      uses("package.one", "package.two");
+      uses(
+        "package.three",
+        "package.four"
+      );
+      public class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore "public" and "abstract" outside class definition
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_public_and_abstract_statements() {
+    $sins= $this.getSins('<?php
+      public abstract class DummyTestClass {
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Also work for interfaces
+   *
+   * @return void
+   */
+  [@test]
+  public void should_also_work_with_interfaces() {
+    $sins= $this.getSins('<?php
+      /**
+       * This file is part of a test
+       *
+       * $Id:$
+       */
+        uses(
+          "package.one",
+          "package.two",
+        );
+
+        // This will trigger a Sin
+        define("Sin", true);
+
+        /**
+         * Interface API-DOC
+         *
+         */
+        public interface DummyTestInterface {
+        }
+
+        // This will trigger another Sin
+        define("Sin", true);
+    ?>');
+    $this.assertEquals(2, $sins.length);
+  }
+}

@@ -1,0 +1,287 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package net.xp_forge.aftermath;
+
+import xml.Node;
+
+import lang.Throwable;
+import lang.ElementNotFoundException;
+import lang.IllegalArgumentException;
+
+import net.xp_forge.aftermath.Truth;
+import net.xp_forge.aftermath.Creed;
+import net.xp_forge.aftermath.Deed;
+import net.xp_forge.aftermath.Severity;
+
+import native standard.count;
+import native pcre.preg_replace;
+
+/**
+ * Represents a Truth that is enforcing one (and only one) behaviour
+ *
+ * @aka Rule
+ */
+public abstract class Truth {
+  protected Severity $severity;
+  protected string   $name;
+  protected string   $message;
+
+  /**
+   * Returns the Creed that this Truth is part of
+   *
+   * @aka    getLanguage()
+   * @return net.xp_forge.aftermath.Creed
+   */
+  public abstract Creed getCreed();
+
+  /**
+   * Check if the provided Deed is forbidden by this Truth
+   * Returns true if a Sin is to be created from this Deed
+   *
+   * @aka    forbidsToken()
+   * @param  net.xp_forge.aftermath.Deed $deed
+   * @return bool
+   */
+  public abstract bool forbids(Deed $deed);
+
+  /**
+   * Returns this Truth's severity
+   *
+   * There are 5 severity levels in Sonar:
+   * - blocker
+   * - critical
+   * - major
+   * - minor
+   * - info
+   *
+   * @return net.xp_forge.aftermath.Severity
+   * @throws lang.ElementNotFoundException in case of missing or invalid @severity annotation
+   * @see    xp://xp://net.xp_forge.aftermath.Severity
+   */
+  public Severity getSeverity() throws ElementNotFoundException {
+
+    // Try to read severity from @severity annotation
+    if (null === $this.severity) {
+      try {
+        $this.severity= Severity::forName($this.getClass().getAnnotation('severity'));
+
+      } catch (ElementNotFoundException $ex) {
+        throw new ElementNotFoundException('Missing @severity annotation in [' ~ $this.getClassName() ~ ']', $ex);
+
+      } catch (IllegalArgumentException $ex) {
+        throw new ElementNotFoundException('Invalid @severity annotation in [' ~ $this.getClassName() ~ ']', $ex);
+      }
+    }
+
+    return $this.severity;
+  }
+
+  /**
+   * Sets this Truth's severity
+   *
+   * @param  net.xp_forge.aftermath.Severity $severity
+   * @return void
+   */
+  public string setSeverity(Severity $severity) {
+    $this.severity= $severity;
+  }
+
+  /**
+   * Returns this Truth's name
+   *
+   * @return string
+   * @throws lang.ElementNotFoundException in case of missing @name annotation
+   */
+  public string getName() throws ElementNotFoundException {
+
+    // Try to read name from @name annotation
+    if (null === $this.name) {
+      try {
+        $this.name= $this.getClass().getAnnotation('name');
+
+      } catch (ElementNotFoundException $ex) {
+        throw new ElementNotFoundException('Missing @name annotation in [' ~ $this.getClassName() ~ ']', $ex);
+      }
+    }
+
+    return $this.name;
+  }
+
+  /**
+   * Sets this Truth's name
+   *
+   * @param  string $name
+   * @return void
+   */
+  public void setName(string $name) {
+    $this.name= $name;
+  }
+
+  /**
+   * Returns this Truth's message
+   *
+   * @return string
+   * @throws lang.ElementNotFoundException in case of missing @message annotation
+   */
+  public string getMessage() throws ElementNotFoundException {
+
+    // Try to read message from @message annotation
+    if (null === $this.message) {
+      try {
+        $this.message= $this.getClass().getAnnotation('message');
+
+      } catch (ElementNotFoundException $ex) {
+        throw new ElementNotFoundException('Missing @message annotation in [' ~ $this.getClassName() ~ ']', $ex);
+      }
+    }
+
+    return preg_replace('/\$\{([a-z]+)\}/ie', '$this->$1', $this.message);
+  }
+
+  /**
+   * Sets this Truth's message
+   *
+   * @param  string $message
+   * @return void
+   */
+  public string setMessage(string $message) {
+    $this.message= $message;
+  }
+
+  /**
+   * Factory from XML node. Example XML:
+   *
+   * <truth class="net.xp_forge.aftermath.truth.php.layout.LineLengthTruth" name="Line length" severity="major">
+   *   <message><![CDATA[Line is longer than $max characters]]></message>
+   *   <param>
+   *     <name>max</name>
+   *     <value>120</value>
+   *   </param>
+   * </truth>
+   *
+   * Note: Everything but the @class attribute is optional
+   *
+   * @param  xml.Node $xmlNode
+   * @return net.xp_forge.aftermath.Truth
+   * @throws lang.IllegalArgumentException in case the provided XML node is invalid
+   * @see    xp://net.xp_forge.aftermath.Dogma::fromXmlNode()
+   */
+  public static self fromXmlNode(Node $xmlNode) {
+    $retVal= null;
+
+    // Check node name <truth>
+    if ('truth' !== $xmlNode.getName()) {
+      throw new IllegalArgumentException(
+        'Invalid node name: expecting [truth] but received [' ~ $xmlNode.getName() ~ ']: ' ~ $xmlNode.toString()
+      );
+    }
+
+    // Get @class
+    $className= $xmlNode.getAttribute('class');
+    if (null === $className) {
+      throw new IllegalArgumentException('Missing [class] attribute in <truth> XML');
+    }
+
+    // Init $retVal
+    try {
+      $class= XPClass::forName($className);
+      $retVal= $class.newInstance();
+    } catch (Throwable $ex) {
+      throw new IllegalArgumentException(
+        'Invalid [class] attribute [' ~ $className ~ ']: ' ~ $xmlNode.toString(), $ex
+       );
+    }
+
+    // Check $retVal's class
+    if (!($retVal instanceof self)) {
+      throw new IllegalArgumentException(
+        'Invalid [class] attribute: [' ~ $className ~ '] in <truth> XML: Not a Truth'
+      );
+    }
+
+    // Set @name <truth name="..."
+    if ($xmlNode.hasAttribute('name')) {
+      $retVal.setName($xmlNode.getAttribute('name'));
+    }
+
+    // Set @severity <truth severity="..."
+    if ($xmlNode.hasAttribute('severity')) {
+      $severityName= $xmlNode.getAttribute('severity');
+      try {
+        $retVal.setSeverity(Severity::forName($severityName));
+      } catch (IllegalArgumentException $ex) {
+        throw new IllegalArgumentException(
+          'Invalid [severity] attribute [' ~ $severityName ~ ']: ' ~ $xmlNode.toString(), $ex
+        );
+      }
+    }
+
+    // Get children
+    $children= $xmlNode.children;
+    $params= [];
+    for ($ci= 0, $cn= count($children); $ci < $cn; $ci++) {
+      $child= $children[$ci];
+
+      // Set @message <truth><message>...</message>
+      if ('message' === $child.getName()) {
+        $retVal.setMessage($child.getContent());
+        continue;
+      }
+
+      /**
+       * Read parameters
+       *
+       *   <param>
+       *     <name>max</name>
+       *     <value>120</value>
+       *   </param>
+       */
+      if ('param' === $child.getName()) {
+        $paramChildren= $child.children;
+
+        // Init parameter details
+        $paramName  = null;
+        $paramValue = null;
+
+        for ($pi= 0, $pn= count($paramChildren); $pi < $pn; $pi++) {
+          $paramChild= $paramChildren[$pi];
+
+          if ('name' === $paramChild.getName()) {
+            $paramName= $paramChild.getContent();
+          }
+
+          if ('value' === $paramChild.getName()) {
+            $paramValue= $paramChild.getContent();
+          }
+        }
+
+        // Missing @name attribute; ignore
+        if (null === $paramName || null === $paramValue) {
+          continue;
+        }
+
+        // Add to list
+        $params[$paramName]= $paramValue;
+        continue;
+      }
+    }
+
+    // Inject parameters via reflection
+    if (0 !== $params.length) {
+      $fields= $class.getFields();
+      for ($fi= 0, $fn= count($fields); $fi < $fn; $fi++) {
+        $field= $fields[$fi];
+        if (!$field.hasAnnotation('param')) continue;
+        if (!isset($params[$field.getName()])) continue;
+        $field.set($retVal, $params[$field.getName()]);
+      }
+    }
+
+    // Return produced & configured Truth
+    return $retVal;
+  }
+}

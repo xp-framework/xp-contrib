@@ -1,0 +1,143 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.whitespace;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterInlineCommentPhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.whitespace.OneSpaceAfterInlineCommentPhpTruth')]
+public class OneSpaceAfterInlineCommentPhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch missing SPACE after "//"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_slash_slash() {
+    $sins= $this.getSins('<?php
+      //No SPACE after shash-slash
+      $a= 10;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "//"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_slash_slash() {
+    $sins= $this.getSins('<?php
+      //  More than one SPACE after slash-slash
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore correct usage on "//"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_correct_usage_on_slash_slash() {
+    $sins= $this.getSins('<?php
+      // This is the corect usage
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Catch missing SPACE after "/*"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_missing_space_after_slash_star() {
+    $sins= $this.getSins('<?php
+      /*No SPACE after diez */
+      $a= 10;
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Catch more than one SPACE after "/*"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_more_than_one_space_after_slash_star() {
+    $sins= $this.getSins('<?php
+      /*  More than one SPACE after diez */
+    ?>');
+    $this.assertEquals(1, $sins.length);
+  }
+
+  /**
+   * Ignore correct usage on "/*"
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_correct_usage_on_slash_star() {
+    $sins= $this.getSins('<?php
+      /* This is the corect usage */
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore Perl-like comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_perl_comments() {
+    $sins= $this.getSins('<?php
+      #  Ignore me
+      #And me
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore multi-line comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_multiline_comments() {
+    $sins= $this.getSins('<?php
+      /*
+       * Multi-line comment
+       *
+       */
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore aligned comments
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_aligned_comments() {
+    $sins= $this.getSins('<?php
+      // Enumeration:
+      //    - one
+      //    - two
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

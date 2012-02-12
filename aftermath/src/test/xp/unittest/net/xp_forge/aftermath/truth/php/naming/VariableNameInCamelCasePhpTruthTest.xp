@@ -1,0 +1,70 @@
+/**
+ * This file is part of the XP-Framework
+ *
+ * Aftermath
+ * Copyright (c) 2011, XP-Framework Team
+ */
+package unittest.net.xp_forge.aftermath.truth.php.naming;
+
+import unittest.net.xp_forge.aftermath.truth.php.PhpTruthTest;
+
+/**
+ * Testcase
+ *
+ * @see xp://net.xp_forge.aftermath.truth.php.naming.VariableNameInCamelCasePhpTruth
+ */
+[@truth(class= 'net.xp_forge.aftermath.truth.php.naming.VariableNameInCamelCasePhpTruth')]
+public class VariableNameInCamelCasePhpTruthTest extends PhpTruthTest {
+
+  /**
+   * Catch bad variable names
+   *
+   * @return void
+   */
+  [@test]
+  public void should_catch_bad_variable_names() {
+    $sins= $this.getSins('<?php
+      public class DummyTestClass {
+        public $BadName= 1;          // wrong
+        public function test() {
+          $Bad_Again= 2;             // wrong
+          $correctName= 3;           // correct
+          $correct= 4;               // correct
+          $still_bad= 5;             // wrong
+          $ALL_CAPS= 6;              // wrong
+        }
+      }
+    ?>');
+    $this.assertEquals(4, $sins.length);
+  }
+
+  /**
+   * Ignore static members usage
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_static_members_usage() {
+    $sins= $this.getSins('<?php
+      $cur= Currency::$EUR;
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+
+  /**
+   * Ignore static members declaration
+   *
+   * @return void
+   */
+  [@test]
+  public void should_ignore_static_members_declaration() {
+    $sins= $this.getSins('<?php
+      class DummyTestClass {
+        public static $AED,
+          $AFN,
+          $ALL;
+      }
+    ?>');
+    $this.assertEquals(0, $sins.length);
+  }
+}

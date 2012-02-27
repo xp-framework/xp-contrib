@@ -3,7 +3,7 @@ Java XAR library
 
 "Java XAR library" allows you to handle (read / write) XAR archives.
 
-Xar archives are the rough equivalent of Unix TAR archives, Java's JAR
+XAR archives are the rough equivalent of Unix TAR archives, Java's JAR
 archives and PHP's PHAR archives.
 
 Note that this project only contains the library; there is no
@@ -15,26 +15,26 @@ a directory).
 Build and install the Java XAR library
 -----------------------------------------------------------------------
 
-    ~/xp-contrib/jxarlib $ mvn install
+    ~/xp-contrib/java-xarlib $ mvn install
 
 
 How to use
 -----------------------------------------------------------------------
 First, add the dependency to your project's `pom.xml`:
 
-  <project xmlns="http://maven.apache.org/POM/4.0.0" ...>
-    ...
-    <dependencies>
+    <project xmlns="http://maven.apache.org/POM/4.0.0" ...>
       ...
-      <dependency>
-        <groupId>net.xp_forge</groupId>
-        <artifactId>xarlib</artifactId>
-        <version>1.0</version>
-      </dependency>
+      <dependencies>
+        ...
+        <dependency>
+          <groupId>net.xp_forge</groupId>
+          <artifactId>xarlib</artifactId>
+          <version>1.0</version>
+        </dependency>
+        ...
+      </dependencies>
       ...
-    </dependencies>
-    ...
-   </project>
+    </project>
 
 Then, add the imports:
 
@@ -44,7 +44,7 @@ Then, add the imports:
 
 Then, use the library's API:
 
-    // === CREATE ===
+### Create
 
     // Create archive from scrath
     XarArchive archive= new XarArchive();
@@ -59,7 +59,7 @@ Then, use the library's API:
     archive.addEntry(new XarEntry("bin/file.txt", new File("/path/to/file.txt")));
 
 
-    // === LOAD ===
+### Load
 
     // Load archive from an existing ".xar" file
     XarArchive archive= new XarArchive(new File("/what/to/load.xar"));
@@ -90,7 +90,7 @@ Then, use the library's API:
     InputStream is= archive.getEntry("string.txt").getInputStream();
 
 
-    // === ALTER ===
+### Alter
 
     // Remove entry
     archive.removeEntry("string.txt");
@@ -99,7 +99,7 @@ Then, use the library's API:
     archive.renameEntry("string.txt", "renamed.txt");
 
 
-    // === SAVE ===
+### Save
 
     // Save archive to file
     archive.save(new File("/where/to/save.xar"));

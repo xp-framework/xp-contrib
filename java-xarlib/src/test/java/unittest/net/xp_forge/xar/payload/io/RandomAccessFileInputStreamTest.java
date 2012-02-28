@@ -13,9 +13,8 @@ import java.io.InputStream;
 import java.io.BufferedWriter;
 import java.io.RandomAccessFile;
 
-import org.junit.*;
+import org.junit.Test;
 import static org.junit.Assert.*;
-import java.util.*;
 
 import net.xp_forge.xar.payload.io.RandomAccessFileInputStream;
 

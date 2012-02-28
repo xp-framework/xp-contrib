@@ -42,7 +42,6 @@ public class FilePayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public int getLength() {
     return this.length;
   }
@@ -51,7 +50,6 @@ public class FilePayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public byte[] getBytes() throws IOException {
     byte[] retVal= new byte[this.getLength()];
 
@@ -65,7 +63,6 @@ public class FilePayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public InputStream getInputStream() throws IOException {
     return new FileInputStream(this.file);
   }

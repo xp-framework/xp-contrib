@@ -13,13 +13,12 @@ import java.io.FileInputStream;
 import java.util.NoSuchElementException;
 import java.net.URISyntaxException;
 
-import org.junit.*;
+import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
-import java.util.*;
 
 import net.xp_forge.xar.XarEntry;
 import net.xp_forge.xar.XarArchive;
-import net.xp_forge.xar.XarPayload;
 import net.xp_forge.xar.payload.ByteArrayPayload;
 
 /**
@@ -143,6 +142,7 @@ public class XarArchiveTest {
    * Test XarArchive::getEntry()
    *
    */
+  @SuppressWarnings("unused")
   @Test(expected= NoSuchElementException.class)
   public void getEntry_should_fail_for_non_existing_entry() {
     XarEntry entry= this.archive.getEntry("non_existing.txt");

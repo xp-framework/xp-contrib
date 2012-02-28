@@ -125,8 +125,8 @@ public class XarArchive {
     // Write XAR entries
     int ei= 0;
     int offset= 0;
-    for (Iterator it= this.entries.iterator(); it.hasNext(); ) {
-      XarEntry entry= (XarEntry)it.next();
+    for (Iterator<XarEntry> it= this.entries.iterator(); it.hasNext(); ) {
+      XarEntry entry= it.next();
 
       // Write name
       raf.seek(XarArchive.HEADER_SIZE + ei * XarArchive.ENTRY_SIZE);
@@ -147,8 +147,8 @@ public class XarArchive {
     // Write XAR entries payload
     raf.seek(XarArchive.HEADER_SIZE + this.entries.size() * XarArchive.ENTRY_SIZE);
     buff= new byte[SAVE_BUFFSIZE];
-    for (Iterator it= this.entries.iterator(); it.hasNext(); ) {
-      InputStream entryIs= ((XarEntry)it.next()).getInputStream();
+    for (Iterator<XarEntry> it= this.entries.iterator(); it.hasNext(); ) {
+      InputStream entryIs= it.next().getInputStream();
 
       // Read from entry payload input stream and write to .xar file (in chunks of SAVE_BUFFSIZE bytes)
       int bytesRead;
@@ -186,8 +186,8 @@ public class XarArchive {
    * @return boolean
    */
   public boolean hasEntry(String name) {
-    for (Iterator it= this.entries.iterator(); it.hasNext(); ) {
-      XarEntry entry= (XarEntry)it.next();
+    for (Iterator<XarEntry> it= this.entries.iterator(); it.hasNext(); ) {
+      XarEntry entry= it.next();
       if (entry.getName().equals(name)) {
         return true;
       }
@@ -203,8 +203,8 @@ public class XarArchive {
    * @throws java.util.NoSuchElementException when no entry with the specified name exists
    */
   public XarEntry getEntry(String name) {
-    for (Iterator it= this.entries.iterator(); it.hasNext(); ) {
-      XarEntry entry= (XarEntry)it.next();
+    for (Iterator<XarEntry> it= this.entries.iterator(); it.hasNext(); ) {
+      XarEntry entry= it.next();
       if (entry.getName().equals(name)) {
         return entry;
       }
@@ -220,9 +220,8 @@ public class XarArchive {
    * @throws java.util.NoSuchElementException when no entry with the specified name exists
    */
   public void removeEntry(String name) {
-    for (Iterator it= this.entries.iterator(); it.hasNext(); ) {
-      XarEntry entry= (XarEntry)it.next();
-      if (entry.getName().equals(name)) {
+    for (Iterator<XarEntry> it= this.entries.iterator(); it.hasNext(); ) {
+      if (it.next().getName().equals(name)) {
         it.remove();
         return;
       }

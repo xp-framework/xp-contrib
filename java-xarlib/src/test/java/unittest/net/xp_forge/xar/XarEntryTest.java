@@ -8,9 +8,9 @@ package unittest.net.xp_forge.xar;
 
 import java.io.IOException;
 
-import org.junit.*;
+import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
-import java.util.*;
 
 import net.xp_forge.xar.XarEntry;
 import net.xp_forge.xar.XarPayload;
@@ -32,6 +32,7 @@ public class XarEntryTest {
    * Test XarEntry::setName()
    *
    */
+  @SuppressWarnings("unused")
   @Test(expected= IllegalArgumentException.class)
   public void setName_should_reject_null_names() {
     XarEntry entry= new XarEntry(null, this.payload);
@@ -51,6 +52,7 @@ public class XarEntryTest {
    * Test XarEntry::setName()
    *
    */
+  @SuppressWarnings("unused")
   @Test(expected= IllegalArgumentException.class)
   public void setName_should_reject_invalid_names() {
     XarEntry entry= new XarEntry("entry*one", this.payload);
@@ -61,6 +63,7 @@ public class XarEntryTest {
    * Test XarEntry::setName()
    *
    */
+  @SuppressWarnings("unused")
   @Test
   public void setName_should_accept_names_shorter_or_equal_than_240_characters() {
     String name= new String(new char[240]).replace("\0", "a");
@@ -71,6 +74,7 @@ public class XarEntryTest {
    * Test XarEntry::setName()
    *
    */
+  @SuppressWarnings("unused")
   @Test(expected= IllegalArgumentException.class)
   public void setName_should_reject_names_longer_than_240_characters() {
     String name= new String(new char[241]).replace("\0", "a");

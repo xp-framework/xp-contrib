@@ -39,7 +39,6 @@ public class RandomAccessFilePayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public int getLength() {
     return this.length;
   }
@@ -48,7 +47,6 @@ public class RandomAccessFilePayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public byte[] getBytes() throws IOException {
     byte[] retVal= new byte[this.getLength()];
     this.file.seek(this.offset);
@@ -60,7 +58,6 @@ public class RandomAccessFilePayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public InputStream getInputStream() throws IOException {
     return new RandomAccessFileInputStream(this.file, this.offset, this.length);
   }

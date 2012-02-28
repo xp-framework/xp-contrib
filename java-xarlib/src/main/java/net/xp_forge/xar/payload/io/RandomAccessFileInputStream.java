@@ -139,7 +139,7 @@ public class RandomAccessFileInputStream extends InputStream {
   @Override
   public int read(byte[] buff, int off, int len) throws IOException {
 
-    // Check boundry
+    // Check boundary
     int curPos= this.getFilePointer();
     if (curPos >= this.maxPos) {
       return -1;

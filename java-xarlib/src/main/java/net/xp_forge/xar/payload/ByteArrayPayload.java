@@ -48,7 +48,6 @@ public class ByteArrayPayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public int getLength() {
     return this.length;
   }
@@ -57,7 +56,6 @@ public class ByteArrayPayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public byte[] getBytes() {
     return this.data;
   }
@@ -66,7 +64,6 @@ public class ByteArrayPayload implements XarPayload {
    * {@inheritDoc}
    *
    */
-  @Override
   public InputStream getInputStream() {
     return new ByteArrayInputStream(this.data);
   }

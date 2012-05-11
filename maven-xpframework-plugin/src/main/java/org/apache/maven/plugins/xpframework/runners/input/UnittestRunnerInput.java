@@ -42,9 +42,7 @@ import org.apache.maven.plugins.xpframework.runners.filter.InifileFilter;
  *   * {test.class.Name}::{testName}: A fully qualified class name and a test name
  *   * -e {test method sourcecode}: Evaluate source
  */
-public class UnittestRunnerInput {
-  public boolean      verbose;
-  public List<File>   classpaths;
+public class UnittestRunnerInput extends AbstractClassPathRunnerInput {
   public List<String> arguments;
   public List<File>   inifiles;
 
@@ -53,32 +51,9 @@ public class UnittestRunnerInput {
    *
    */
   public UnittestRunnerInput() {
-    this.verbose    = false;
-    this.classpaths = new ArrayList<File>();
+      super();
     this.arguments  = new ArrayList<String>();
     this.inifiles   = new ArrayList<File>();
-  }
-
-  /**
-   * Setter for classpaths
-   *
-   * @param  java.io.File classpath Element to add to classpath
-   * @return void
-   */
-  public void addClasspath(File classpath) {
-
-    // Invalid path
-    if (!classpath.exists()) return;
-
-    // Check path not added twice
-    String classpathPath= classpath.getAbsolutePath();
-    Iterator i= this.classpaths.iterator();
-    while (i.hasNext()) {
-      if (((File) i.next()).getAbsolutePath().equals(classpathPath)) return;
-    }
-
-    // Add to list
-    this.classpaths.add(classpath);
   }
 
   /**

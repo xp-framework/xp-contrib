@@ -21,10 +21,10 @@ repositoryBase () {
       exit 1;
     fi
   else
-    BASE=$(repositoryBaseGit)
+    BASE=$(repositoryBasePostSvn16)
 
-    if [ ! -e "$BASE/.git/config" ]; then
-      echo "Could not determine repository base (git mode). Aborting.";
+    if [ ! -e "$BASE/.svn/entries" ]; then
+      echo "Could not determine repository base (post-svn-1.6 mode). Aborting.";
       exit 1;
     fi
   fi
@@ -32,12 +32,12 @@ repositoryBase () {
   echo $BASE
 }
 
-repositoryBaseGit () {
+repositoryBasePostSvn16 () {
   local BASE
   BASE=$(realpath .)
 
   while [ "$BASE" != "/" ]; do
-    if [ -e "$BASE/.git/config" ]; then
+    if [ -e "$BASE/.svn/entries" ]; then
       break;
     fi
 
@@ -56,8 +56,6 @@ repositoryRoot () {
 
   if [ -d "$REPO/.svn" ]; then
     svn info --xml "$1" | grep '^<root>' | ${SED} -e 's/^<root>//g' -e 's/<\/root>$//g'
-  else
-    git config --get svn-remote.svn.url
   fi
 }
 

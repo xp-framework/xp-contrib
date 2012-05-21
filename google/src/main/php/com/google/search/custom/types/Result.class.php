@@ -20,6 +20,7 @@
     protected $mimeType= NULL;
     protected $excerpt= '';
     protected $details= array();
+    protected $meta= array();
     
     /**
      * Sets index
@@ -154,6 +155,26 @@
     public function getDetails() {
       return $this->details;
     }
+
+    /**
+     * Sets a meta information key/value pair
+     *
+     * @param   string name
+     * @param   string value
+     */
+    #[@xmlmapping(element= 'MT', pass= array('@N', '@V'))]
+    public function setMetaInfo($name, $value) {
+      $this->meta[$name]= $value;
+    }
+
+    /**
+     * Returns meta information key/value pairs
+     *
+     * @return  [:string]
+     */
+    public function getMetaInfos() {
+      return $this->meta;
+    }
     
     /**
      * Creates a string representation of this result set entry
@@ -169,6 +190,7 @@
         "  [mimetype] %s\n".
         "  [excerpt]  %s\n".
         "  [details]  %s\n".
+        "  [meta]     %s\n".
         "}",
         $this->getClassName(),
         $this->index,
@@ -177,7 +199,8 @@
         $this->language ? $this->language : '(none)',
         $this->mimeType ? $this->mimeType : '(none)',
         $this->excerpt,
-        xp::stringOf($this->details)
+        xp::stringOf($this->details),
+        xp::stringOf($this->meta)
       );
     }
   }

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<project name="xp-google">
+  <property name="xp.publish.resolver" value="public-authenticated"/>
+  <import file="${user.home}/.ant/xp-build/build-loader.xml"/>
+  
+  <!--<property name="build.testPackage" value="com.google.search.unittest.**"/>-->
+</project>

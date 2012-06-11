@@ -8,8 +8,8 @@
   <info
    organisation="net.xp_framework"
    module="fpdf"
-   status="integration"
-   revision="1.0.1"
+   status="release"
+   revision="1.0.2"
   >
     <license name="BSD"/>
   </info>

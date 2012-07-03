@@ -57,7 +57,7 @@
      */
     #[@test]
     public function issue() {
-      var_dump($this->fixture->getIssue('PPTX-1'));
+      $this->assertClass($this->fixture->getIssue('PPTX-1'), 'com.atlassian.jira.api.types.JiraIssue');
     }
   }
 

@@ -1,7 +1,7 @@
 <?php
 /* This class is part of the XP framework
  *
- * $Id: SCMTrigger.xp 12595 2011-01-03 14:28:33Z friebe $ 
+ * $Id$ 
  */
 
   uses(

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project name="xp-forge-jira-api" basedir=".">
+  <import file="${user.home}/.ant/xp-build/build-loader.xml"/>
+
+  <property name="xp.publish.resolver" value="public-authenticated"/>
+</project>

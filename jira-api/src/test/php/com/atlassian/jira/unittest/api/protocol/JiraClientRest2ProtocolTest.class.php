@@ -7,7 +7,8 @@
   uses(
     'unittest.TestCase',
     'peer.URL',
-    'com.atlassian.jira.api.protocol.JiraClientRest2Protocol'
+    'com.atlassian.jira.api.protocol.JiraClientRest2Protocol',
+    'com.atlassian.jira.api.query.JiraQuery'
   );
   
   /**
@@ -58,6 +59,17 @@
     #[@test]
     public function issue() {
       $this->assertClass($this->fixture->getIssue('PPTX-1'), 'com.atlassian.jira.api.types.JiraIssue');
+    }
+    
+    /**
+     * Test querying issues
+     * 
+     */
+    #[@test]
+    public function queryIssues() {
+      $result= $this->fixture->queryIssues(new JiraQuery('key', 'PPTX-1', JiraQuery::EQUALS));
+      
+      $this->assertClass($result, 'com.atlassian.jira.api.query.JiraQueryResult');
     }
   }
 

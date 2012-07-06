@@ -39,11 +39,16 @@
      * @return webservices.rest.RestResponse
      */
     protected function req($path, $args= array()) {
-      return $this->con->execute(create(new RestRequest())
+      $req= create(new RestRequest())
         ->withHeader('Authorization', new BasicAuthorization($this->url->getUser(), $this->url->getPassword()))
         ->withResource(rtrim($this->url->getPath(), '/').$path)
-        ->withMethod(HttpConstants::GET)
-      );
+        ->withMethod(HttpConstants::GET);
+      
+      foreach ($args as $name => $value) {
+        $req->addParameter($name, $value);
+      }
+      
+      return $this->con->execute($req);
     }
     
     /**
@@ -67,7 +72,20 @@
      * @return  
      */
     public function getIssue($name) {
-      return $this->req('/issue/'.$name)->data('com.atlassian.jira.api.types.JiraIssue');
+      return $this
+        ->req('/issue/'.$name)
+        ->data('com.atlassian.jira.api.types.JiraIssue');
+    }
+    
+    /**
+     * Query for issues
+     *  
+     * @param com.atlassian.jira.api.query.JiraQuery query The query to issue
+     */
+    public function queryIssues($query) {
+      return $this
+        ->req('/search', array('jql' => $query->getQuery()))
+        ->data('com.atlassian.jira.api.query.JiraQueryResult');
     }
   }
 

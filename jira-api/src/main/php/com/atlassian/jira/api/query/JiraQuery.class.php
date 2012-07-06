@@ -4,20 +4,14 @@
  * $Id$ 
  */
 
+  uses('com.atlassian.jira.api.query.JiraQueryOp');
+  
   /**
    * JIRA query object
    *
    * @purpose  Query
    */
   class JiraQuery extends Object {
-    const
-      EQUALS=         '=',
-      NOT_EQUALS=     '!=',
-      GREATER_THAN=   '>',
-      GREATER_EQUALS= '>=',
-      LESS_THAN=      '<',
-      LESS_EQUALS=    '<=';
-    
     const
       OP_AND= 'and',
       OP_OR=  'or';
@@ -33,7 +27,7 @@
      * 
      * @param string what The subject of the query
      * @param string value The value to compare
-     * @param string op The query operator (see constants)
+     * @param com.atlassian.jira.api.query.JiraQueryOp op The query operator
      */
     public function __construct($what, $value, $op) {
       $this->what= $what;
@@ -80,7 +74,8 @@
      * @return string 
      */
     public function getQuery() {
-      $jql= sprintf('%s %s %s', $this->what, $this->op, $this->value);
+      $jql= $this->what.' '.$this->op->forValue($this->value);
+      
       foreach ($this->next as $query) $jql .= sprintf(
         ' %s %s',
         $query[0],

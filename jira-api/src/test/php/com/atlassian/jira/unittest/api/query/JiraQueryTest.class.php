@@ -23,7 +23,7 @@
     #[@test]
     public function instance() {
       $this->assertClass(
-        new JiraQuery('column', 'empty', JiraQuery::EQUALS),
+        new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS),
         'com.atlassian.jira.api.query.JiraQuery'
       );
     }
@@ -36,7 +36,7 @@
     public function simpleQuery() {
       $this->assertEquals(
         'column = empty',
-        create(new JiraQuery('column', 'empty', JiraQuery::EQUALS))->getQuery()
+        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))->getQuery()
       );
     }
     
@@ -48,8 +48,8 @@
     public function andQuery() {
       $this->assertEquals(
         'column = empty and otherColumn = value',
-        create(new JiraQuery('column', 'empty', JiraQuery::EQUALS))
-          ->addAnd(new JiraQuery('otherColumn', 'value', JiraQuery::EQUALS))
+        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+          ->addAnd(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
           ->getQuery()
       );
     }
@@ -62,8 +62,8 @@
     public function orQuery() {
       $this->assertEquals(
         'column = empty or otherColumn = value',
-        create(new JiraQuery('column', 'empty', JiraQuery::EQUALS))
-          ->addOr(new JiraQuery('otherColumn', 'value', JiraQuery::EQUALS))
+        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+          ->addOr(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
           ->getQuery()
       );
     }
@@ -76,9 +76,9 @@
     public function nestedQuery() {
       $this->assertEquals(
         'column = empty or (otherColumn = value and anotherColumn = value)',
-        create(new JiraQuery('column', 'empty', JiraQuery::EQUALS))
-          ->addOr(create(new JiraQuery('otherColumn', 'value', JiraQuery::EQUALS))
-            ->addAnd(new JiraQuery('anotherColumn', 'value', JiraQuery::EQUALS))
+        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+          ->addOr(create(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
+            ->addAnd(new JiraQuery('anotherColumn', 'value', JiraQueryOp::$EQUALS))
           )
           ->getQuery()
       );

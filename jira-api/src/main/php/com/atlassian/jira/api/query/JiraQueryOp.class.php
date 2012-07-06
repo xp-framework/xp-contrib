@@ -18,6 +18,8 @@
     static $GREATER_EQUALS;
     static $LESS_THAN;
     static $LESS_EQUALS;
+    static $IN;
+    static $NOT_IN;
     
     static function __static() {
       self::$EQUALS=  newinstance(__CLASS__, array(1, 'EQUALS', '='), '{
@@ -37,6 +39,18 @@
       }');
       self::$LESS_EQUALS=  newinstance(__CLASS__, array(1, 'LESS_EQUALS', '<='), '{
         static function __static() {}
+      }');
+      self::$IN=  newinstance(__CLASS__, array(1, 'IN', 'in'), '{
+        static function __static() {}
+        function forValue($value) {
+          return $this->op." (".implode(", ", (array)$value).")";
+        }
+      }');
+      self::$NOT_IN=  newinstance(__CLASS__, array(1, 'NOT_IN', 'not in'), '{
+        static function __static() {}
+        function forValue($value) {
+          return $this->op." (".implode(", ", (array)$value).")";
+        }
       }');
     }
     

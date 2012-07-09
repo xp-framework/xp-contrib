@@ -67,7 +67,7 @@
      */
     #[@test]
     public function queryIssues() {
-      $result= $this->fixture->queryIssues(new JiraQuery('key', 'PPTX-1', JiraQuery::EQUALS));
+      $result= $this->fixture->queryIssues(new JiraQuery('key', 'PPTX-1', JiraQueryOp::$EQUALS));
       
       $this->assertClass($result, 'com.atlassian.jira.api.query.JiraQueryResult');
     }

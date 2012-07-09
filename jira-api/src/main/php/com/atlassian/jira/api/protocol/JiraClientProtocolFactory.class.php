@@ -9,7 +9,7 @@
   /**
    * JIRA client protocol factory
    *
-   * @test com.atlassian.unittest.api.JiraClientProtocolFactoryTest
+   * @test xp://com.atlassian.unittest.api.JiraClientProtocolFactoryTest
    * @purpose  Protocol factory
    */
   class JiraClientProtocolFactory extends Object {

@@ -14,6 +14,7 @@
   /**
    * JIRA client protocol interface
    *
+   * @test xp://com.atlassian.jira.unittest.api.protocol.JiraClientRest2ProtocolTest
    * @purpose  Interface
    */
   class JiraClientRest2Protocol extends Object implements JiraClientProtocol {

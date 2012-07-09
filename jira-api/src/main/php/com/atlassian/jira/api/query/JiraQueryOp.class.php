@@ -9,6 +9,7 @@
   /**
    * JIRA query operators
    *
+   * @test xp://com.atlassian.jira.unittest.api.query.JiraQueryOpTest
    * @purpose  Enum
    */
   abstract class JiraQueryOp extends Enum {

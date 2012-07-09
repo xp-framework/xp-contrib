@@ -7,6 +7,7 @@
   /**
    * Represent a JIRA issue
    *
+   * @test xp://com.atlassian.jira.unittest.api.types.JiraIssue
    * @purpose  Issue
    */
   class JiraIssue extends Object {

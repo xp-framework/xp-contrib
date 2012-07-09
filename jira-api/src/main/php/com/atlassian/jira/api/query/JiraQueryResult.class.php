@@ -4,9 +4,15 @@
  * $Id$ 
  */
 
+  uses(
+    'com.atlassian.jira.api.query.JiraQueryResult',
+    'com.atlassian.jira.api.types.JiraIssue'
+  );
+  
   /**
    * JIRA query result object
    *
+   * @test xp://com.atlassian.jira.unittest.api.query.JiraQueryResultTest
    * @purpose  Query result
    */
   class JiraQueryResult extends Object {

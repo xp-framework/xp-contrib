@@ -8,7 +8,7 @@
    organisation="net.xp_framework"
    module="google"
    status="integration"
-   revision="5.8.4"
+   revision="5.8.7"
   >
     <license name="BSD"/>
     <description homepage="http://xp-framework.net/">The Google search API enables communication with Google Custom Search and Google Search Appliance (GSA).</description>
@@ -24,18 +24,12 @@
      ext="xar"
      conf="default"
     />
-    <artifact
-     name="google-test"
-     type="xar"
-     ext="xar"
-     conf="test"
-    />
   </publications>
   <dependencies>
     <dependency
      org="net.xp_framework"
      name="core"
-     rev="5.8.4+"
+     rev="5.8.7+"
     />
   </dependencies>
 </ivy-module>

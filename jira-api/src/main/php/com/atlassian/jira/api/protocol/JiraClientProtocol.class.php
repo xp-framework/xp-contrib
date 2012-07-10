@@ -12,6 +12,13 @@
   interface JiraClientProtocol {
     
     /**
+     * Set trace
+     * 
+     * @param util.log.LogCategory log The logger 
+     */
+    public function setTrace($cat);
+    
+    /**
      * Login with given user and password
      * 
      * @param string user The user name

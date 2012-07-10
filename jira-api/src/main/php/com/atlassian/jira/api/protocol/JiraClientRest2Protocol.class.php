@@ -33,6 +33,15 @@
     }
     
     /**
+     * Set trace
+     * 
+     * @param util.log.LogCategory cat The logger
+     */
+    public function setTrace($cat) {
+      $this->con->setTrace($cat);
+    }
+    
+    /**
      * Issue a request
      *  
      * @param string path The path

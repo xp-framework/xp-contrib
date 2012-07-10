@@ -83,6 +83,20 @@
           ->getQuery()
       );
     }
+    
+    /**
+     * Test order-by
+     *  
+     */
+    #[@test]
+    public function orderBy() {
+      $this->assertEquals(
+        'column = empty order by otherColumn DESC',
+        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+          ->addOrderBy('otherColumn', 'DESC')
+          ->getQuery()
+      );
+    }
   }
 
 ?>

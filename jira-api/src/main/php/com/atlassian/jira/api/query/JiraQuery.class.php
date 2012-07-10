@@ -20,7 +20,8 @@
       $what= NULL,
       $value= NULL,
       $op= NULL,
-      $next= array();
+      $next= array(),
+      $order= array();
     
     /**
      * Constructor
@@ -60,6 +61,18 @@
     }
     
     /**
+     * Add order-by
+     * 
+     * @param string field The field to order
+     * @param string type The type of order (ASC, DESC) 
+     */
+    public function addOrderBy($field, $type) {
+      $this->order[]= array($field, $type);
+      
+      return $this;
+    }
+    
+    /**
      * Return size of sub queries
      * 
      * @return int
@@ -81,6 +94,15 @@
         $query[0],
         $query[1]->size() ? '('.$query[1]->getQuery().')' : $query[1]->getQuery()
       );
+      
+      if (sizeof($this->order)) {
+        $jql.= ' order by';
+        
+        foreach ($this->order as $i => $order) {
+          $jql.= ' '.$order[0].' '.$order[1].($i+1 < sizeof($this->order) ? ', ' : '');
+        }
+      }
+      
       return $jql;
     }
     

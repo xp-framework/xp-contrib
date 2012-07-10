@@ -69,6 +69,42 @@
     public function getFields() {
       return $this->fields;
     }
+    
+    /**
+     * Return status
+     * 
+     * @return string 
+     */
+    public function getStatus() {
+      return $this->fields['status']['name'];
+    }
+    
+    /**
+     * Return description
+     * 
+     * @return string 
+     */
+    public function getSummary() {
+      return $this->fields['summary'];
+    }
+    
+    /**
+     * Return reporter name
+     *
+     * @return string  
+     */
+    public function getReporter() {
+      return $this->fields['reporter']['displayName'];
+    }
+    
+    /**
+     * Return creation date
+     * 
+     * @return util.Date
+     */
+    public function getCreated() {
+      return Date::fromString($this->fields['created']);
+    }
   }
 
 ?>

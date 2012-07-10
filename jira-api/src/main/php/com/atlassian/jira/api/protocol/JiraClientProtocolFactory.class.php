@@ -20,8 +20,8 @@
      * @param string url The API url
      * @return com.atlassian.jira.api.JiraClientProtocol
      */
-    public function forURL($url) {
-      $u= new URL(strtolower($url));
+    public static function forURL($url) {
+      $u= new URL($url);
       
       // Check for REST API client v2
       if (create(new String($u->getPath()))->contains('/rest/api/2')) {

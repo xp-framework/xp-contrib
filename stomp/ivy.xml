@@ -8,7 +8,7 @@
    organisation="net.xp_framework"
    module="stomp"
    status="integration"
-   revision="5.8.4"
+   revision="5.8.7"
   >
     <license name="BSD"/>
     <description homepage="http://xp-framework.net/">The stomp module is an add-on to the XP framework that adds
@@ -37,7 +37,7 @@
     <dependency
      org="net.xp_framework"
      name="core"
-     rev="5.8.4+"
+     rev="5.8.7+"
     />
   </dependencies>
 </ivy-module>

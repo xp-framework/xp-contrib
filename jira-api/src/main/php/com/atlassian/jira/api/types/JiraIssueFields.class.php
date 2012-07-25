@@ -181,10 +181,20 @@
       $this->subtasks= $subtasks;
     }
 
+    /**
+     * Return status
+     * 
+     * @return com.atlassian.jira.api.types.JiraStatus
+     */
     public function getStatus() {
       return $this->status;
     }
 
+    /**
+     * Set status
+     * 
+     * @param com.atlassian.jira.api.types.JiraStatus status The status
+     */
     public function setStatus($status) {
       $this->status = $status;
     }

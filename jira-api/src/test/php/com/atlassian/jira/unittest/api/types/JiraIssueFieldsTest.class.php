@@ -87,6 +87,16 @@
     }
     
     /**
+     * Test status
+     *  
+     */
+    #[@test]
+    public function status() {
+      $this->fixture->setStatus($status= new JiraStatus());
+      $this->assertEquals($status, $this->fixture->getStatus());
+    }
+    
+    /**
      * Test project
      *  
      */

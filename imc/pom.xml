@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- The Basics -->
+  <groupId>net.xp-framework</groupId>
+  <artifactId>imc</artifactId>
+  <version>5.8.7</version>
+  <packaging>xar</packaging>
+
+  <!-- More Project Information -->
+  <name>IMC XP-Module</name>
+  <description>The IMC module is an add-on to the XP framework that adds support of different standards defined by IMC like vCard or vCalendar</description>
+  <url>https://github.com/xp-framework/xp-contrib</url>
+  <inceptionYear>2001</inceptionYear>
+  <organization>
+    <name>XP-Framework Team</name>
+    <url>http://xp-framework.net/</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>xp-framework</id>
+      <name>XP-Framework Team</name>
+      <email>devs@xp-framework.net</email>
+      <url>http://xp-framework.net</url>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>BSD</name>
+      <url>http://www.opensource.org/licenses/BSD-3-Clause</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <!-- Properties -->
+  <properties>
+    <project.build.sourceEncoding>ISO-8859-15</project.build.sourceEncoding>
+  </properties>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>net.xp-framework</groupId>
+      <artifactId>core</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+   </dependency>
+    <dependency>
+      <groupId>net.xp-framework</groupId>
+      <artifactId>tools</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+   </dependency>
+  </dependencies>
+
+  <!-- Build Settings -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.xp-forge.maven.plugins</groupId>
+        <artifactId>xp-maven-plugin</artifactId>
+        <version>3.1.1</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

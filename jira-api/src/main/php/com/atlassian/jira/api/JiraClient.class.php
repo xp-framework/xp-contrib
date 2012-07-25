@@ -6,8 +6,7 @@
 
   uses(
     'util.log.Traceable',
-    'com.atlassian.jira.api.protocol.JiraClientProtocolFactory',
-    'com.atlassian.jira.api.JiraClientException'
+    'com.atlassian.jira.api.protocol.JiraClientProtocolFactory'
   );
   
   /**

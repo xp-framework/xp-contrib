@@ -7,15 +7,25 @@
   /**
    * Represent a JIRA issue
    *
-   * @test xp://com.atlassian.jira.unittest.api.types.JiraIssue
+   * @see https://developer.atlassian.com/display/JIRADEV/The+Shape+of+an+Issue+in+JIRA+REST+APIs
+   * @test xp://com.atlassian.jira.unittest.api.types.JiraIssueTest
    * @purpose  Issue
    */
   class JiraIssue extends Object {
     protected
+      $self= NULL,
       $id= NULL,
       $key= NULL,
       $fields= array();
     
+    public function getSelf() {
+      return $this->self;
+    }
+
+    public function setSelf($self) {
+      $this->self= $self;
+    }
+
     /**
      * Set issue id
      * 
@@ -55,7 +65,7 @@
     /**
      * Set fields
      * 
-     * @param mixed fields The fields
+     * @param com.atlassian.jira.api.types.JiraIssueFields fields The fields
      */
     public function setFields($fields) {
       $this->fields= $fields;
@@ -64,7 +74,7 @@
     /**
      * Return fields
      * 
-     * @return mixed[]
+     * @return com.atlassian.jira.api.types.JiraIssueFields
      */
     public function getFields() {
       return $this->fields;
@@ -76,7 +86,7 @@
      * @return string 
      */
     public function getStatus() {
-      return $this->fields['status']['name'];
+      return $this->fields->getStatus();
     }
     
     /**
@@ -85,16 +95,16 @@
      * @return string 
      */
     public function getSummary() {
-      return $this->fields['summary'];
+      return $this->fields->getSummary();
     }
     
     /**
-     * Return reporter name
+     * Return reporter
      *
-     * @return string  
+     * @return com.atlassian.jira.api.types.JiraPerson
      */
     public function getReporter() {
-      return $this->fields['reporter']['displayName'];
+      return $this->fields->getReporter();
     }
     
     /**
@@ -103,7 +113,7 @@
      * @return util.Date
      */
     public function getCreated() {
-      return Date::fromString($this->fields['created']);
+      return $this->fields->getCreated();
     }
   }
 

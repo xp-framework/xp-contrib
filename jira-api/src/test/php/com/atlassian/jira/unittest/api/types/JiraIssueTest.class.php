@@ -6,7 +6,8 @@
 
   uses(
     'unittest.TestCase',
-    'com.atlassian.jira.api.types.JiraIssue'
+    'com.atlassian.jira.api.types.JiraIssue',
+    'com.atlassian.jira.api.types.JiraIssueFields'
   );
   
   /**
@@ -35,6 +36,16 @@
     }
     
     /**
+     * Set self
+     *  
+     */
+    #[@test]
+    public function self() {
+      $this->fixture->setSelf('http://server/path/to/jira/KEY-1');
+      $this->assertEquals('http://server/path/to/jira/KEY-1', $this->fixture->getSelf());
+    }
+    
+    /**
      * Test id
      *  
      */
@@ -60,7 +71,7 @@
      */
     #[@test]
     public function fields() {
-      $this->fixture->setFields($fields= array('field1', 'field2', 'field3'));
+      $this->fixture->setFields($fields= new JiraIssueFields());
       $this->assertEquals($fields, $this->fixture->getFields());
     }
   }

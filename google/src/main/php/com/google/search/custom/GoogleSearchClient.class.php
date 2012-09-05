@@ -17,7 +17,7 @@
    * 
    * Example:
    * <code>
-   *   $client= new GoogleSearchClient('http://gsa23.enterprisedemo-google.com/search');
+   *   $client= new GoogleSearchClient('http://gsa23.enterprisedemo-google.com/');
    *   $response= $client->searchFor(create(new GoogleSearchQuery())
    *     ->withTerm('test')
    *     ->startingAt(10)
@@ -33,7 +33,7 @@
     /**
      * Constructor
      *
-     * @param   var conn either a HttpConnection or a string
+     * @param   var gsaURL containing a string representation of the gsa URL.
      */
     public function __construct($gsaURL) {
       $this->gsaURL= $gsaURL;

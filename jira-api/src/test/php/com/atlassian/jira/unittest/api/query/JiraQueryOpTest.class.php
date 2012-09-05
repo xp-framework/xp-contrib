@@ -34,7 +34,7 @@
      */
     #[@test]
     public function equalsOperator() {
-      $this->assertEquals('= 1', JiraQueryOp::$EQUALS->forValue('1'));
+      $this->assertEquals('= 1', JiraQueryOp::$EQUALS->forValue(1));
     }
     
     /**
@@ -43,7 +43,7 @@
      */
     #[@test]
     public function notEqualsOperator() {
-      $this->assertEquals('!= 1', JiraQueryOp::$NOT_EQUALS->forValue('1'));
+      $this->assertEquals('!= 1', JiraQueryOp::$NOT_EQUALS->forValue(1));
     }
     
     /**
@@ -52,7 +52,7 @@
      */
     #[@test]
     public function greaterThanOperator() {
-      $this->assertEquals('> 10', JiraQueryOp::$GREATER_THAN->forValue('10'));
+      $this->assertEquals('> 10', JiraQueryOp::$GREATER_THAN->forValue(10));
     }
     
     /**
@@ -61,7 +61,7 @@
      */
     #[@test]
     public function greaterEqualOperator() {
-      $this->assertEquals('>= 10', JiraQueryOp::$GREATER_EQUALS->forValue('10'));
+      $this->assertEquals('>= 10', JiraQueryOp::$GREATER_EQUALS->forValue(10));
     }
     
     /**
@@ -70,7 +70,7 @@
      */
     #[@test]
     public function lessThanOperator() {
-      $this->assertEquals('< 10', JiraQueryOp::$LESS_THAN->forValue('10'));
+      $this->assertEquals('< 10', JiraQueryOp::$LESS_THAN->forValue(10));
     }
     
     /**
@@ -79,7 +79,7 @@
      */
     #[@test]
     public function lessEqualOperator() {
-      $this->assertEquals('<= 10', JiraQueryOp::$LESS_EQUALS->forValue('10'));
+      $this->assertEquals('<= 10', JiraQueryOp::$LESS_EQUALS->forValue(10));
     }
     
     /**
@@ -88,7 +88,7 @@
      */
     #[@test]
     public function inOperator() {
-      $this->assertEquals('in (10)', JiraQueryOp::$IN->forValue('10'));
+      $this->assertEquals('in (10)', JiraQueryOp::$IN->forValue(10));
     }
     
     /**
@@ -97,7 +97,7 @@
      */
     #[@test]
     public function notInOperator() {
-      $this->assertEquals('not in (10)', JiraQueryOp::$NOT_IN->forValue('10'));
+      $this->assertEquals('not in (10)', JiraQueryOp::$NOT_IN->forValue(10));
     }
     
     /**
@@ -106,7 +106,7 @@
      */
     #[@test]
     public function inOperatorMultipleValues() {
-      $this->assertEquals('in (10, 20)', JiraQueryOp::$IN->forValue(array('10', '20')));
+      $this->assertEquals('in (10, 20)', JiraQueryOp::$IN->forValue(array(10, 20)));
     }
     
     /**
@@ -115,7 +115,7 @@
      */
     #[@test]
     public function notInOperatorMultipleValues() {
-      $this->assertEquals('not in (10, 20)', JiraQueryOp::$NOT_IN->forValue(array('10', '20')));
+      $this->assertEquals('not in (10, 20)', JiraQueryOp::$NOT_IN->forValue(array(10, 20)));
     }
     
     /**
@@ -124,7 +124,7 @@
      */
     #[@test]
     public function containsOperator() {
-      $this->assertEquals('~ right', JiraQueryOp::$CONTAINS->forValue('right'));
+      $this->assertEquals('~ "right"', JiraQueryOp::$CONTAINS->forValue('right'));
     }
     
     /**
@@ -133,7 +133,7 @@
      */
     #[@test]
     public function notContainsOperator() {
-      $this->assertEquals('!~ wrong', JiraQueryOp::$NOT_CONTAINS->forValue('wrong'));
+      $this->assertEquals('!~ "wrong"', JiraQueryOp::$NOT_CONTAINS->forValue('wrong'));
     }
   }
 

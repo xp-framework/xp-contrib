@@ -52,7 +52,11 @@
       self::$NOT_IN=  newinstance(__CLASS__, array(1, 'NOT_IN', 'not in'), '{
         static function __static() {}
         function forValue($value) {
-          return $this->op." (".implode(", ", (array)$value).")";
+          $str= "";
+          foreach ((array)$value as $v) {
+            $str.= parent::value($v).", ";
+          }
+          return $this->op." (".substr($str, 0, -2).")";
         }
       }');
       self::$CONTAINS=  newinstance(__CLASS__, array(1, 'CONTAINS', '~'), '{
@@ -77,13 +81,41 @@
     }
     
     /**
+     * Helper function to return string representation for given
+     * value
+     * 
+     * @param string value The value
+     * @return string
+     */
+    protected function value($value) {
+      switch (gettype($value)) {
+        case 'string':
+          return '"'.str_replace('"', '\"', $value).'"';
+        
+        case 'integer':
+        case 'double':
+        case 'float':
+          return $value;
+        
+        case 'boolean':
+          return $value ? 'TRUE' : 'FALSE';
+        
+        case 'NULL':
+          return 'null';
+        
+        default:
+          throw new FormatException('Can not handle type '.gettype($value).' as operator value');
+      }
+    }
+    
+    /**
      * Generate query string for given value
      * 
      * @mixed value The value
      * @return string
      */
     function forValue($value) {
-       return $this->op.' '.(string)$value;
+       return $this->op.' '.$this->value($value);
     }
   }
 

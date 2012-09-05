@@ -149,10 +149,20 @@
       $this->updated= $updated;
     }
 
+    /**
+     * Return priority
+     * 
+     * @return com.atlassian.jira.api.types.JiraPriority
+     */
     public function getPriority() {
       return $this->priority;
     }
 
+    /**
+     * Set priority
+     * 
+     * @param com.atlassian.jira.api.types.JiraPriority priority The priority to set
+     */
     public function setPriority($priority) {
       $this->priority= $priority;
     }

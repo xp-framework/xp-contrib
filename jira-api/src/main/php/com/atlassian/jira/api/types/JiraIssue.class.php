@@ -81,9 +81,18 @@
     }
     
     /**
+     * Return priority
+     * 
+     * @return  
+     */
+    public function getPriority() {
+      return $this->fields->getPriority();
+    }
+    
+    /**
      * Return status
      * 
-     * @return string 
+     * @return com.atlassian.jira.api.types.JiraStatus 
      */
     public function getStatus() {
       return $this->fields->getStatus();

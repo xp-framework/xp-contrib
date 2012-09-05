@@ -94,7 +94,7 @@
      */
     public function queryIssues($query) {
       return $this
-        ->req('/search', array('jql' => $query->getQuery()))
+        ->req('/search', array_merge(array('jql' => $query->getQuery()), $query->getParameters()))
         ->data('com.atlassian.jira.api.query.JiraQueryResult');
     }
   }

@@ -21,6 +21,8 @@
     static $LESS_EQUALS;
     static $IN;
     static $NOT_IN;
+    static $CONTAINS;
+    static $NOT_CONTAINS;
     
     static function __static() {
       self::$EQUALS=  newinstance(__CLASS__, array(1, 'EQUALS', '='), '{
@@ -52,6 +54,12 @@
         function forValue($value) {
           return $this->op." (".implode(", ", (array)$value).")";
         }
+      }');
+      self::$CONTAINS=  newinstance(__CLASS__, array(1, 'CONTAINS', '~'), '{
+        static function __static() {}
+      }');
+      self::$NOT_CONTAINS=  newinstance(__CLASS__, array(1, 'NOT_CONTAINS', '!~'), '{
+        static function __static() {}
       }');
     }
     

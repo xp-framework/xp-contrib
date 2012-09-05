@@ -117,6 +117,24 @@
     public function notInOperatorMultipleValues() {
       $this->assertEquals('not in (10, 20)', JiraQueryOp::$NOT_IN->forValue(array('10', '20')));
     }
+    
+    /**
+     * Test contains operator
+     *  
+     */
+    #[@test]
+    public function containsOperator() {
+      $this->assertEquals('~ right', JiraQueryOp::$CONTAINS->forValue('right'));
+    }
+    
+    /**
+     * Test not-contains operator
+     *  
+     */
+    #[@test]
+    public function notContainsOperator() {
+      $this->assertEquals('!~ wrong', JiraQueryOp::$NOT_CONTAINS->forValue('wrong'));
+    }
   }
 
 ?>

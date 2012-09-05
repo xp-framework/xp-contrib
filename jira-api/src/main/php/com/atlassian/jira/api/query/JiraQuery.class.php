@@ -17,6 +17,7 @@
       OP_OR=  'or';
     
     protected
+      $params= array(),
       $what= NULL,
       $value= NULL,
       $op= NULL,
@@ -34,6 +35,59 @@
       $this->what= $what;
       $this->value= $value;
       $this->op= $op;
+    }
+    
+    /**
+     * Return parameter
+     * 
+     * @param string name The name of parameter
+     * @return mixed
+     */
+    public function getParameter($name) {
+      return isset($this->params[$name]) ? $this->params[$name] : NULL;
+    }
+    
+    /**
+     * Set parameter
+     * 
+     * @param string name The parameter name
+     * @param mixed value The parameter value
+     */
+    public function setParameter($name, $value) {
+      $this->params[$name]= $value;
+    }
+    
+    /**
+     * Set parameter and return instance
+     * 
+     * @param string name The parameter name
+     * @param string value The parameter value
+     * @return self
+     */
+    public function withParameter($name, $value) {
+      $this->setParameter($name, $value);
+      
+      return $this;
+    }
+    
+    /**
+     * Return parameters
+     * 
+     * @return string[]
+     */
+    public function getParameters() {
+      return $this->params;
+    }
+    
+    /**
+     * Set max results
+     * 
+     * @param int max The maximum number of results to return
+     */
+    public function withMaxResults($max) {
+      $this->setParameter('maxResults', $max);
+      
+      return $this;
     }
     
     /**

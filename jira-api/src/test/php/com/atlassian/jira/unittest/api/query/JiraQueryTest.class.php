@@ -15,17 +15,92 @@
    * @purpose  Test
    */
   class JiraQueryTest extends TestCase {
+    protected 
+      $fixture= NULL;
     
+    /**
+     * Set up
+     * 
+     */
+    public function setUp() {
+      $this->fixture= new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS);
+    }
+
     /**
      * Test login
      *  
      */
     #[@test]
     public function instance() {
-      $this->assertClass(
-        new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS),
-        'com.atlassian.jira.api.query.JiraQuery'
+      $this->assertClass($this->fixture, 'com.atlassian.jira.api.query.JiraQuery');
+    }
+    
+    /**
+     * Test getParameter()
+     * 
+     */
+    #[@test]
+    public function getParameter() {
+      $this->assertNull($this->fixture->getParameter('non-existant'));
+    }
+    
+    /**
+     * Test setParameter()
+     * 
+     */
+    #[@test]
+    public function setParameter() {
+      $this->fixture->setParameter('maxResults', 10);
+      
+      $this->assertEquals(10, $this->fixture->getParameter('maxResults'));
+    }
+    
+    /**
+     * Test withParameter()
+     * 
+     */
+    #[@test]
+    public function withParameter() {
+      $this->assertInstanceOf(
+        'com.atlassian.jira.api.query.JiraQuery',
+        $this->fixture->withParameter('maxResults', 10)
       );
+      
+      $this->assertEquals(10, $this->fixture->getParameter('maxResults'));
+    }
+    
+    /**
+     * Test getParameters()
+     *  
+     */
+    #[@test]
+    public function getParameters() {
+      $this->assertEquals(array(), $this->fixture->getParameters());
+    }
+    
+    /**
+     * Test setParameter()
+     * 
+     */
+    #[@test]
+    public function getParametersWithValues() {
+      $this->fixture->setParameter('maxResults', 10);
+      
+      $this->assertEquals(array('maxResults' => 10), $this->fixture->getParameters());
+    }
+    
+    /**
+     * Test withMaxResults()
+     * 
+     */
+    #[@test]
+    public function withMaxResults() {
+      $this->assertInstanceOf(
+        'com.atlassian.jira.api.query.JiraQuery',
+        $this->fixture->withMaxResults(10)
+      );
+      
+      $this->assertEquals(10, $this->fixture->getParameter('maxResults'));
     }
     
     /**
@@ -34,10 +109,7 @@
      */
     #[@test]
     public function simpleQuery() {
-      $this->assertEquals(
-        'column = empty',
-        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))->getQuery()
-      );
+      $this->assertEquals('column = "empty"', $this->fixture->getQuery());
     }
     
     /**
@@ -47,8 +119,8 @@
     #[@test]
     public function andQuery() {
       $this->assertEquals(
-        'column = empty and otherColumn = value',
-        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+        'column = "empty" and otherColumn = "value"',
+        $this->fixture
           ->addAnd(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
           ->getQuery()
       );
@@ -61,8 +133,8 @@
     #[@test]
     public function orQuery() {
       $this->assertEquals(
-        'column = empty or otherColumn = value',
-        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+        'column = "empty" or otherColumn = "value"',
+        $this->fixture
           ->addOr(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
           ->getQuery()
       );
@@ -75,8 +147,8 @@
     #[@test]
     public function nestedQuery() {
       $this->assertEquals(
-        'column = empty or (otherColumn = value and anotherColumn = value)',
-        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+        'column = "empty" or (otherColumn = "value" and anotherColumn = "value")',
+        $this->fixture
           ->addOr(create(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
             ->addAnd(new JiraQuery('anotherColumn', 'value', JiraQueryOp::$EQUALS))
           )
@@ -91,8 +163,8 @@
     #[@test]
     public function orderBy() {
       $this->assertEquals(
-        'column = empty order by otherColumn DESC',
-        create(new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS))
+        'column = "empty" order by otherColumn DESC',
+        $this->fixture
           ->addOrderBy('otherColumn', 'DESC')
           ->getQuery()
       );

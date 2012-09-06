@@ -18,24 +18,8 @@
     
     protected
       $params= array(),
-      $what= NULL,
-      $value= NULL,
-      $op= NULL,
-      $next= array(),
+      $criterias= array(),
       $order= array();
-    
-    /**
-     * Constructor
-     * 
-     * @param string what The subject of the query
-     * @param string value The value to compare
-     * @param com.atlassian.jira.api.query.JiraQueryOp op The query operator
-     */
-    public function __construct($what, $value, $op) {
-      $this->what= $what;
-      $this->value= $value;
-      $this->op= $op;
-    }
     
     /**
      * Return parameter
@@ -98,25 +82,46 @@
     }
     
     /**
-     * Add and query
+     * Add initial criteria
      * 
-     * @param com.atlassian.jira.api.query.JiraQuery query The query to add 
-     * @return com.atlassian.jira.api.query.JiraQuery
+     * @param com.atlassian.jira.api.query.JiraQueryCriteria criteria The criteria to add
      */
-    public function addAnd($query) {
-      $this->next[]= array(self::OP_AND, $query);
+    public function add($criteria) {
+      if (sizeof($this->criterias)) throw new IllegalStateException(
+        'Only one start criteria can be specified (have already '.sizeof($this->criterias).')'
+      );
+      
+      $this->criterias[]= array(NULL, $criteria);
       
       return $this;
     }
     
     /**
-     * Add or query
+     * Add and criteria
      * 
-     * @param com.atlassian.jira.api.query.JiraQuery query The query to add 
-     * @return com.atlassian.jira.api.query.JiraQuery
+     * @param com.atlassian.jira.api.query.JiraQueryCriteria criteria The criteria to add
      */
-    public function addOr($query) {
-      $this->next[]= array(self::OP_OR, $query);
+    public function addAnd($criteria) {
+      if (!sizeof($this->criterias)) throw new IllegalStateException(
+        'No initial criteria added'
+      );
+      
+      $this->criterias[]= array(self::OP_AND, $criteria);
+      
+      return $this;
+    }
+    
+    /**
+     * Add or criteria
+     * 
+     * @param com.atlassian.jira.api.query.JiraQueryCriteria criteria The criteria to add
+     */
+    public function addOr($criteria) {
+      if (!sizeof($this->criterias)) throw new IllegalStateException(
+        'No initial criteria added'
+      );
+      
+      $this->criterias[]= array(self::OP_OR, $criteria);
       
       return $this;
     }
@@ -134,28 +139,25 @@
     }
     
     /**
-     * Return size of sub queries
-     * 
-     * @return int
-     */
-    public function size() {
-      return sizeof($this->next);
-    }
-    
-    /**
      * Return JQL query string
      * 
      * @return string 
      */
     public function getQuery() {
-      $jql= $this->what.' '.$this->op->forValue($this->value);
+      $jql= '';
       
-      foreach ($this->next as $query) $jql .= sprintf(
-        ' %s %s',
-        $query[0],
-        $query[1]->size() ? '('.$query[1]->getQuery().')' : $query[1]->getQuery()
-      );
+      // Add all criterias
+      foreach ($this->criterias as $criteria) {
+        if ($criteria[0] !== NULL) {
+          $jql.= ' '.$criteria[0].' ';
+        }
+        
+        $jql.= $criteria[1]->size()
+          ? '(' . $criteria[1]->getQuery() . ')'
+          : $criteria[1]->getQuery();
+      }
       
+      // Add order by
       if (sizeof($this->order)) {
         $jql.= ' order by';
         

@@ -23,7 +23,8 @@
      * 
      */
     public function setUp() {
-      $this->fixture= new JiraQuery('column', 'empty', JiraQueryOp::$EQUALS);
+      $this->fixture= new JiraQuery();
+      $this->fixture->add(new JiraQueryCriteria('column', 'empty', JiraQueryOp::$EQUALS));
     }
 
     /**
@@ -118,8 +119,8 @@
     }
     
     /**
-     * Test simple query
-     *  
+     * Test simple query with one initial condition
+     * 
      */
     #[@test]
     public function simpleQuery() {
@@ -127,49 +128,54 @@
     }
     
     /**
-     * Test and query
-     *  
+     * Test query with two condition combined with OR
+     * 
      */
     #[@test]
-    public function andQuery() {
-      $this->assertEquals(
-        'column = "empty" and otherColumn = "value"',
-        $this->fixture
-          ->addAnd(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
-          ->getQuery()
-      );
-    }
-    
-    /**
-     * Test or query
-     *  
-     */
-    #[@test]
-    public function orQuery() {
+    public function addOr() {
+      $this->fixture->addOr(new JiraQueryCriteria('otherColumn', 'value', JiraQueryOp::$EQUALS));
+      
       $this->assertEquals(
         'column = "empty" or otherColumn = "value"',
-        $this->fixture
-          ->addOr(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
-          ->getQuery()
+        $this->fixture->getQuery()
       );
     }
     
     /**
-     * Test nested query
-     *  
+     * Test query with two condition combined with AND
+     * 
      */
     #[@test]
-    public function nestedQuery() {
+    public function addAnd() {
+      $this->fixture->addAnd(new JiraQueryCriteria('otherColumn', 'value', JiraQueryOp::$EQUALS));
+      
       $this->assertEquals(
-        'column = "empty" or (otherColumn = "value" and anotherColumn = "value")',
-        $this->fixture
-          ->addOr(create(new JiraQuery('otherColumn', 'value', JiraQueryOp::$EQUALS))
-            ->addAnd(new JiraQuery('anotherColumn', 'value', JiraQueryOp::$EQUALS))
-          )
-          ->getQuery()
+        'column = "empty" and otherColumn = "value"',
+        $this->fixture->getQuery()
       );
     }
     
+    /**
+     * Test multiple conditions
+     * 
+     */
+    #[@test]
+    public function multipleConditions() {
+      $c1= new JiraQueryCriteria('column', 'empty', JiraQueryOp::$EQUALS);
+      $c1->addAnd('otherColumn', 'value', JiraQueryOp::$EQUALS);
+      
+      $c2= new JiraQueryCriteria('column', 'value', JiraQueryOp::$EQUALS);
+      $c2->addAnd('otherColumn', 'empty', JiraQueryOp::$EQUALS);
+      
+      $this->fixture= new JiraQuery();
+      $this->fixture->add($c1)->addOr($c2);
+      
+      $this->assertEquals(
+        '(column = "empty" and otherColumn = "value") or (column = "value" and otherColumn = "empty")',
+        $this->fixture->getQuery()
+      );
+    }
+
     /**
      * Test order-by
      *  

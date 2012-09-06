@@ -72,6 +72,15 @@
       );
     }
 
+
+   /**
+     * Executes a clustered search and return the cluster results
+     *
+     * @param   com.google.search.custom.GoogleSearchQuery query
+     * @param   [:string] params extra parameters to pass
+     * @return  com.google.search.custom.types.ClusterSearchResponse
+     * @see     https://developers.google.com/search-appliance/documentation/52/QuickStart/quick_start_se#dynamicresclust 
+     */
     public function getCluster(GoogleSearchQuery $query, $params= array()) {
       $conn= new HttpConnection($this->gsaURL . '/cluster');
 
@@ -79,17 +88,18 @@
       $params['output']= 'xml_no_dtd';
       $params['coutput'] = 'xml';
       $params['q']= $query->getTerm();
+
       // Retrieve result as XML
       $r= $conn->get($params);
       if (HttpConstants::STATUS_OK !== $r->statusCode()) {
         throw new IOException('Non-OK response code '.$r->statusCode().': '.$r->message());
       }
+
       // Unmarshal result
       return $this->unmarshaller->unmarshalFrom(
         new StreamInputSource($r->getInputStream(), $conn->toString()),
         'com.google.search.custom.types.ClusterSearchResponse'
       );
-
     }
     
     /**
@@ -98,7 +108,7 @@
      * @return  string
      */
     public function toString() {
-      return $this->getClassName().'<'.$this->conn->toString().'>';
+      return $this->getClassName().'<'.$this->gsaURL . '>';
     }
   }
 ?>

@@ -7,20 +7,19 @@
   $package= 'com.google.search.custom.types';
 
   /**
-   * Search result
+   * Class encapsulating clustered search results   
    *
    */
   class com·google·search·custom·types·ClusterSearchResponse extends Object {
-    protected $time= 0.0;
-    protected $clusterProposals=array();
+    protected $clusterProposals= array();
     /**
-     * Set result set
+     * Set cluster search result set
      *
      * @param   com.google.search.custom.types.ResultSet res
      */
     #[@xmlmapping(element= '/toplevel/Response/cluster/gcluster/label/@data')]
-    public function setResultSet($proposal) {
-      $this->clusterProposals[] = $proposal; 
+    public function setClusterSearchResultSet($proposal) {
+      $this->clusterProposals[]= $proposal; 
     }
     
     /**
@@ -33,11 +32,16 @@
     }
 
     /**
-     * Creates a string representation of this result set
+     * Creates a string representation of this cluster search response
      *
      * @return  string
      */
     public function toString() {
+	$ret= '';
+	foreach($this->clusterProposals as $index => $proposal) {
+		$ret.= '['.$index.'] '.$proposal.'\n';
+	}
+	return $ret;
     }
   }
 ?>

@@ -133,7 +133,25 @@
     public function setSummary($summary) {
       $this->fields->setSummary($summary);
     }
+        
+    /**
+     * Return description
+     * 
+     * @return string
+     */
+    public function getDescription() {
+      return $this->fields->getDescription();
+    }
     
+    /**
+     * Set description
+     * 
+     * @param string description The description
+     */
+    public function setDescription($description) {
+      $this->fields->setDescription($description);
+    }
+
     /**
      * Return reporter
      *

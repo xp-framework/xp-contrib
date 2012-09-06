@@ -167,10 +167,20 @@
       $this->priority= $priority;
     }
 
+    /**
+     * Return description
+     * 
+     * @return string
+     */
     public function getDescription() {
       return $this->description;
     }
 
+    /**
+     * Set description
+     * 
+     * @param string description The description
+     */
     public function setDescription($description) {
       $this->description= $description;
     }

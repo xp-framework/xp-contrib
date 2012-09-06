@@ -87,6 +87,16 @@
     }
     
     /**
+     * Test description
+     * 
+     */
+    #[@test]
+    public function description() {
+      $this->fixture->setDescription('Short description');
+      $this->assertEquals('Short description', $this->fixture->getDescription());
+    }
+    
+    /**
      * Test status
      * 
      */

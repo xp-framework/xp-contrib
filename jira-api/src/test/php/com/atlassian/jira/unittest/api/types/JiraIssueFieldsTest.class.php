@@ -87,6 +87,16 @@
     }
     
     /**
+     * Test priority
+     * 
+     */
+    #[@test]
+    public function priority() {
+      $this->fixture->setPriority($p= new JiraPriority());
+      $this->assertEquals($p, $this->fixture->getPriority());
+    }
+    
+    /**
      * Test status
      *  
      */

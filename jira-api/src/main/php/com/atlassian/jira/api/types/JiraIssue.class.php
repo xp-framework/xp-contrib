@@ -117,6 +117,62 @@
     }
     
     /**
+     * Return labels
+     * 
+     * @return string[]
+     */
+    public function getLabels() {
+      return $this->fields->getLabels();
+    }
+    
+    /**
+     * Set labels
+     * 
+     * @param string[] labels The labels
+     */
+    public function setLabels($labels) {
+      $this->fields->setLabels($labels);
+    }
+    
+    /**
+     * Add single label
+     * 
+     * @param string label The label to add
+     */
+    public function addLabel($label) {
+      $labels= $this->getLabels();
+      
+      if (!in_array($label, $labels)) {
+        $labels[]= $label;
+        
+        $this->setLabels($labels);
+        
+        return TRUE;
+      }
+      
+      return FALSE;
+    }
+    
+    /**
+     * Remove given label
+     * 
+     * @param string label The label to remove
+     */
+    public function removeLabel($label) {
+      $labels= $this->getLabels();
+      
+      if (FALSE !== ($p= array_search($label, $labels))) {
+        unset($labels[$p]);
+        
+        $this->setLabels($labels);
+        
+        return TRUE;
+      }
+      
+      return FALSE;
+    }
+    
+    /**
      * Return description
      * 
      * @return string 

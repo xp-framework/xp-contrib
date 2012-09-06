@@ -117,6 +117,16 @@
     }
     
     /**
+     * Test labels
+     * 
+     */
+    #[@test]
+    public function labels() {
+      $this->fixture->setLabels($labels= array('Technology', 'Development'));
+      $this->assertEquals($labels, $this->fixture->getLabels());
+    }
+    
+    /**
      * Test project
      *  
      */

@@ -219,10 +219,20 @@
       $this->status = $status;
     }
 
+    /**
+     * Return labels
+     * 
+     * @return string[]
+     */
     public function getLabels() {
       return $this->labels;
     }
 
+    /**
+     * Set labels
+     * 
+     * @param string[] labels The new labels
+     */
     public function setLabels($labels) {
       $this->labels= $labels;
     }

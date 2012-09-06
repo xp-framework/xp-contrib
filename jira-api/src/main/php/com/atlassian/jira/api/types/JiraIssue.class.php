@@ -83,10 +83,19 @@
     /**
      * Return priority
      * 
-     * @return  
+     * @return com.atlassian.jira.api.types.JiraPriority
      */
     public function getPriority() {
       return $this->fields->getPriority();
+    }
+    
+    /**
+     * Set priority
+     * 
+     * @param com.atlassian.jira.api.types.JiraPriority prio The priority
+     */
+    public function setPriority($prio) {
+      $this->fields->setPriority($prio);
     }
     
     /**
@@ -99,12 +108,30 @@
     }
     
     /**
+     * Set status
+     * 
+     * @param com.atlassian.jira.api.types.JiraStatus status The status
+     */
+    public function setStatus($status) {
+      $this->fields->setStatus($status);
+    }
+    
+    /**
      * Return description
      * 
      * @return string 
      */
     public function getSummary() {
       return $this->fields->getSummary();
+    }
+    
+    /**
+     * Set summary
+     * 
+     * @param string summary The summary
+     */
+    public function setSummary($summary) {
+      $this->fields->setSummary($summary);
     }
     
     /**
@@ -117,12 +144,30 @@
     }
     
     /**
+     * Set reporter
+     * 
+     * @param com.atlassian.jira.types.JiraPerson person The person
+     */
+    public function setReporter($person) {
+      $this->fields->setReporter($person);
+    }
+    
+    /**
      * Return creation date
      * 
      * @return util.Date
      */
     public function getCreated() {
       return $this->fields->getCreated();
+    }
+    
+    /**
+     * Set creation date
+     * 
+     * @param util.Date date The date
+     */
+    public function setCreated($date) {
+      $this->fields->setCreated($date);
     }
   }
 

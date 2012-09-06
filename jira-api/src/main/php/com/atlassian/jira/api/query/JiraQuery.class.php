@@ -4,21 +4,16 @@
  * $Id$ 
  */
 
-  uses('com.atlassian.jira.api.query.JiraQueryOp');
+  uses('com.atlassian.jira.api.query.JiraQueryCriteria');
   
   /**
    * JIRA query object
    *
    * @purpose  Query
    */
-  class JiraQuery extends Object {
-    const
-      OP_AND= 'and',
-      OP_OR=  'or';
-    
+  class JiraQuery extends JiraQueryCriteria {
     protected
       $params= array(),
-      $criterias= array(),
       $order= array();
     
     /**
@@ -82,51 +77,6 @@
     }
     
     /**
-     * Add initial criteria
-     * 
-     * @param com.atlassian.jira.api.query.JiraQueryCriteria criteria The criteria to add
-     */
-    public function add($criteria) {
-      if (sizeof($this->criterias)) throw new IllegalStateException(
-        'Only one start criteria can be specified (have already '.sizeof($this->criterias).')'
-      );
-      
-      $this->criterias[]= array(NULL, $criteria);
-      
-      return $this;
-    }
-    
-    /**
-     * Add and criteria
-     * 
-     * @param com.atlassian.jira.api.query.JiraQueryCriteria criteria The criteria to add
-     */
-    public function addAnd($criteria) {
-      if (!sizeof($this->criterias)) throw new IllegalStateException(
-        'No initial criteria added'
-      );
-      
-      $this->criterias[]= array(self::OP_AND, $criteria);
-      
-      return $this;
-    }
-    
-    /**
-     * Add or criteria
-     * 
-     * @param com.atlassian.jira.api.query.JiraQueryCriteria criteria The criteria to add
-     */
-    public function addOr($criteria) {
-      if (!sizeof($this->criterias)) throw new IllegalStateException(
-        'No initial criteria added'
-      );
-      
-      $this->criterias[]= array(self::OP_OR, $criteria);
-      
-      return $this;
-    }
-    
-    /**
      * Add order-by
      * 
      * @param string field The field to order
@@ -144,18 +94,7 @@
      * @return string 
      */
     public function getQuery() {
-      $jql= '';
-      
-      // Add all criterias
-      foreach ($this->criterias as $criteria) {
-        if ($criteria[0] !== NULL) {
-          $jql.= ' '.$criteria[0].' ';
-        }
-        
-        $jql.= $criteria[1]->size()
-          ? '(' . $criteria[1]->getQuery() . ')'
-          : $criteria[1]->getQuery();
-      }
+      $jql= parent::getQuery();
       
       // Add order by
       if (sizeof($this->order)) {

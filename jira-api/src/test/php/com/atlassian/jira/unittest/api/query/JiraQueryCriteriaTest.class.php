@@ -103,6 +103,51 @@
           ->getQuery()
       );
     }
+    
+    /**
+     * Test multiple wrapped sub criterias
+     * 
+     */
+    #[@test]
+    public function multipleTopLevelQuery() {
+      $this->fixture= new JiraQueryCriteria();
+      $this->fixture->add(create(new JiraQueryCriteria('column', 'empty', JiraQueryOp::$EQUALS))
+        ->addAnd('otherColumn', 'value', JiraQueryOp::$EQUALS)
+      );
+      $this->fixture->addOr(create(new JiraQueryCriteria('column', 'value', JiraQueryOp::$EQUALS))
+        ->addAnd('otherColumn', 'empty', JiraQueryOp::$EQUALS)
+      );
+      
+      $this->assertEquals(
+        '(column = "empty" and otherColumn = "value") or (column = "value" and otherColumn = "empty")',
+        $this->fixture->getQuery()
+      );
+    }
+    
+    /**
+     * Test single top-level but multiple low level criterias
+     * 
+     */
+    #[@test]
+    public function singleTopLevelQuery() {
+      $this->fixture= new JiraQueryCriteria();
+      $this->fixture->add(new JiraQueryCriteria('column', 'empty', JiraQueryOp::$EQUALS));
+      $this->fixture->addAnd(create(new JiraQueryCriteria())
+        ->add(create(new JiraQueryCriteria())
+          ->add('this', 'that', JiraQueryOp::$EQUALS)
+          ->addAnd('that', 'this', JiraQueryOp::$EQUALS)
+        )
+        ->addOr(create(new JiraQueryCriteria())
+          ->add('that', 'this', JiraQueryOp::$EQUALS)
+          ->addAnd('this', 'that', JiraQueryOp::$EQUALS)
+        )
+      );
+      
+      $this->assertEquals(
+        'column = "empty" and ((this = "that" and that = "this") or (that = "this" and this = "that"))',
+        $this->fixture->getQuery()
+      );
+    }
   }
 
 ?>

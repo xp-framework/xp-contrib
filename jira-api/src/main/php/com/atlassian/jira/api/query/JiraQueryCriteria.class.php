@@ -15,11 +15,12 @@
    * @purpose  Query
    */
   class JiraQueryCriteria extends Object {
+    const
+      OP_AND= 'and',
+      OP_OR=  'or';
+    
     protected
-      $what= NULL,
-      $value= NULL,
-      $op= NULL,
-      $next= array();
+      $criterias= array();
     
     /**
      * Constructor
@@ -29,9 +30,9 @@
      * @param com.atlassian.jira.api.query.JiraQueryOp op The query operator
      */
     public function __construct($what= NULL, $value= NULL, $op= NULL) {
-      $this->what= $what;
-      $this->value= $value;
-      $this->op= $op;
+      if ($what !== NULL) {
+        $this->addNext(NULL, $what, $value, $op);
+      }
     }
     
     /**
@@ -42,14 +43,30 @@
      * @param string value The value to test when column was specified
      * @param com.atlassian.jira.api.query.JiraQueryOp op The query operator when column was specified
      */
-    protected function add($conjunction, $what, $value, $op) {
+    protected function addNext($conjunction, $what, $value, $op) {
       if ($what instanceof JiraQueryCriteria) {
-        $this->next[]= array($conjunction, $what);
+        $this->criterias[]= array($conjunction, $what);
       } else {
-        $this->next[]= array($conjunction, $what, $value, $op);
+        $this->criterias[]= array($conjunction, $what, $value, $op);
       }
       
       return $this;
+    }
+    
+    /**
+     * Add initial criteria
+     * 
+     * @param com.atlassian.jira.api.query.JiraQueryCriteria what The criteria to add or the column
+     * @param string value The value to test when column was specified
+     * @param com.atlassian.jira.api.query.JiraQueryOp op The query operator when column was specified
+     * @return self
+     */
+    public function add($what= NULL, $value= NULL, $op= NULL) {
+      if (sizeof($this->criterias)) throw new IllegalStateException(
+        'Only one initial criteria can be specified (have already '.sizeof($this->criterias).')'
+      );
+      
+      return $this->addNext(NULL, $what, $value, $op);
     }
     
     /**
@@ -61,7 +78,11 @@
      * @return self
      */
     public function addAnd($what= NULL, $value= NULL, $op= NULL) {
-      return $this->add(JiraQuery::OP_AND, $what, $value, $op);
+      if (!sizeof($this->criterias)) throw new IllegalStateException(
+        'Initial criteria missing'
+      );
+      
+      return $this->addNext(self::OP_AND, $what, $value, $op);
     }
     
     /**
@@ -73,7 +94,11 @@
      * @return self
      */
     public function addOr($what= NULL, $value= NULL, $op= NULL) {
-      return $this->add(JiraQuery::OP_OR, $what, $value, $op);
+      if (!sizeof($this->criterias)) throw new IllegalStateException(
+        'No initial criteria added'
+      );
+      
+      return $this->addNext(self::OP_OR, $what, $value, $op);
     }
     
     /**
@@ -82,7 +107,7 @@
      * @return int
      */
     public function size() {
-      return sizeof($this->next);
+      return sizeof($this->criterias);
     }
     
     /**
@@ -91,17 +116,13 @@
      * @return string 
      */
     public function getQuery() {
-      $jql= sprintf(
-        '%s %s',
-        $this->what,
-        $this->op->forValue($this->value)
-      );
+      $jql= '';
       
-      foreach ($this->next as $query) {
-        $jql.= ' '.$query[0]. ' ';
+      foreach ($this->criterias as $query) {
+        $jql.= $query[0] !== NULL ? ' '.$query[0]. ' ' : '';
         
         if ($query[1] instanceof JiraQueryCriteria) {
-          $jql.= sprintf('(%s)', $query[1]->getQuery());
+          $jql.= sprintf($query[1]->size() > 1 ? '(%s)' : '%s', $query[1]->getQuery());
         } else {
           $jql.= sprintf(
             '%s %s',

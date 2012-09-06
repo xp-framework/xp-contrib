@@ -85,9 +85,16 @@
      * @param int max The maximum number of results to return
      */
     public function withMaxResults($max) {
-      $this->setParameter('maxResults', $max);
-      
-      return $this;
+      return $this->withParameter('maxResults', $max);
+    }
+    
+    /**
+     * Set starting position
+     * 
+     * @param int start The starting position
+     */
+    public function withStartAt($start) {
+      return $this->withParameter('startAt', $start);
     }
     
     /**

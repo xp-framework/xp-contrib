@@ -104,6 +104,20 @@
     }
     
     /**
+     * Test withStartAt()
+     * 
+     */
+    #[@test]
+    public function withStartAt() {
+      $this->assertInstanceOf(
+        'com.atlassian.jira.api.query.JiraQuery',
+        $this->fixture->withStartAt(50)
+      );
+      
+      $this->assertEquals(50, $this->fixture->getParameter('startAt'));
+    }
+    
+    /**
      * Test simple query
      *  
      */

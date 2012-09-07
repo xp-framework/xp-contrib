@@ -227,6 +227,23 @@
     }
     
     /**
+     * Return assignee
+     * 
+     * @return com.atlassian.jira.api.types.JiraPerson
+     */
+    public function getAssignee() {
+      return $this->fields->getAssignee();
+    }
+    /**
+     * Set assignee
+     * 
+     * @param com.atlassian.jira.api.types.JiraPerson person The person
+     */
+    public function setAssignee($person) {
+      $this->fields->setAssignee($person);
+    }
+    
+    /**
      * Return creation date
      * 
      * @return util.Date

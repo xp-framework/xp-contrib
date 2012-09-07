@@ -182,6 +182,16 @@
     }
     
     /**
+     * Test assignee
+     * 
+     */
+    #[@test]
+    public function assignee() {
+      $this->fixture->setAssignee($p= new JiraPerson());
+      $this->assertEquals($p, $this->fixture->getAssignee());
+    }
+    
+    /**
      * Test created
      * 
      */

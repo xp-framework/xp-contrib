@@ -190,6 +190,16 @@
       $this->fixture->setCreated($d= Date::now());
       $this->assertEquals($d, $this->fixture->getCreated());
     }
+    
+    /**
+     * Test updated
+     * 
+     */
+    #[@test]
+    public function updated() {
+      $this->fixture->setUpdated($d= Date::now());
+      $this->assertEquals($d, $this->fixture->getUpdated());
+    }
   }
 
 ?>

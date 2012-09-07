@@ -243,6 +243,24 @@
     public function setCreated($date) {
       $this->fields->setCreated($date);
     }
+    
+    /**
+     * Return updated date
+     * 
+     * @return util.Date
+     */
+    public function getUpdated() {
+      return $this->fields->getUpdated();
+    }
+    
+    /**
+     * Set updated date
+     * 
+     * @param util.Date date The updated date
+     */
+    public function setUpdated($date) {
+      $this->fields->setUpdated($date);
+    }
   }
 
 ?>

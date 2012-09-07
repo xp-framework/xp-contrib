@@ -37,11 +37,11 @@
      * @return  string
      */
     public function toString() {
-	$ret= '';
-	foreach($this->clusterProposals as $index => $proposal) {
-		$ret.= '['.$index.'] '.$proposal.'\n';
-	}
-	return $ret;
+      $ret= '';
+      foreach($this->clusterProposals as $index => $proposal) {
+            $ret.= '['.$index.'] '.$proposal.'\n';
+      }
+      return $ret;
     }
   }
 ?>

@@ -5,7 +5,7 @@
  xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
 >
   <info
-   organisation="net.xp_forge"
+   organisation="net.xp_framework"
    module="jira-api"
    status="integration"
    revision="1.0.0"

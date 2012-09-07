@@ -13,13 +13,14 @@
   <configurations>
     <conf name="default" description="Runtime"/>
     <conf name="compile" description="Compilation phase"/>
+    <conf name="test" description="Test phase" visibility="private"/>
   </configurations>
   <publications>
     <artifact
-     name=""
-     ext="jira-api"
+     name="jira-api"
      type="xar"
-     conf="compile"
+     ext="xar"
+     conf="default"
     />
   </publications>
   <dependencies>
@@ -27,7 +28,7 @@
      org="net.xp_framework"
      name="core"
      rev="[5.8,5.9["
-     conf="*-&gt;default"
+     conf="*-&gt;default; test->default"
     />
   </dependencies>
 </ivy-module>

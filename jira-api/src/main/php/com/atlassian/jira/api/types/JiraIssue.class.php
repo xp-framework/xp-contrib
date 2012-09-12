@@ -173,6 +173,24 @@
     }
     
     /**
+     * Return project
+     * 
+     * @return com.atlassian.jira.api.types.JiraProject
+     */
+    public function getProject() {
+      return $this->fields->getProject();
+    }
+    
+    /**
+     * Set project
+     * 
+     * @param com.atlassian.jira.api.types.JiraProject project The project
+     */
+    public function setProject($project) {
+      $this->fields->setProject($project);
+    }
+    
+    /**
      * Return description
      * 
      * @return string 

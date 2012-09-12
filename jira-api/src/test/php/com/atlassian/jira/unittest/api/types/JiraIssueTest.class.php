@@ -162,6 +162,16 @@
     }
     
     /**
+     * Test project
+     * 
+     */
+    #[@test]
+    public function project() {
+      $this->fixture->setProject($p= new JiraProject());
+      $this->assertEquals($p, $this->fixture->getProject());
+    }
+    
+    /**
      * Test summary
      * 
      */

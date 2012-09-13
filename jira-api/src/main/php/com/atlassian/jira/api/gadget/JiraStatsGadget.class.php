@@ -9,6 +9,7 @@
   /**
    * JIRA statistic gadget
    *
+   * @see https://confluence.atlassian.com/display/JIRA/Adding+the+Issue+Statistics+Gadget
    * @purpose  Gadget
    */
   class JiraStatsGadget extends JiraGadget {

@@ -7,6 +7,7 @@
   /**
    * JIRA gadget
    *
+   * @see https://confluence.atlassian.com/display/JIRA/Customising+the+Dashboard
    * @purpose  Gadget
    */
   class JiraGadget extends Object {

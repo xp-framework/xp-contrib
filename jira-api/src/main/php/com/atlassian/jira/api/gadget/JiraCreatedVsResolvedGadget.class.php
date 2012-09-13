@@ -9,6 +9,7 @@
   /**
    * JIRA statistic gadget
    *
+   * @see https://confluence.atlassian.com/display/JIRA/Adding+the+Created+vs+Resolved+Gadget
    * @purpose  Gadget
    */
   class JiraCreatedVsResolvedGadget extends JiraGadget {

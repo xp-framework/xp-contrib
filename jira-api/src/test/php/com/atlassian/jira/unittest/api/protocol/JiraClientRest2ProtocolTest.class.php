@@ -8,7 +8,8 @@
     'unittest.TestCase',
     'peer.URL',
     'com.atlassian.jira.api.protocol.JiraClientRest2Protocol',
-    'com.atlassian.jira.api.query.JiraQuery'
+    'com.atlassian.jira.api.query.JiraQuery',
+    'com.atlassian.jira.api.gadget.JiraGadget'
   );
   
   /**
@@ -70,6 +71,22 @@
       $result= $this->fixture->queryIssues(new JiraQuery('key', 'PPTX-1', JiraQueryOp::$EQUALS));
       
       $this->assertClass($result, 'com.atlassian.jira.api.query.JiraQueryResult');
+    }
+    
+    /**
+     * Test gadget
+     * 
+     */
+    #[@test]
+    public function gadget() {
+      $this->assertClass($r= $this->fixture->gadget(create(new JiraGadget('stats'))
+        ->withParam('projectOrFilterId', 'project-12998')
+        ->withParam('statType', 'assignees')
+        ->withParam('includeResolvedIssues', 'false')
+        ->withParam('sortDirection', 'asc')
+        ->withParam('sortBy', 'total'),
+        'generate'
+      ), 'com.atlassian.jira.api.gadget.JiraGadgetResult');
     }
   }
 

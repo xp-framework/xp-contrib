@@ -97,6 +97,26 @@
         ->req('/search', array_merge(array('jql' => $query->getQuery()), $query->getParameters()))
         ->data('com.atlassian.jira.api.query.JiraQueryResult');
     }
+    
+    /**
+     * Process gadget
+     * 
+     * @param com.atlassian.jira.api.gadget.JiraGadget gadget The gadget
+     * @return com.atlassian.jira.api.gadget.JiraGadgetResult
+     */
+    public function gadget($gadget, $action) {
+      $response= $this->req(sprintf('/../../gadget/%s/%s/%s',
+        $gadget->getVersion(),
+        $gadget->getName(),
+        $action
+      ), $gadget->getParams());
+
+      $result= XPClass::forName($gadget->getResultClass());
+      
+      return $result instanceof JiraGadgetReslt
+        ? $result->newInstance($response->data())
+        : $response->data($result);
+    }
   }
 
 ?>

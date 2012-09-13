@@ -53,6 +53,16 @@
     public function queryIssues($query) {
       return $this->proto->queryIssues($query);
     }
+    
+    /**
+     * Process gadget
+     * 
+     * @param com.atlassian.jira.api.gadget.JiraGadget gadget The gadget
+     * @return com.atlassian.jira.api.gadget.JiraGadgetResult
+     */
+    public function generateGadget($gadget) {
+      return $this->proto->gadget($gadget, 'generate');
+    }
   }
 
 ?>

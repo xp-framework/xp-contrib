@@ -4,13 +4,13 @@
 
   <!-- The Basics -->
   <groupId>net.xp-framework</groupId>
-  <artifactId>imc</artifactId>
+  <artifactId>google</artifactId>
   <version>5.8.8</version>
   <packaging>xar</packaging>
 
   <!-- More Project Information -->
-  <name>IMC XP-Module</name>
-  <description>The IMC module is an add-on to the XP framework that adds support of different standards defined by IMC like vCard or vCalendar</description>
+  <name>Google XP-Module</name>
+  <description>The Google search API enables communication with Google Custom Search and Google Search Appliance (GSA)</description>
   <url>https://github.com/xp-framework/xp-contrib</url>
   <inceptionYear>2001</inceptionYear>
   <organization>
@@ -65,4 +65,11 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Source code management -->
+  <scm>
+    <connection>scm:git:git://github.com/xp-framework/xp-contrib.git</connection>
+    <developerConnection>scm:git:git@github.com:xp-framework/xp-contrib.git</developerConnection>
+    <url>https://github.com/xp-framework/xp-contrib</url>
+  </scm>
 </project>

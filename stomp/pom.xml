@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>net.xp-framework</groupId>
   <artifactId>stomp</artifactId>
-  <version>5.8.7</version>
+  <version>5.8.8</version>
   <packaging>xar</packaging>
 
   <!-- More Project Information -->
@@ -45,13 +45,13 @@
       <artifactId>core</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
-   </dependency>
+    </dependency>
     <dependency>
       <groupId>net.xp-framework</groupId>
       <artifactId>tools</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
-   </dependency>
+    </dependency>
   </dependencies>
 
   <!-- Build Settings -->

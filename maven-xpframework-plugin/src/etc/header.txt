@@ -1,4 +1,0 @@
-This file is part of the XP-Framework
-
-${title}
-Copyright (c) ${year}, ${owner}

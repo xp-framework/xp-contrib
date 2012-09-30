@@ -6,13 +6,12 @@
 >
   <info
    organisation="net.xp_framework"
-   module="nsca"
+   module="google"
    status="integration"
    revision="5.8.7"
   >
     <license name="BSD"/>
-    <description homepage="http://xp-framework.net/">The Nagios module is an add-on to the XP framework that adds
-      interoperability packages to talk to Nagios surveillance servers.</description>
+    <description homepage="http://xp-framework.net/">The Google search API enables communication with Google Custom Search and Google Search Appliance (GSA).</description>
   </info>
   <configurations>
     <conf name="default" visibility="public"/>
@@ -20,16 +19,10 @@
   </configurations>
   <publications>
     <artifact
-     name="nsca"
+     name="google"
      type="xar"
      ext="xar"
      conf="default"
-    />
-    <artifact
-     name="nsca-test"
-     type="xar"
-     ext="xar"
-     conf="test"
     />
   </publications>
   <dependencies>

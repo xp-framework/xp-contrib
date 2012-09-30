@@ -6,37 +6,29 @@
 >
   <info
    organisation="net.xp_framework"
-   module="nsca"
+   module="jira-api"
    status="integration"
-   revision="5.8.7"
-  >
-    <license name="BSD"/>
-    <description homepage="http://xp-framework.net/">The Nagios module is an add-on to the XP framework that adds
-      interoperability packages to talk to Nagios surveillance servers.</description>
-  </info>
+   revision="1.0.1"
+  />
   <configurations>
-    <conf name="default" visibility="public"/>
-    <conf name="test" visibility="private"/>
+    <conf name="default" description="Runtime"/>
+    <conf name="compile" description="Compilation phase"/>
+    <conf name="test" description="Test phase" visibility="private"/>
   </configurations>
   <publications>
     <artifact
-     name="nsca"
+     name="jira-api"
      type="xar"
      ext="xar"
      conf="default"
-    />
-    <artifact
-     name="nsca-test"
-     type="xar"
-     ext="xar"
-     conf="test"
     />
   </publications>
   <dependencies>
     <dependency
      org="net.xp_framework"
      name="core"
-     rev="5.8.7+"
+     rev="[5.8,5.9["
+     conf="*-&gt;default; test->default"
     />
   </dependencies>
 </ivy-module>

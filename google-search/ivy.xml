@@ -6,7 +6,7 @@
 >
   <info
    organisation="net.xp_framework"
-   module="google"
+   module="google-search"
    status="integration"
    revision="5.8.7"
   >
@@ -19,7 +19,7 @@
   </configurations>
   <publications>
     <artifact
-     name="google"
+     name="google-search"
      type="xar"
      ext="xar"
      conf="default"

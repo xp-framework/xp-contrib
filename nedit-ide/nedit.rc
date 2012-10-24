@@ -1,17 +1,16 @@
 ! Preferences file for NEdit
-! (User settings in X "application defaults" format)
 !
-! This file is overwritten by the "Save Defaults..." command in NEdit
+! This file is overwritten by the "Save Defaults..." command in NEdit 
 ! and serves only the interactively settable options presented in the NEdit
-! "Preferences" menu.  To modify other options, such as key bindings, use
-! the .Xdefaults file in your home directory (or the X resource
-! specification method appropriate to your system).  The contents of this
+! "Preferences" menu.  To modify other options, such as key bindings, use 
+! the .Xdefaults file in your home directory (or the X resource 
+! specification method appropriate to your system).  The contents of this 
 ! file can be moved into an X resource file, but since resources in this file
 ! override their corresponding X resources, either this file should be 
 ! deleted or individual resource lines in the file should be deleted for the
 ! moved lines to take effect.
 
-nedit.fileVersion: 5.6
+nedit.fileVersion: 5.5
 nedit.shellCommands: \
 	spell:Alt+B:s:EX:\n\
 		cat>spellTmp; xterm -e ispell -x spellTmp; cat spellTmp; rm spellTmp\n\
@@ -627,7 +626,7 @@ nedit.highlightPatterns: C:1:0{\n\
 		classnameseperator:"\\2":""::Pointer:classname:C\n\
 		knownconstants:"(NULL|FALSE|TRUE)":::Text Arg1:phptags:\n\
 		constants:"(<[A-Z_0-9]+>)":::Text Arg2:phptags:\n\
-		annotation:"@([a-zA-Z]+)(\\('[^']+'\\))?":::Text Comment:phptags:\n\
+		annotation:"@([^\\(\\],]+)":::Text Comment:phptags:\n\
 	}\n\
 	CSS:Default\n\
 	Regex:Default\n\
@@ -662,7 +661,7 @@ nedit.highlightPatterns: C:1:0{\n\
 		variables:"(::)?[$](\\{[^}]*}|[^a-zA-Z0-9_\\r/\\t\\n\\.,\\\\[\\\\{\\\\(]|[0-9]+|[a-zA-Z_][a-zA-Z0-9_]*)?":::Text Arg::\n\
 		braces and parens:"[\\[\\]{}\\(\\)]":::Subroutine::\n\
 		single quote strings:"'":"'"::String::\n\
-		annotation:"@([a-zA-Z]+)(\\('[^']+'\\))?":::Text Comment::\n\
+		annotation:"@([^\\(\\],]+)":::Text Comment::\n\
 		constants:"(<[A-Z_]+>)":::Ada Attributes::\n\
 		doccomment:"/\\*\\*":"\\*/"::Comment::\n\
 		doccommenttag:"@(throws|see|return|param|test)":::Plain:doccomment:\n\
@@ -806,7 +805,6 @@ nedit.hiliteFgColor: white
 nedit.hiliteBgColor: red
 nedit.lineNoFgColor: black
 nedit.cursorFgColor: black
-nedit.shell: /bin/bash
 nedit.smartTags: True
 nedit.prefFileRead: True
 nedit.titleFormat: {%c} [%s] %f (%S) - %d

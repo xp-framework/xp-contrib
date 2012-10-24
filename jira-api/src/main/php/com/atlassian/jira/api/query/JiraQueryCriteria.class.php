@@ -5,7 +5,7 @@
  */
 
   uses(
-    'com.atlassian.jira.api.query.JiraQuery',
+    'com.atlassian.jira.api.query.AbstractJiraQuery',
     'com.atlassian.jira.api.query.JiraQueryOp'
   );
   
@@ -14,7 +14,7 @@
    *
    * @purpose  Query
    */
-  class JiraQueryCriteria extends Object {
+  class JiraQueryCriteria extends AbstractJiraQuery {
     const
       OP_AND= 'and',
       OP_OR=  'or';
@@ -134,15 +134,5 @@
       
       return $jql;
     }
-    
-    /**
-     * Return string representation
-     * 
-     * @return string 
-     */
-    public function toString() {
-      return $this->getClassName().'{ '.$this->getQuery().' }';
-    }
   }
-
 ?>

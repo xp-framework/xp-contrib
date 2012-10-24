@@ -107,15 +107,5 @@
       
       return $jql;
     }
-    
-    /**
-     * Return string representation
-     * 
-     * @return string 
-     */
-    public function toString() {
-      return $this->getClassName().'{ '.$this->getQuery().' }';
-    }
   }
-
 ?>

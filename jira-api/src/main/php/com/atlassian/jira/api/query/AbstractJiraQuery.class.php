@@ -5,8 +5,10 @@
  */
 
   /**
-   * JQL query object - raw JQL queries
+   * Base class for all JIRA queries
    *
+   * @see  xp://com.atlassian.jira.api.query.JiraQuery
+   * @see  xp://com.atlassian.jira.api.query.JqlQuery
    */
   abstract class AbstractJiraQuery extends Object {
 

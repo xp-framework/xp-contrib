@@ -38,7 +38,7 @@
     /**
      * Query for issues
      *  
-     * @param com.atlassian.jira.api.query.JiraQuery query The query to issue
+     * @param com.atlassian.jira.api.query.AbstractJiraQuery query The query to issue
      */
     public function queryIssues($query);
     

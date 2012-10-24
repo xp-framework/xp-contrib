@@ -28,12 +28,13 @@
      * Constructor
      *  
      */
-    public function __construct($name, $url, $user, $pass) {
+    public function __construct($name, $url= NULL, $user= NULL, $pass= NULL) {
       parent::__construct($name);
-      
-      $this->url= new URL($url);
-      $this->url->setUser($user);
-      $this->url->setPassword($pass);
+      if (NULL !== $url) {
+        $this->url= new URL($url);
+        $this->url->setUser($user);
+        $this->url->setPassword($pass);
+      }
     }
     
     /**
@@ -41,6 +42,9 @@
      * 
      */
     public function setUp() {
+      if (NULL === $this->url) {
+        throw new PrerequisitesNotMetError('This test requires url, username and password arguments');
+      }
       $this->fixture= new JiraClientRest2Protocol($this->url);
     }
     

@@ -111,7 +111,7 @@
     /**
      * Generate query string for given value
      * 
-     * @mixed value The value
+     * @param mixed value The value
      * @return string
      */
     function forValue($value) {

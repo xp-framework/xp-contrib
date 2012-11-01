@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>net.xp-framework</groupId>
   <artifactId>stomp</artifactId>
-  <version>5.8.8</version>
+  <version>5.8.10</version>
   <packaging>xar</packaging>
 
   <!-- More Project Information -->
@@ -60,32 +60,16 @@
       <plugin>
         <groupId>net.xp-forge.maven.plugins</groupId>
         <artifactId>xp-maven-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.6</version>
         <extensions>true</extensions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.5</version>
-        <executions>
-
-          <!-- Copy unittest ini files -->
-          <execution>
-            <id>copy-test-resources</id>
-            <phase>process-test-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.testOutputDirectory}/etc/unittest</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>src/resources/unittest</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
+
+  <!-- Source code management -->
+  <scm>
+    <connection>scm:git:git://github.com/xp-framework/xp-contrib.git</connection>
+    <developerConnection>scm:git:git@github.com:xp-framework/xp-contrib.git</developerConnection>
+    <url>https://github.com/xp-framework/xp-contrib</url>
+  </scm>
 </project>

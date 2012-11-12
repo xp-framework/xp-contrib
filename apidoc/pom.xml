@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- The Basics -->
+  <groupId>net.xp-forge</groupId>
+  <artifactId>apidoc</artifactId>
+  <version>1.0.3-SNAPSHOT</version>
+  <packaging>xar</packaging>
+
+  <!-- More Project Information -->
+  <name>Apidoc</name>
+  <description>Apidoc is a tool to generate browseable HTML pages from apidoc comments inside sourcecode.</description>
+  <url>https://github.com/xp-forge/apidoc</url>
+  <inceptionYear>2009</inceptionYear>
+  <organization>
+    <name>XP-Framework Team</name>
+    <url>http://xp-framework.net/</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>xp-framework</id>
+      <name>XP-Framework Team</name>
+      <email>devs@xp-framework.net</email>
+      <url>http://xp-framework.net</url>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>BSD</name>
+      <url>http://www.opensource.org/licenses/BSD-3-Clause</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <!-- Properties -->
+  <properties>
+    <project.build.sourceEncoding>ISO-8859-15</project.build.sourceEncoding>
+  </properties>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>net.xp-framework</groupId>
+      <artifactId>core</artifactId>
+      <version>5.8.6</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>net.xp-framework</groupId>
+      <artifactId>tools</artifactId>
+      <version>5.8.6</version>
+      <type>xar</type>
+    </dependency>
+  </dependencies>
+
+  <!-- Build Settings -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.xp-forge.maven.plugins</groupId>
+        <artifactId>xp-maven-plugin</artifactId>
+        <version>3.1.8</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Source code management -->
+  <scm>
+    <connection>scm:git:git://github.com/xp-forge/apidoc.git</connection>
+    <developerConnection>scm:git:git@github.com:xp-forge/apidoc.git</developerConnection>
+    <url>https://github.com/xp-forge/apidoc</url>
+  </scm>
+</project>

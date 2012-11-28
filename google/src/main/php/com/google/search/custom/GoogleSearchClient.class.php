@@ -17,7 +17,7 @@
    * 
    * Example:
    * <code>
-   *   $client= new GoogleSearchClient('http://gsa23.enterprisedemo-google.com/search');
+   *   $client= new GoogleSearchClient('http://gsa23.enterprisedemo-google.com/');
    *   $response= $client->searchFor(create(new GoogleSearchQuery())
    *     ->withTerm('test')
    *     ->startingAt(10)
@@ -27,16 +27,16 @@
    * @see   http://www.google.com/cse/docs/resultsxml.html
    */
   class GoogleSearchClient extends Object {
-    protected $conn= NULL;
+    protected $gsaURL= NULL;
     protected $unmarshaller= NULL;
     
     /**
      * Constructor
      *
-     * @param   var conn either a HttpConnection or a string
+     * @param   var gsaURL containing a string representation of the gsa URL.
      */
-    public function __construct($conn) {
-      $this->conn= $conn instanceof HttpConnection ? $conn : new HttpConnection($conn);
+    public function __construct($gsaURL) {
+      $this->gsaURL= $gsaURL;
       $this->unmarshaller= new Unmarshaller();
     }
     
@@ -49,6 +49,7 @@
      * @see     http://www.google.com/cse/docs/resultsxml.html#WebSearch_Query_Parameter_Definitions
      */
     public function searchFor(GoogleSearchQuery $query, $params= array()) {
+      $conn= new HttpConnection($this->gsaURL . '/search');
     
       // Build query parameter list
       $params['output']= 'xml_no_dtd';
@@ -59,15 +60,45 @@
       ($s= $query->getStart()) && $params['start']= $s;
 
       // Retrieve result as XML
-      $r= $this->conn->get($params);
+      $r= $conn->get($params);
       if (HttpConstants::STATUS_OK !== $r->statusCode()) {
         throw new IOException('Non-OK response code '.$r->statusCode().': '.$r->message());
       }
       
       // Unmarshal result
       return $this->unmarshaller->unmarshalFrom(
-        new StreamInputSource($r->getInputStream(), $this->conn->toString()),
+        new StreamInputSource($r->getInputStream(), $conn->toString()),
         'com.google.search.custom.types.Response'
+      );
+    }
+
+
+   /**
+     * Executes a clustered search and return the cluster results
+     *
+     * @param   com.google.search.custom.GoogleSearchQuery query
+     * @param   [:string] params extra parameters to pass
+     * @return  com.google.search.custom.types.ClusterSearchResponse
+     * @see     https://developers.google.com/search-appliance/documentation/52/QuickStart/quick_start_se#dynamicresclust 
+     */
+    public function getCluster(GoogleSearchQuery $query, $params= array()) {
+      $conn= new HttpConnection($this->gsaURL . '/cluster');
+
+      // Build query parameter list
+      $params['output']= 'xml_no_dtd';
+      $params['coutput'] = 'xml';
+      $params['q']= $query->getTerm();
+
+      // Retrieve result as XML
+      $r= $conn->get($params);
+      if (HttpConstants::STATUS_OK !== $r->statusCode()) {
+        throw new IOException('Non-OK response code '.$r->statusCode().': '.$r->message());
+      }
+
+      // Unmarshal result
+      return $this->unmarshaller->unmarshalFrom(
+        new StreamInputSource($r->getInputStream(), $conn->toString()),
+        'com.google.search.custom.types.ClusterSearchResponse'
       );
     }
     
@@ -77,7 +108,7 @@
      * @return  string
      */
     public function toString() {
-      return $this->getClassName().'<'.$this->conn->toString().'>';
+      return $this->getClassName().'<'.$this->gsaURL . '>';
     }
   }
 ?>

@@ -4,6 +4,8 @@
  * $Id$
  */
  
+  uses('lang.Enum');
+
   /**
    * Feed types enumeration
    *

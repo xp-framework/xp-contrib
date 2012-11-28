@@ -14,8 +14,8 @@
     public static $INCREMENTAL, $FULL;
 
     static function __static() {
-      self::$INCREMENTAL= new self(1, 'INCREMENTAL');
-      self::$FULL= new self(2, 'FULL');
+      self::$INCREMENTAL= new self(1, 'incremental');
+      self::$FULL= new self(2, 'full');
     }
 
     /**

@@ -49,13 +49,13 @@
       $tree= new Tree('gsafeed');
       $tree->addChild(create(new Node('header'))
         ->withChild(new Node('datasource', $feed->dataSource()))
-        ->withChild(new Node('feedtype',  $feed->feedType())))
+        ->withChild(new Node('feedtype',  $feed->feedType()->name())))
       ; 
       $group= $tree->addChild(new Node('group')); 
       foreach ($feed->getRecords() as $record) {
         $record->visit($group->addChild(new Node('record')));
       }
-      return $feed->getDeclaration()."\n".self::FEED_DOC_TYPE."\n".$feed->getSource(INDENT_DEFAULT);
+      return $tree->getDeclaration()."\n".self::FEED_DOC_TYPE."\n".$tree->getSource(INDENT_DEFAULT);
     }
 
     /**
@@ -72,7 +72,7 @@
       $req->setMethod(HttpConstants::POST);
       $req->setParameters(create(new FormRequestData())
         ->withBoundary('----------boundary_of_feed_data$')
-        ->withPart(new FormData('feedtype', $feed->feedType()))
+        ->withPart(new FormData('feedtype', $feed->feedType()->name()))
         ->withPart(new FormData('datasource', $feed->dataSource()))
         ->withPart(new FormData('data"; filename="index.xml', $this->payload($feed), 'application/xml'))
       );

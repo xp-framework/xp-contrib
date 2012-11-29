@@ -29,7 +29,7 @@
     /**
      * Creates a new feed client
      *
-     * @param  var arg either a HttpConnection
+     * @param  var arg either a url or a peer.http.HttpConnection
      */
     public function __construct($arg) {
       if ($arg instanceof HttpConnection) {
@@ -37,6 +37,15 @@
       } else {
         $this->conn= new HttpConnection($arg);
       }
+    }
+
+    /**
+     * Get connection
+     *
+     * @return  peer.http.HttpConnection
+     */
+    public function getConnection() {
+      return $this->conn;
     }
 
     /**

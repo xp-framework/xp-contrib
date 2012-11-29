@@ -23,5 +23,16 @@
     public function can_create() {
       new FeedConnection('http://localhost:19900/xmlfeed');
     }
+
+    /**
+     * Test constructor
+     *
+     */
+    #[@test]
+    public function connection() {
+      $c= new HttpConnection('http://localhost:19900/xmlfeed');
+      $this->assertEquals($c, create(new FeedConnection($c))->getConnection());
+    }
+
   }
 ?>

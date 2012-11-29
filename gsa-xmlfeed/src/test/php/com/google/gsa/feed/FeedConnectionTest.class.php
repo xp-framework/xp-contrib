@@ -20,8 +20,12 @@
      *
      */
     #[@test]
-    public function can_create() {
-      new FeedConnection('http://localhost:19900/xmlfeed');
+    public function string_constructor_variant() {
+      $url= 'http://localhost:19900/xmlfeed';
+      $this->assertEquals(
+        new URL($url),
+        create(new FeedConnection($url))->getConnection()->getUrl()
+      );
     }
 
     /**
@@ -29,10 +33,12 @@
      *
      */
     #[@test]
-    public function connection() {
-      $c= new HttpConnection('http://localhost:19900/xmlfeed');
-      $this->assertEquals($c, create(new FeedConnection($c))->getConnection());
+    public function connection_constructor_variant() {
+      $url= 'http://localhost:19900/xmlfeed';
+      $this->assertEquals(
+        new URL($url), 
+        create(new FeedConnection(new HttpConnection($url)))->getConnection()->getUrl()
+      );
     }
-
   }
 ?>

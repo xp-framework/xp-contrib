@@ -50,7 +50,7 @@
      */
     protected function req($path, $args= array()) {
       $req= create(new RestRequest())
-        ->withHeader('Authorization', new BasicAuthorization($this->url->getUser(), $this->url->getPassword()))
+        ->withHeader(new BasicAuthorization($this->url->getUser(), $this->url->getPassword()))
         ->withResource(rtrim($this->url->getPath(), '/').$path)
         ->withMethod(HttpConstants::GET);
       

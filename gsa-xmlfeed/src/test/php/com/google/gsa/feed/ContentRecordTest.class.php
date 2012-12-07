@@ -58,5 +58,17 @@
         $n
       );
     }
+
+    /**
+     * Test getUrl
+     *
+     */
+    #[@test]
+    public function last_modified() {
+      $lastModified= new Date('2012-12-07 15:05:00', TimeZone::getByName('Europe/Berlin'));
+      $n= new Node('record');
+      create(new ContentRecord('http://localhost/'))->lastModified($lastModified)->visit($n);
+      $this->assertEquals('Fri, 07 Dec 2012 15:05:00 +0100', $n->getAttribute('last-modified'));
+    }
   }
 ?>

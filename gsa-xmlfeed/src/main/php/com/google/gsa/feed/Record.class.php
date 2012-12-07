@@ -16,6 +16,7 @@
    */
   abstract class com·google·gsa·feed·Record extends Object {
     protected $url;
+    protected $lastModified= NULL;
 
     /**
      * Creates a new record
@@ -36,12 +37,24 @@
     }
 
     /**
+     * Sets last-modified date
+     *
+     * @param  util.Date lastModified
+     * @return self
+     */
+    public function lastModified(Date $lastModified= NULL) {
+      $this->lastModified= $lastModified;
+      return $this;
+    }
+
+    /**
      * Create node for XML feed
      *
      * @param  xml.Node n
      */
     public function visit(Node $n) {
       $n->setAttribute('url', $this->url);
+      $this->lastModified && $n->setAttribute('last-modified', $this->lastModified->toString('r'));
     }
   }
 ?>

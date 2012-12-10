@@ -78,6 +78,7 @@
 
       // Create request
       $req= $this->conn->create(new HttpRequest());
+      $req->setTarget('/xmlfeed');
       $req->setMethod(HttpConstants::POST);
       $req->setParameters(create(new FormRequestData())
         ->withBoundary('----------boundary_of_feed_data$')

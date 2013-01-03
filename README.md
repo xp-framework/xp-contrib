@@ -1,4 +1,4 @@
-Note: The "master" branch is empty, the modules have been moved according to xp-framework/rfc#260 (the `xp5_8` branch retains the old directory layout).
+**Note**: The `master` branch is empty, the modules have been moved according to [RFC #0260](https://github.com/xp-framework/rfc/issues/260) (the `xp5_8` branch retains the old directory layout).
 
 The remaining modules are now available at these new repositories. 
 
